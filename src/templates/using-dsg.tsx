@@ -1,10 +1,9 @@
 import * as React from "react"
-import { Link } from "gatsby"
-
+import { Link, HeadFC, PageProps } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const UsingDSG = () => (
+const UsingDSG: React.FC<PageProps> = () => (
   <Layout>
     <h1>
       Hello from a <b>DSG Page</b>
@@ -21,6 +20,6 @@ const UsingDSG = () => (
   </Layout>
 )
 
-export const Head = () => <Seo title="Using DSG" />
+export const Head: HeadFC = () => <Seo title="Using DSG" />
 
-export default UsingDSG
+export default UsingDSG 

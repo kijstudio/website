@@ -1,10 +1,14 @@
 import * as React from "react"
-import { Link } from "gatsby"
-
+import { Link, HeadFC, PageProps } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const UsingSSR = ({ serverData }) => {
+interface ServerData {
+  message: string
+  status: string
+}
+
+const UsingSSR: React.FC<PageProps & { serverData: ServerData }> = ({ serverData }) => {
   return (
     <Layout>
       <h1>
@@ -32,11 +36,15 @@ const UsingSSR = ({ serverData }) => {
   )
 }
 
-export const Head = () => <Seo title="Using SSR" />
+export const Head: HeadFC = () => <Seo title="Using SSR" />
 
 export default UsingSSR
 
-export async function getServerData() {
+export async function getServerData(): Promise<{
+  props: ServerData
+  status?: number
+  headers?: Record<string, string>
+}> {
   try {
     const res = await fetch(`https://dog.ceo/api/breed/shiba/images/random`)
     if (!res.ok) {
@@ -49,7 +57,7 @@ export async function getServerData() {
     return {
       status: 500,
       headers: {},
-      props: {},
+      props: {} as ServerData,
     }
   }
-}
+} 

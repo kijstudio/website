@@ -1,10 +1,9 @@
 import * as React from "react"
-import { Link } from "gatsby"
-
+import { Link, HeadFC, PageProps } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const SecondPage = () => (
+const SecondPage: React.FC<PageProps> = () => (
   <Layout>
     <h1>Hi from the second page</h1>
     <p>Welcome to page 2</p>
@@ -12,6 +11,6 @@ const SecondPage = () => (
   </Layout>
 )
 
-export const Head = () => <Seo title="Page two" />
+export const Head: HeadFC = () => <Seo title="Page two" />
 
-export default SecondPage
+export default SecondPage 
