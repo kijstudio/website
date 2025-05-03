@@ -43,46 +43,73 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
         }}
       >
         {visualizations.map((visualization, index) => (
-          <div key={index} style={{ marginBottom: "2rem" }}>
-            <h2>{visualization.title}</h2>
-            <p>{visualization.description}</p>
-            <div
-              style={{
-                display: "grid",
-                gap: "1rem",
-              }}
-            >
-              {visualization.gallery.map((image, imageIndex) => {
-                const gatsbyImage = getImage(image.asset.gatsbyImageData)
-                return gatsbyImage ? (
-                  <div key={imageIndex}>
-                    <GatsbyImage
-                      image={gatsbyImage}
-                      alt={image.alt}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    {image.caption && (
-                      <p
-                        style={{
-                          marginTop: "0.5rem",
-                          fontSize: "0.9rem",
-                          color: "#666",
-                        }}
-                      >
-                        {image.caption}
-                      </p>
-                    )}
-                  </div>
-                ) : null
-              })}
-            </div>
+          <div 
+            key={index} 
+            style={{ 
+              position: "relative",
+              overflow: "hidden",
+              aspectRatio: "4/3",
+            }}
+          >
+            {visualization.gallery[0] && getImage(visualization.gallery[0].asset.gatsbyImageData) && (
+              <div className="visualization-wrapper">
+                <GatsbyImage
+                  image={getImage(visualization.gallery[0].asset.gatsbyImageData)!}
+                  alt={visualization.gallery[0].alt || visualization.title}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  objectFit="cover"
+                />
+                <div className="hover-content">
+                  <h3 className="image-title">{visualization.title}</h3>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
+      <style>
+        {`
+          .visualization-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+          }
+          
+          .hover-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            transition: background-color 0.3s ease;
+          }
+          
+          .image-title {
+            color: white;
+            margin: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+          }
+          
+          .visualization-wrapper:hover .hover-content {
+            background: rgba(0, 0, 0, 0.5);
+          }
+          
+          .visualization-wrapper:hover .image-title {
+            opacity: 1;
+          }
+        `}
+      </style>
     </Layout>
   )
 }
