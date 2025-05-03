@@ -1,9 +1,3 @@
 [build]
   command = "npm run build" # Or your build command
   publish = "public"
-
-[[plugins]]
-  package = "netlify-plugin-apt"
-  
-  [plugins.inputs]
-    packages = ["libheif-dev", "libaom-dev"]
