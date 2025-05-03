@@ -1,0 +1,66 @@
+.contactContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 4rem;
+  box-sizing: border-box;
+}
+
+.studioInfo {
+  margin-bottom: 4rem;
+  max-width: 600px;
+}
+
+.studioText {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.contactInfo {
+  margin-top: auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.partners {
+  margin-top: 4rem;
+}
+
+.partnersTitle {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.partnerLogos {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.partnerLogo {
+  max-width: 120px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .contactContent {
+    padding: 2rem;
+  }
+  
+  .studioText {
+    font-size: 1rem;
+  }
+  
+  .partnerLogos {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+} 

@@ -21,18 +21,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   `)
 
   return (
-    <div>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column',
+      minHeight: '100vh'
+    }}>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <div
         className="content-inner"
         style={{
-          padding: `0.75rem 1.0875rem`,
+          padding: `0 1.0875rem`,
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        <main>{children}</main>
+        <main style={{ flex: 1 }}>{children}</main>
         <footer
           style={{
-            marginTop: `2rem`,
+            textAlign: `center`,
+            fontSize: `0.8rem`,
+            color: `#888`,
+            padding: `1.5rem 0`,
           }}
         >
           © {new Date().getFullYear()}, Kij Studio

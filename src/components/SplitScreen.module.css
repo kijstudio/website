@@ -1,0 +1,43 @@
+.container {
+  display: grid;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.leftSection {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  z-index: 1;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.rightSection {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Media query for responsive layouts */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr !important; /* Force single column */
+    grid-template-rows: auto 1fr;
+  }
+  
+  .leftSection {
+    height: auto;
+    min-height: 0;
+    padding: 2rem;
+  }
+  
+  .rightSection {
+    height: 50vh;
+  }
+} 
