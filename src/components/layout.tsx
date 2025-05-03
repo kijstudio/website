@@ -24,10 +24,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <div
+        className="content-inner"
         style={{
-          margin: `0 auto`,
-          maxWidth: 1280,
-          padding: `0 1.0875rem 1.45rem`,
+          padding: `0.75rem 1.0875rem`,
         }}
       >
         <main>{children}</main>

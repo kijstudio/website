@@ -12,13 +12,12 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => (
   <header
     style={{
       background: `transparent`,
-      marginBottom: `1.45rem`,
+      marginBottom: `0.5rem`,
     }}
   >
     <div
+      className="header-inner"
       style={{
-        margin: `0 auto`,
-        maxWidth: 1280,
         padding: `1.45rem 1.0875rem`,
         display: 'flex',
         justifyContent: 'space-between',

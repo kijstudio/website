@@ -9,10 +9,13 @@
   letter-spacing: 0.1em;
   position: relative;
   padding-bottom: 4px;
+  font-family: "futura-pt", sans-serif;
 }
 
 .navText {
   position: relative;
+  font-family: "futura-pt", sans-serif;
+  text-transform: uppercase;
 }
 
 .navText::after {

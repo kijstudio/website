@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import { Helmet } from "react-helmet"
 
 interface SeoProps {
   description?: string
@@ -26,8 +27,10 @@ const Seo: React.FC<SeoProps> = ({ description, title, children }) => {
   const defaultTitle = site.siteMetadata?.title
 
   return (
-    <>
-      <title>{defaultTitle ? `${title} | ${defaultTitle}` : title}</title>
+    <Helmet
+      title={title}
+      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : undefined}
+    >
       <meta name="description" content={metaDescription} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={metaDescription} />
@@ -37,7 +40,7 @@ const Seo: React.FC<SeoProps> = ({ description, title, children }) => {
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={metaDescription} />
       {children}
-    </>
+    </Helmet>
   )
 }
 
