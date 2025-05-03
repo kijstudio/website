@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build" # Or your build command
+  publish = "public"
+
+[[plugins]]
+  package = "@netlify/plugin-functions-core" # This is often present, but ensure it's there
+
+[[plugins]]
+  package = "netlify-plugin-apt"
+  [[plugins.inputs]]
+    packages = ["libheif-dev", "libaom-dev"]
