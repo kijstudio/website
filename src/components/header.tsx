@@ -45,6 +45,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
 
   return (
     <header
+      className={isMobile && isMenuOpen ? "header-fixed" : ""}
       style={{
         background: `transparent`,
         marginBottom: `0.5rem`,
