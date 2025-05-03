@@ -52,7 +52,7 @@ const ContactPage: React.FC<PageProps> = () => {
       layout="fullWidth"
       style={{ height: "100%", width: "100%" }}
       objectFit="cover"
-      formats={["auto", "webp", "avif"]}
+      formats={["auto", "webp"]}
       quality={95}
     />
   );
