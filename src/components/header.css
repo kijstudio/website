@@ -48,6 +48,16 @@
   transition: transform 0.3s ease;
 }
 
+@media (max-width: 768px) {
+  .navText::after {
+    background-color: white !important;
+  }
+  
+  .navLinkActive::after {
+    background-color: white !important;
+  }
+}
+
 .navText:hover::after {
   transform: scaleX(1);
 }
@@ -136,9 +146,14 @@
   text-decoration: none;
   font-size: 1.5rem;
   padding: 1.5rem 0;
-  border-bottom: 1px solid #f0f0f0;
   width: 100%;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .mobile-navLink {
+    color: white !important;
+  }
 }
 
 /* Media Queries for Responsive Design */

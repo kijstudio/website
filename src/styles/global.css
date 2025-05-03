@@ -50,7 +50,7 @@ a, button, .navLink, nav a {
 }
 
 /* Mobile styles */
-@media (max-width: var(--breakpoint-md)) {
+@media (max-width: 768px) {
   body {
     background-color: var(--mobile-background-color);
     color: var(--mobile-text-color);
@@ -72,18 +72,31 @@ a, button, .navLink, nav a {
   }
   
   /* Ensure hamburger menu icon is white on dark background */
-  .hamburger span {
-    background-color: var(--mobile-text-color);
+  .hamburger span,
+  .hamburger-menu span,
+  .mobile-hamburger span,
+  button.hamburger span,
+  .header .hamburger span {
+    background-color: var(--mobile-text-color) !important;
   }
   
   /* Mobile menu background */
   .mobile-menu {
-    background-color: var(--mobile-background-color);
+    background-color: var(--mobile-background-color) !important;
   }
   
   /* Mobile menu links */
   .mobile-navLink {
     color: var(--mobile-text-color);
     border-bottom-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  footer {
+    color: var(--mobile-text-color) !important;
+  }
+  
+  /* Make logo white on mobile */
+  .header-inner img {
+    filter: brightness(0) invert(1) !important;
   }
 } 
