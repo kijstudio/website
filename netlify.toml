@@ -7,5 +7,6 @@
 
 [[plugins]]
   package = "netlify-plugin-apt"
-  [[plugins.inputs]]
+  
+  [plugins.inputs]
     packages = ["libheif-dev", "libaom-dev"]
