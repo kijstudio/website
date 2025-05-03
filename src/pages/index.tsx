@@ -47,7 +47,7 @@ const IndexPage: React.FC = () => {
       layout="fullWidth"
       style={{ height: "100%", width: "100%" }}
       objectFit="cover"
-      formats={["auto", "webp", "avif"]}
+      formats={["auto", "webp"]}
       quality={95}
     />
   );
