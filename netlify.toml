@@ -3,9 +3,6 @@
   publish = "public"
 
 [[plugins]]
-  package = "@netlify/plugin-functions-core" # This is often present, but ensure it's there
-
-[[plugins]]
   package = "netlify-plugin-apt"
   
   [plugins.inputs]
