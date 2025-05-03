@@ -1,3 +1,20 @@
+/* Hamburger menu - critical mobile styles */
+@media (max-width: var(--breakpoint-md)) {
+  .mobile-menu-button {
+    display: block !important;
+    position: fixed !important;
+    top: 1.45rem !important; /* Match the header's padding */
+    right: 1.0875rem !important; /* Match the header's padding */
+    z-index: 9999 !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
 .navLink {
   color: black;
   text-decoration: none;
@@ -43,4 +60,104 @@
   width: 50%;
   height: 1px;
   background-color: black;
+}
+
+/* Mobile Menu Styles */
+.desktop-nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+
+.hamburger {
+  width: 30px;
+  height: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: black;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+  transform-origin: center;
+}
+
+@media (max-width: var(--breakpoint-md)) {
+  .hamburger span {
+    background-color: white; /* White hamburger icon on dark background */
+  }
+}
+
+.hamburger.open span {
+  position: absolute;
+}
+
+.hamburger.open span:nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+}
+
+.mobile-menu {  
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 80px);
+  background-color: white;
+  z-index: 999;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mobile-navLink {
+  color: black;
+  text-decoration: none;
+  font-size: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+  text-align: center;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: var(--breakpoint-md)) {
+  .desktop-nav {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+  
+  .mobile-menu-button {
+    display: block !important;
+  }
+  
+  .mobile-menu {
+    display: flex;
+  }
 } 

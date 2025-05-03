@@ -4,6 +4,7 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { useState } from "react"
+import { breakpoints } from "../styles/breakpoints"
 
 interface VisualizationNode {
   title: string
@@ -37,8 +38,10 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
   // Calculate number of items per page based on screen size
   const getItemsPerPage = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth <= 700) return 1;
-      if (window.innerWidth <= 900) return 2;
+      // For mobile screens (xs and sm breakpoints), always show only 1 tile
+      if (window.innerWidth <= breakpoints.md) return 1;
+      // For tablet screens
+      if (window.innerWidth <= breakpoints.lg) return 2;
     }
     return 4; // Default for desktop
   };
@@ -186,6 +189,15 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
       </div>
       <style>
         {`
+          /* Critical mobile menu fixes for visualizations page */
+          @media (max-width: var(--breakpoint-md)) {            
+            /* Force slider to show 1 item per page on mobile */
+            .slider-tile {
+              width: 100% !important;
+              flex: 0 0 100% !important;
+            }
+          }
+          
           .slider-container {
             position: relative;
             max-width: 100%;
@@ -330,7 +342,7 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
           .visualization-wrapper:hover .image-title {
             opacity: 1;
           }
-          @media (max-width: 1200px) {
+          @media (max-width: var(--breakpoint-xl)) {
             .slider-arrow.left {
               margin-left: 0;
             }
@@ -338,7 +350,7 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
               margin-right: 0;
             }
           }
-          @media (max-width: 900px) {
+          @media (max-width: var(--breakpoint-lg)) {
             .slider-tile {
               padding: 0 0.5rem;
               width: ${100 / itemsPerPage}%;
@@ -354,7 +366,7 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
               min-height: 500px;
             }
           }
-          @media (max-width: 700px) {
+          @media (max-width: var(--breakpoint-sm)) {
             .slider-container {
               margin: 0 auto;
               padding: 0;

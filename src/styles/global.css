@@ -7,7 +7,19 @@ body {
 }
 
 :root {
+  /* Layout */
   --max-content-width: 1024px;
+  
+  /* Colors */
+  --mobile-background-color: #464446; /* Dark grayish magenta for mobile background */
+  --mobile-text-color: #ffffff; /* White text for mobile */
+  
+  /* Breakpoints - MUST match values in src/hooks/useBreakpoints.ts */
+  --breakpoint-xs: 480px;  /* Extra small devices */
+  --breakpoint-sm: 576px;  /* Small devices */
+  --breakpoint-md: 768px;  /* Medium devices */
+  --breakpoint-lg: 992px;  /* Large devices */
+  --breakpoint-xl: 1200px; /* Extra large devices */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -35,4 +47,43 @@ a, button, .navLink, nav a {
 .content-inner {
   max-width: var(--max-content-width);
   margin: 0 auto;
+}
+
+/* Mobile styles */
+@media (max-width: var(--breakpoint-md)) {
+  body {
+    background-color: var(--mobile-background-color);
+    color: var(--mobile-text-color);
+  }
+  
+  /* Change text colors to white in mobile view */
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    color: var(--mobile-text-color);
+  }
+  
+  /* Change link colors to white in mobile view */
+  a, .navLink, button {
+    color: var(--mobile-text-color);
+  }
+  
+  /* Change header and navigation to be visible on dark background */
+  header {
+    background-color: var(--mobile-background-color) !important;
+  }
+  
+  /* Ensure hamburger menu icon is white on dark background */
+  .hamburger span {
+    background-color: var(--mobile-text-color);
+  }
+  
+  /* Mobile menu background */
+  .mobile-menu {
+    background-color: var(--mobile-background-color);
+  }
+  
+  /* Mobile menu links */
+  .mobile-navLink {
+    color: var(--mobile-text-color);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+  }
 } 
