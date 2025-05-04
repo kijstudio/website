@@ -5,6 +5,7 @@ import * as styles from "../styles/home.module.css"
 import Logo from "../images/logo.png"
 import Seo from "../components/seo"
 import SplitScreen from "../components/SplitScreen"
+import bgImage from "../images/main.png"
 
 const IndexPage: React.FC = () => {
   // Define the left content section
@@ -40,7 +41,7 @@ const IndexPage: React.FC = () => {
   // Define the right content section
   const rightContent = (
     <StaticImage
-      src="../images/main.png"
+      src={"../images/main.png"}
       alt="Featured project"
       className={styles.fullImage}
       placeholder="blurred"
@@ -66,6 +67,7 @@ const IndexPage: React.FC = () => {
         fullWidth={true}
         leftRatio={4}
         rightRatio={6}
+        backgroundImageSrc={bgImage}
       />
     </>
   )

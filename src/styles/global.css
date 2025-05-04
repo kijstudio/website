@@ -99,4 +99,13 @@ a, button, .navLink, nav a {
   .header-inner img {
     filter: brightness(0) invert(1) !important;
   }
+  .leftSection {
+    color: var(--mobile-text-color) !important;
+  }
+  
+  /* Make logos in split screen layouts white */
+  .leftSection .logo,
+  .leftSection img {
+    filter: brightness(0) invert(1) !important;
+  }
 } 

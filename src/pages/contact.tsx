@@ -4,6 +4,7 @@ import Seo from "../components/seo"
 import { StaticImage } from "gatsby-plugin-image"
 import SplitScreen from "../components/SplitScreen"
 import * as styles from "../styles/contact.module.css"
+import bgImage from "../images/contact.jpg"
 
 const ContactPage: React.FC<PageProps> = () => {
   // Define left content with the text from the image
@@ -46,7 +47,7 @@ const ContactPage: React.FC<PageProps> = () => {
   // Define right content with contact.jpg image
   const rightContent = (
     <StaticImage
-      src="../images/contact.jpg"
+      src={"../images/contact.jpg"}
       alt="Contact"
       placeholder="blurred"
       layout="fullWidth"
@@ -66,6 +67,7 @@ const ContactPage: React.FC<PageProps> = () => {
         fullWidth={true}
         leftRatio={4}
         rightRatio={6}
+        backgroundImageSrc={bgImage}
       />
     </>
   )

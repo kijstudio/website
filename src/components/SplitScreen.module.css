@@ -28,16 +28,44 @@
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr !important; /* Force single column */
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 1fr;
   }
   
   .leftSection {
-    height: auto;
-    min-height: 0;
+    height: 100vh;
+    min-height: 100vh;
     padding: 2rem;
+    background-color: transparent;
+    color: white;
+    position: relative;
+  }
+  
+  .leftSection::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--mobile-background-color);
+    opacity: 0.7;
+    z-index: -1;
+  }
+  
+  .leftSection::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -2;
   }
   
   .rightSection {
-    height: 50vh;
+    display: none; /* Hide the right section on mobile */
   }
 } 
