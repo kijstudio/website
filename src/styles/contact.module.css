@@ -1,3 +1,8 @@
+:root {
+  --contact-padding: 2rem;
+  --contact-padding-mobile: 0.5rem;
+}
+
 .contactContentWrapper {
   display: flex;
   flex-direction: column;
@@ -10,11 +15,12 @@
     flex: 0;
     height: 100%;
     width: 100%;
-    padding: 2rem;
+    padding: var(--contact-padding);
     box-sizing: border-box;
   }
-
 }
+
+
 
 .studioInfo {
   margin-bottom: 2rem;
@@ -27,12 +33,12 @@
   font-weight: 300;
   text-align: justify;
   text-transform: uppercase;
-  padding-bottom: 2rem;
+  padding-bottom: var(--contact-padding);
 }
 
 .contactInfo {
   line-height: 1.6;
-  padding-bottom: 2rem;
+  padding-bottom: var(--contact-padding);
 }
 
 .partners {
@@ -57,11 +63,17 @@
   height: auto;
 }
 
-@media (max-width: 768px) {
-  .contactContent {
-    padding: 2rem;
+@media screen and (max-width: 992px) {
+  .contactContentWrapper {
+    --contact-padding: var(--contact-padding-mobile);
   }
-  
+}
+
+@media (max-width: 768px) {
+  .contactContentWrapper {
+    --contact-padding: var(--contact-padding-mobile);
+  }
+
   .studioText {
     font-size: 1rem;
   }
