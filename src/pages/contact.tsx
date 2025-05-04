@@ -9,40 +9,40 @@ import bgImage from "../images/contact.jpg"
 const ContactPage: React.FC<PageProps> = () => {
   // Define left content with the text from the image
   const leftContent = (
-    <div className={styles.contactContent}>
-      <div className={styles.studioInfo}>
-        <p className={styles.studioText}>
-          KIJ STUDIO WAS FOUNDED BY TWO KRAKÓW-BASED 
-          ARCHITECTS WHO SPECIALIZE IN HIGH-QUALITY 3D 
-          RENDERINGS AND VISUALIZATIONS, TRANSFORMING 
-          ARCHITECTURAL IDEAS INTO STUNNING, LIFELIKE 
-          IMAGES. BY COMBINING CREATIVITY WITH PRECISION, 
-          WE BRING YOUR DESIGNS TO LIFE, ENSURING EVERY 
-          DETAIL IS CAREFULLY CRAFTED
-        </p>
-      </div>
-      
-      <div className={styles.contactInfo}>
-        <p>CONTACT: INFO@KIJSTUDIO.PL</p>
-      </div>
-      
-      <div className={styles.partners}>
-        <h3 className={styles.partnersTitle}>OUR PARTNERS</h3>
-        <div className={styles.partnerLogos}>
-          <img 
-            src="/product-team-logo.png" 
-            alt="Product Team" 
-            className={styles.partnerLogo}
-          />
-          <img 
-            src="/webcraft-logo.png" 
-            alt="Webcraft" 
-            className={styles.partnerLogo}
-          />
+    <div className={styles.contactContentWrapper}>
+      <div className={styles.contactContent}>
+        <div className={styles.studioInfo}>
+          <p className={styles.studioText}>
+            KIJ STUDIO WAS FOUNDED BY TWO KRAKÓW-BASED ARCHITECTS WHO SPECIALIZE
+            IN HIGH-QUALITY 3D RENDERINGS AND VISUALIZATIONS, TRANSFORMING
+            ARCHITECTURAL IDEAS INTO STUNNING, LIFELIKE IMAGES. BY COMBINING
+            CREATIVITY WITH PRECISION, WE BRING YOUR DESIGNS TO LIFE, ENSURING
+            EVERY DETAIL IS CAREFULLY CRAFTED
+          </p>
+        </div>
+
+        <div className={styles.contactInfo}>
+          <p>CONTACT: INFO@KIJSTUDIO.PL</p>
+        </div>
+
+        <div className={styles.partners}>
+          <h3 className={styles.partnersTitle}>OUR PARTNERS</h3>
+          <div className={styles.partnerLogos}>
+            <img
+              src="/product-team-logo.png"
+              alt="Product Team"
+              className={styles.partnerLogo}
+            />
+            <img
+              src="/webcraft-logo.png"
+              alt="Webcraft"
+              className={styles.partnerLogo}
+            />
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 
   // Define right content with contact.jpg image
   const rightContent = (
@@ -56,12 +56,12 @@ const ContactPage: React.FC<PageProps> = () => {
       formats={["auto", "webp"]}
       quality={95}
     />
-  );
+  )
 
   return (
     <>
       <Seo title="Contact" description="Get in touch with KIJ Studio" />
-      <SplitScreen 
+      <SplitScreen
         leftContent={leftContent}
         rightContent={rightContent}
         fullWidth={true}
@@ -73,4 +73,4 @@ const ContactPage: React.FC<PageProps> = () => {
   )
 }
 
-export default ContactPage 
+export default ContactPage
