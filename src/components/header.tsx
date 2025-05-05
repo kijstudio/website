@@ -2,15 +2,18 @@ import * as React from "react"
 import { useState, useEffect } from "react"
 import { Link } from "gatsby"
 import Logo from "../images/logo.png"
-import "./header.css"
-import * as styles from "../styles/home.module.css"
+import * as headerStyles from "./header.module.css"
 import { breakpoints } from "../styles/breakpoints"
 
 interface HeaderProps {
-  siteTitle: string
+  siteTitle: string;
+  isSticky?: boolean; 
+  transparentBg?: boolean;
+  fullWidth?: boolean;
+  navColor?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
+const Header: React.FC<HeaderProps> = ({ siteTitle, isSticky = false, transparentBg = false, fullWidth = false, navColor = "black" }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -43,47 +46,42 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
     { path: '/contact', label: 'Contact' },
   ];
 
+  const determineHeaderInnerClass = (isSticky: boolean, transparentBg: boolean, fullWidth: boolean) => {
+    let headerClass = [headerStyles.headerInner];
+    if (isSticky) {
+      headerClass.push(headerStyles.headerSticky);
+    }
+    if (transparentBg) {
+      headerClass.push(headerStyles.transparentBg);
+    }
+    if (fullWidth) {
+      headerClass.push(headerStyles.fullWidth);
+    }
+    return headerClass.join(" ")
+  };
+
   return (
-    <header
-      className={isMobile && isMenuOpen ? "header-fixed" : ""}
-      style={{
-        background: `transparent`,
-        marginBottom: `0.5rem`,
-      }}
-    >
+    <header className={isMobile && isMenuOpen ? headerStyles.headerFixed : ""}>
       <div
-        className="header-inner"
-        style={{
-          padding: `1.45rem 1.0875rem`,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          position: 'relative', // Add relative positioning
-        }}
+        className={determineHeaderInnerClass(isSticky, transparentBg, fullWidth)}
       >
         <Link
           to="/"
-          style={{
-            color: `black`,
-            textDecoration: `none`,
-            display: 'flex',
-            alignItems: 'center',
-          }}
         >
-          <img src={Logo} alt={siteTitle} className={styles.logo} />
+          <img src={Logo} alt={siteTitle} className={headerStyles.logo} />
         </Link>
         
         {/* Only render desktop navigation when not mobile */}
         {!isMobile && (
-          <nav className="desktop-nav">
+          <nav className={headerStyles.desktopNav}>
             {navItems.map((item) => (
               <Link 
                 to={item.path} 
                 key={item.path} 
-                className="navLink" 
-                activeClassName="navLinkActive"
+                className={`${headerStyles.navLink} ${navColor === "white" ? headerStyles.white : ""}`} 
+                activeClassName={headerStyles.navLinkActive}
               >
-                <span className="navText">{item.label}</span>
+                <span className={headerStyles.navText}>{item.label}</span>
               </Link>
             ))}
           </nav>
@@ -92,7 +90,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
         {/* Only render mobile button when is mobile */}
         {isMobile && (
           <button 
-            className="mobile-menu-button"
+            className={headerStyles.mobileMenuButton}
             onClick={toggleMenu}
             aria-label="Toggle menu"
             style={{
@@ -103,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
               border: 'none'
             }}
           >
-            <div className={`hamburger ${isMenuOpen ? 'open' : ''}`}
+            <div className={`${headerStyles.hamburger} ${isMenuOpen ? headerStyles.open : ''}`}
               style={{
                 padding: '0',
                 margin: '0'
@@ -119,16 +117,16 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
 
       {/* Mobile Navigation Menu - Only render when mobile and menu is open */}
       {isMobile && isMenuOpen && (
-        <div className="mobile-menu">
+        <div className={headerStyles.mobileMenu}>
           {navItems.map((item) => (
             <Link 
               to={item.path} 
               key={item.path} 
-              className="mobile-navLink" 
-              activeClassName="navLinkActive" 
+              className={headerStyles.mobileNavLink} 
+              activeClassName={headerStyles.navLinkActive} 
               onClick={() => setIsMenuOpen(false)}
             >
-              <span className="navText">{item.label}</span>
+              <span className={headerStyles.navText}>{item.label}</span>
             </Link>
           ))}
         </div>

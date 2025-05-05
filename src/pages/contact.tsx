@@ -1,10 +1,11 @@
 import * as React from "react"
-import { HeadFC, PageProps } from "gatsby"
+import { PageProps } from "gatsby"
 import Seo from "../components/seo"
 import { StaticImage } from "gatsby-plugin-image"
 import SplitScreen from "../components/SplitScreen"
-import * as styles from "../styles/contact.module.css"
+import * as styles from "./contact.module.css"
 import bgImage from "../images/contact.jpg"
+import Header from "../components/header"
 
 const ContactPage: React.FC<PageProps> = () => {
   // Define left content with the text from the image
@@ -60,6 +61,7 @@ const ContactPage: React.FC<PageProps> = () => {
 
   return (
     <>
+      <Header siteTitle="KIJ Studio" isSticky={true} transparentBg={true} fullWidth={true} navColor="white"/>
       <Seo title="Contact" description="Get in touch with KIJ Studio" />
       <SplitScreen
         leftContent={leftContent}
