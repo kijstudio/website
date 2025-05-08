@@ -60,8 +60,16 @@ const ContactPage: React.FC<PageProps> = () => {
   )
 
   return (
-    <>
-      <Header siteTitle="KIJ Studio" isSticky={true} transparentBg={true} fullWidth={true} navColor="white"/>
+    <div className={styles.contactPage}>
+      <Header 
+        siteTitle="KIJ Studio" 
+        isSticky={true} 
+        transparentBg={true} 
+        fullWidth={true} 
+        navColor="white" 
+        className={styles.headerWrapper}
+        innerClassName={styles.headerInner}
+      />
       <Seo title="Contact" description="Get in touch with KIJ Studio" />
       <SplitScreen
         leftContent={leftContent}
@@ -71,7 +79,7 @@ const ContactPage: React.FC<PageProps> = () => {
         rightRatio={6}
         backgroundImageSrc={bgImage}
       />
-    </>
+    </div>
   )
 }
 

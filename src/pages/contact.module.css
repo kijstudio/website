@@ -1,86 +1,103 @@
 :root {
-  --contact-padding: 2rem;
+  --contact-padding: 4rem;
   --contact-padding-mobile: 0.5rem;
+
+  @media (max-width: 992px) {
+    --contact-padding: 1rem;
+  }
 }
 
-.contactContentWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
+/* Contact page styles */
+.contactPage {
 
-  .contactContent {
-    flex: 0;
+  .headerWrapper {
+    width: 100%;
+    
+  }
+
+  .headerInner {
+    padding-left: var(--contact-padding);
+    padding-right: 2rem;
+  }
+
+  /* Contact content styles */
+  .contactContentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     width: 100%;
-    padding: var(--contact-padding);
-    box-sizing: border-box;
+  
+    .contactContent {
+      flex: 0;
+      height: 100%;
+      width: 100%;
+      padding: 4rem var(--contact-padding);
+      box-sizing: border-box;
+    }
   }
-}
-
-
-
-.studioInfo {
-  margin-bottom: 2rem;
-  max-width: 600px;
-}
-
-.studioText {
-  line-height: 1.6;
-  letter-spacing: 0.05em;
-  font-weight: 300;
-  text-align: justify;
-  text-transform: uppercase;
-  padding-bottom: var(--contact-padding);
-}
-
-.contactInfo {
-  line-height: 1.6;
-  padding-bottom: var(--contact-padding);
-}
-
-.partners {
-  margin-top: 2rem;
-}
-
-.partnersTitle {
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  font-weight: 300;
-  text-transform: uppercase;
-}
-
-.partnerLogos {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.partnerLogo {
-  max-width: 120px;
-  height: auto;
-}
-
-@media screen and (max-width: 992px) {
-  .contactContentWrapper {
-    --contact-padding: var(--contact-padding-mobile);
+  
+  .studioInfo {
+    margin-bottom: 2rem;
+    max-width: 600px;
   }
-}
-
-@media (max-width: 768px) {
-  .contactContentWrapper {
-    --contact-padding: var(--contact-padding-mobile);
-  }
-
+  
   .studioText {
+    line-height: 1.6;
+    letter-spacing: 0.05em;
+    font-weight: 300;
+    text-align: justify;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  
+  .contactInfo {
+    line-height: 1.6;
+  }
+  
+  .partners {
+    margin-top: 2rem;
+  }
+  
+  .partnersTitle {
     font-size: 1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    text-transform: uppercase;
   }
   
   .partnerLogos {
-    flex-direction: column;
-    align-items: flex-start;
+    display: flex;
     gap: 1rem;
+    align-items: center;
   }
-} 
+  
+  .partnerLogo {
+    max-width: 120px;
+    height: auto;
+  }
+  
+  @media screen and (max-width: 992px) {
+    .contactContentWrapper {
+      --contact-padding: var(--contact-padding-mobile);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .contactContentWrapper {
+      --contact-padding: var(--contact-padding-mobile);
+    }
+  
+    .studioText {
+      font-size: 1rem;
+    }
+    
+    .partnerLogos {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  } 
+}
+

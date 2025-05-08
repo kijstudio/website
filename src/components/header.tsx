@@ -2,7 +2,7 @@ import * as React from "react"
 import { useState, useEffect } from "react"
 import { Link } from "gatsby"
 import Logo from "../images/logo.png"
-import * as headerStyles from "./header.module.css"
+import * as styles from "./header.module.css"
 import { breakpoints } from "../styles/breakpoints"
 
 interface HeaderProps {
@@ -11,9 +11,21 @@ interface HeaderProps {
   transparentBg?: boolean;
   fullWidth?: boolean;
   navColor?: string;
+  className?: string;
+  innerClassName?: string;
+  style?: React.CSSProperties;
 }
 
-const Header: React.FC<HeaderProps> = ({ siteTitle, isSticky = false, transparentBg = false, fullWidth = false, navColor = "black" }) => {
+const Header: React.FC<HeaderProps> = ({ 
+  siteTitle, 
+  isSticky = false, 
+  transparentBg = false, 
+  fullWidth = false, 
+  navColor = "black", 
+  className = "",
+  innerClassName = "",
+  style = {}
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -46,42 +58,52 @@ const Header: React.FC<HeaderProps> = ({ siteTitle, isSticky = false, transparen
     { path: '/contact', label: 'Contact' },
   ];
 
-  const determineHeaderInnerClass = (isSticky: boolean, transparentBg: boolean, fullWidth: boolean) => {
-    let headerClass = [headerStyles.headerInner];
-    if (isSticky) {
-      headerClass.push(headerStyles.headerSticky);
-    }
-    if (transparentBg) {
-      headerClass.push(headerStyles.transparentBg);
-    }
-    if (fullWidth) {
-      headerClass.push(headerStyles.fullWidth);
-    }
-    return headerClass.join(" ")
-  };
+  // Build class names with simple additions
+  const headerClasses = [styles.headerWrapper];
+  if (isMenuOpen && isMobile) {
+    headerClasses.push(styles.fixed);
+  }
+  if (className) {
+    headerClasses.push(className);
+  }
+  if (isSticky) {
+    headerClasses.push(styles.sticky);
+  }
+  if (transparentBg) {
+    headerClasses.push(styles.transparent);
+  }
+  if (fullWidth) {
+    headerClasses.push(styles.fullWidth);
+  }
+
+  const innerClasses = [styles.inner];
+  if (innerClassName) {
+    innerClasses.push(innerClassName);
+  }
 
   return (
-    <header className={isMobile && isMenuOpen ? headerStyles.headerFixed : ""}>
+    <header className={headerClasses.join(" ")}>
       <div
-        className={determineHeaderInnerClass(isSticky, transparentBg, fullWidth)}
+        className={innerClasses.join(" ")}
+        style={style}
       >
         <Link
           to="/"
         >
-          <img src={Logo} alt={siteTitle} className={headerStyles.logo} />
+          <img src={Logo} alt={siteTitle} className={styles.logo} />
         </Link>
         
         {/* Only render desktop navigation when not mobile */}
         {!isMobile && (
-          <nav className={headerStyles.desktopNav}>
+          <nav className={styles.desktopNav}>
             {navItems.map((item) => (
               <Link 
                 to={item.path} 
                 key={item.path} 
-                className={`${headerStyles.navLink} ${navColor === "white" ? headerStyles.white : ""}`} 
-                activeClassName={headerStyles.navLinkActive}
+                className={`${styles.navLink} ${navColor === "white" ? styles.white : ""}`} 
+                activeClassName={styles.navLinkActive}
               >
-                <span className={headerStyles.navText}>{item.label}</span>
+                <span className={styles.navText}>{item.label}</span>
               </Link>
             ))}
           </nav>
@@ -90,23 +112,11 @@ const Header: React.FC<HeaderProps> = ({ siteTitle, isSticky = false, transparen
         {/* Only render mobile button when is mobile */}
         {isMobile && (
           <button 
-            className={headerStyles.mobileMenuButton}
+            className={styles.mobileMenuButton}
             onClick={toggleMenu}
             aria-label="Toggle menu"
-            style={{
-              display: 'block',
-              padding: '0',
-              margin: '0',
-              background: 'transparent',
-              border: 'none'
-            }}
           >
-            <div className={`${headerStyles.hamburger} ${isMenuOpen ? headerStyles.open : ''}`}
-              style={{
-                padding: '0',
-                margin: '0'
-              }}
-            >
+            <div className={`${styles.hamburger} ${isMenuOpen ? styles.open : ''}`}>
               <span></span>
               <span></span>
               <span></span>
@@ -117,16 +127,16 @@ const Header: React.FC<HeaderProps> = ({ siteTitle, isSticky = false, transparen
 
       {/* Mobile Navigation Menu - Only render when mobile and menu is open */}
       {isMobile && isMenuOpen && (
-        <div className={headerStyles.mobileMenu}>
+        <div className={styles.mobileMenu}>
           {navItems.map((item) => (
             <Link 
               to={item.path} 
               key={item.path} 
-              className={headerStyles.mobileNavLink} 
-              activeClassName={headerStyles.navLinkActive} 
+              className={styles.mobileNavLink} 
+              activeClassName={styles.navLinkActive} 
               onClick={() => setIsMenuOpen(false)}
             >
-              <span className={headerStyles.navText}>{item.label}</span>
+              <span className={styles.navText}>{item.label}</span>
             </Link>
           ))}
         </div>
