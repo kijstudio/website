@@ -1,6 +1,7 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
+import { navigate } from "gatsby"
 import * as styles from "./Slider.module.css"
 
 // Interface for items that can be rendered in the slider
@@ -9,6 +10,7 @@ export interface SliderItem {
   image: IGatsbyImageData;
   imageAlt?: string;
   id: string | number;
+  link?: string; // Optional link URL for item click navigation
   [key: string]: any; // Allow any additional props for custom rendering
 }
 
@@ -26,6 +28,7 @@ interface SliderProps {
   mobileItems?: number;
   tabletItems?: number;
   transitionDuration?: number;
+  onItemClick?: (item: SliderItem) => void; // Optional callback for custom click handling
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -36,6 +39,7 @@ const Slider: React.FC<SliderProps> = ({
   mobileItems = 1,
   tabletItems = 2,
   transitionDuration = 500,
+  onItemClick,
 }) => {
   // Slider state
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -116,10 +120,39 @@ const Slider: React.FC<SliderProps> = ({
     setTimeout(() => setIsAnimating(false), transitionDuration);
   }
 
+  // Handle item click - navigate to link if provided, otherwise call the custom handler
+  const handleItemClick = (item: SliderItem, event: React.MouseEvent) => {
+    if (onItemClick) {
+      onItemClick(item);
+    } else if (item.link) {
+      navigate(item.link);
+    }
+  };
+
   // Default hover content if no custom renderer is provided
   const defaultHoverContent = (item: SliderItem) => (
     <div className={styles.hoverContent}>
       {item.title && <h3 className={styles.imageTitle}>{item.title}</h3>}
+      {item.link && (
+        <div 
+          className={styles.linkIndicator}
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent event bubbling to parent
+            handleItemClick(item, e);
+          }}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleItemClick(item, e as any);
+            }
+          }}
+          aria-label={`View details for ${item.title || "item"}`}
+        >
+          View Details
+        </div>
+      )}
     </div>
   );
 
@@ -139,6 +172,9 @@ const Slider: React.FC<SliderProps> = ({
     
     // Calculate tile width based on items per page
     const tileWidth = 100 / itemsPerPage;
+    
+    // Add clickable behavior if item has a link
+    const hasLink = !!item.link || !!onItemClick;
     
     return (
       <div 

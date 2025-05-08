@@ -1,6 +1,7 @@
 import * as React from "react"
 import { graphql, PageProps } from "gatsby"
 import { getImage } from "gatsby-plugin-image"
+import { navigate } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
@@ -9,6 +10,9 @@ import * as styles from "../components/Slider.module.css"
 interface VisualizationNode {
   title: string
   description: string
+  slug: {
+    current: string
+  }
   gallery: {
     asset: {
       gatsbyImageData: any
@@ -38,15 +42,42 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
       title: item.title,
       description: item.description,
       image: item.gallery[0].asset.gatsbyImageData,
-      imageAlt: item.gallery[0].alt || item.title
+      imageAlt: item.gallery[0].alt || item.title,
+      link: item.slug ? `/visualizations/${item.slug.current}` : undefined
     }));
   
   // Custom hover content renderer
-  const renderHoverContent = (item: SliderItem) => (
-    <div className={styles.hoverContent}>
-      <h3 className={styles.imageTitle}>{item.title}</h3>
-    </div>
-  );
+  const renderHoverContent = (item: SliderItem) => {
+    const handleLinkClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (item.link) {
+        navigate(item.link);
+      }
+    };
+
+    return (
+      <div className={styles.hoverContent}>
+        <h3 className={styles.imageTitle}>{item.title}</h3>
+        {item.link && (
+          <div 
+            className={styles.linkIndicator}
+            onClick={handleLinkClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleLinkClick(e as any);
+              }
+            }}
+            aria-label={`View details for ${item.title}`}
+          >
+            View Project
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Layout>
@@ -73,6 +104,9 @@ export const query = graphql`
       nodes {
         title
         description
+        slug {
+          current
+        }
         gallery {
           asset {
             gatsbyImageData(

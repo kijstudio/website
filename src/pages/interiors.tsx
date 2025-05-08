@@ -11,6 +11,9 @@ interface InteriorNode {
   description: string
   location: string
   livingArea: number
+  slug: {
+    current: string
+  }
   gallery: {
     asset: {
       gatsbyImageData: any
