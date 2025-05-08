@@ -32,11 +32,12 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
   data,
 }) => {
   // Create a flat array of visualizations
-  const visualizationsData = Array(4).fill(data.allSanityVisualisation.nodes).flat();
+  const visualizationsData = data.allSanityVisualisation.nodes
   
   // Map the Sanity data to format expected by the Slider component
   const sliderItems: SliderItem[] = visualizationsData
-    .filter(item => item.gallery && item.gallery[0] && getImage(item.gallery[0].asset.gatsbyImageData))
+    .filter(item => item.gallery && item.gallery[0] && item.gallery[0].asset)
+    .filter(item => getImage(item.gallery[0].asset.gatsbyImageData))
     .map((item, index) => ({
       id: `viz-${index}`,
       title: item.title,
@@ -100,7 +101,7 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
 
 export const query = graphql`
   query VisualizationsQuery {
-    allSanityVisualisation {
+    allSanityVisualisation(sort: {orderRank: ASC}) {
       nodes {
         title
         description

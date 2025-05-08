@@ -30,7 +30,7 @@ interface InteriorsPageData {
 }
 
 const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
-  const interiorsData = Array(4).fill(data.allSanityInterior.nodes).flat();
+  const interiorsData = data.allSanityInterior.nodes;
 
   // Map the Sanity data to format expected by the Slider component
   const sliderItems: SliderItem[] = interiorsData
@@ -79,7 +79,7 @@ export const Head: HeadFC = () => <Seo title="Interiors" />
 
 export const query = graphql`
   query InteriorsQuery {
-    allSanityInterior {
+    allSanityInterior(sort: {orderRank: ASC}) {
       nodes {
         title
         description

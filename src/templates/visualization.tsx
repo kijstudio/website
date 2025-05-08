@@ -1,12 +1,9 @@
 import * as React from "react"
 import { graphql, PageProps } from "gatsby"
-import { getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
 import * as styles from "./visualization.module.css"
-// It's good practice to define a specific style module for the template
-// import * as styles from "./visualization.module.css" 
 
 interface VisualizationTemplateData {
   sanityVisualisation: {
@@ -41,7 +38,9 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
 
   // Transform gallery items into SliderItems
   const sliderItems: SliderItem[] = visualization.gallery ? 
-    visualization.gallery.map((item, index) => ({
+    visualization.gallery
+    .filter(item => item.asset.gatsbyImageData)
+    .map((item, index) => ({
       id: index,
       image: item.asset.gatsbyImageData,
       imageAlt: item.alt || visualization.title,

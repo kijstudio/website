@@ -5,24 +5,19 @@
   min-height: 80vh;
   width: 100%;
   max-width: 100%;
-  flex-wrap: wrap;
 }
 
 /* Left column - Description (1/4 width) */
 .descriptionColumn {
   flex: 1 1 25%;
   min-width: 300px;
-  background-color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
 }
 
 /* Right column - Slider (3/4 width) */
 .sliderColumn {
   flex: 3 1 75%;
-  min-width: 300px;
 }
 
 /* Title styling */
@@ -31,6 +26,7 @@
   font-weight: 500;
   font-size: 1.5rem;
   line-height: 1.2;
+  letter-spacing: 0.15rem;
   margin: 0;
 }
 
