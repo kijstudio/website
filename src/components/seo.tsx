@@ -28,8 +28,8 @@ const Seo: React.FC<SeoProps> = ({ description, title, children }) => {
 
   return (
     <Helmet
-      title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : undefined}
+      title={title || defaultTitle}
+      titleTemplate={description ? `%s | ${metaDescription}` : undefined}
     >
       <meta name="description" content={metaDescription} />
       <meta property="og:title" content={title} />

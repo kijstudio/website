@@ -55,12 +55,14 @@ header .logo {
 
 .info {
   text-align: justify;
+  text-justify: inter-word;
+  text-align-last: justify;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: 4rem;
-  padding: 0 2rem;
 }
 
 .info h1 {
@@ -81,7 +83,7 @@ header .logo {
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.5rem;
   align-items: center;
   margin-bottom: 4rem;
 }

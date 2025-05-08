@@ -8,7 +8,7 @@ body {
 
 :root {
   /* Layout */
-  --max-content-width: 1024px;
+  --max-content-width: 1200px;
   
   /* Colors */
   --mobile-background-color: #464446; /* Dark grayish magenta for mobile background */
@@ -68,12 +68,6 @@ button, input, select, textarea, span, div {
 
 a, button, .navLink, nav a {
   text-transform: uppercase;
-}
-
-.header-inner,
-.content-inner {
-  max-width: var(--max-content-width);
-  margin: 0 auto;
 }
 
 /* Additional styles from layout.css */

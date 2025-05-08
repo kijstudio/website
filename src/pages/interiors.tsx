@@ -3,10 +3,14 @@ import { graphql, PageProps, HeadFC } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import Slider from "../components/Slider"
+import * as styles from "./interiors.module.css"
 
 interface InteriorNode {
   title: string
   description: string
+  location: string
+  livingArea: number
   gallery: {
     asset: {
       gatsbyImageData: any
@@ -23,54 +27,48 @@ interface InteriorsPageData {
 }
 
 const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
-  const interiors = data.allSanityInterior.nodes
+  const interiors = Array(4).fill(data.allSanityInterior.nodes).flat();
+
+  // Create slide items for the slider
+  const sliderItems = interiors.map((interior, index) => (
+    interior.gallery[0] && getImage(interior.gallery[0].asset.gatsbyImageData) && (
+      <div className={styles.interiorWrapper} key={index}>
+        <GatsbyImage
+          image={getImage(interior.gallery[0].asset.gatsbyImageData)!}
+          alt={interior.gallery[0].alt || interior.title}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover"
+          }}
+        />
+        <div className={styles.hoverContent}>
+          <div className={styles.imageDetails}>
+            {interior.location && <p>{interior.location}</p>}
+            {interior.livingArea && <p>{interior.livingArea} m²</p>}
+          </div>
+        </div>
+      </div>
+    )
+  ));
+  
+  // Remove any undefined items (in case some interiors don't have gallery images)
+  const filteredSliderItems = sliderItems.filter(Boolean);
 
   return (
     <Layout>
-      <h1>Interiors</h1>
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-        gap: '2rem',
-        padding: '2rem 0'
-      }}>
-        {interiors.map((interior, index) => (
-          <div key={index} style={{ marginBottom: '2rem' }}>
-            <h2>{interior.title}</h2>
-            <p>{interior.description}</p>
-            <div style={{ 
-              display: 'grid',
-              gap: '1rem'
-            }}>
-              {interior.gallery.map((image, imageIndex) => {
-                const gatsbyImage = getImage(image.asset.gatsbyImageData)
-                return gatsbyImage ? (
-                  <div key={imageIndex}>
-                    <GatsbyImage
-                      image={gatsbyImage}
-                      alt={image.alt}
-                      style={{ 
-                        width: '100%',
-                        height: 'auto',
-                        borderRadius: '8px'
-                      }}
-                    />
-                    {image.caption && (
-                      <p style={{ 
-                        marginTop: '0.5rem',
-                        fontSize: '0.9rem',
-                        color: '#666'
-                      }}>
-                        {image.caption}
-                      </p>
-                    )}
-                  </div>
-                ) : null
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
+      <Seo
+        title="Interiors"
+        description="Explore our interior design and architectural visualizations"
+      />
+      <Slider 
+        items={filteredSliderItems}
+        itemsPerPageDefault={4}
+        breakpoints={{ mobile: 768, tablet: 992, desktop: 1200 }}
+        mobileItems={1}
+        tabletItems={2}
+        transitionDuration={500}
+      />
     </Layout>
   )
 }
@@ -83,6 +81,8 @@ export const query = graphql`
       nodes {
         title
         description
+        location
+        livingArea
         gallery {
           asset {
             gatsbyImageData(

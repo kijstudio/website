@@ -1,7 +1,6 @@
 import * as React from "react"
-import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
-
+import * as styles from "./layout.module.css"
 import Header from "./header"
 
 interface LayoutProps {
@@ -26,15 +25,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       minHeight: '100vh'
     }}>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <div
-        className="content-inner"
-        style={{
-          padding: `0 1.0875rem`,
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      <div className={styles.contentInner}>
         <main style={{ flex: 1 }}>{children}</main>
         <footer
           style={{
@@ -49,10 +40,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
     </div>
   )
-}
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 export default Layout 

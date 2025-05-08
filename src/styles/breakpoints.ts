@@ -1,6 +1,7 @@
 /**
  * Breakpoint values for consistent responsive design
  * IMPORTANT: These values MUST match CSS variables in global.css
+ * and any other CSS files that use these breakpoints
  */
 
 export const breakpoints = {

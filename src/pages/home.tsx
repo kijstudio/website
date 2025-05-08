@@ -16,10 +16,7 @@ const HomePage: React.FC = () => {
       <div className={styles.contentWrapper}>
         <div className={styles.info}>
           <p>
-            We are a creative studio specializing in architectural visualization 
-            and interior design. Our passion lies in transforming spaces and 
-            bringing architectural visions to life through stunning visualizations 
-            and thoughtful interior solutions.
+            Bringing your dream spaces to life with creative design and breathtaking visuals.
           </p>
         </div>
 

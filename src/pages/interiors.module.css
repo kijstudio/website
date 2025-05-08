@@ -1,5 +1,5 @@
-/* Visualization wrapper */
-.visualizationWrapper {
+/* interior wrapper */
+.interiorWrapper {
   position: relative;
   width: 100%;
   height: 100%;
@@ -21,14 +21,16 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0);
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
   transition: background-color 0.3s ease;
+  padding: 20px;
 }
 
 .imageTitle {
   color: white;
-  margin: 20px;
+  margin: 0 0 5px 0;
   font-size: 1.2rem;
   font-weight: 300;
   opacity: 0;
@@ -36,25 +38,54 @@
   font-family: "futura-pt", sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  text-align: right;
 }
 
-.visualizationWrapper:hover .hoverContent {
-  background: rgba(0, 0, 0, 0.5);
+.imageDetails {
+  color: white;
+  margin: 5px 0 0 0;
+  font-size: 0.9rem;
+  font-weight: 300;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-family: "futura-pt", sans-serif;
+  letter-spacing: 0.2rem;
+  text-align: right;
+  p {
+    margin: 0;
+  }
 }
 
-.visualizationWrapper:hover .imageTitle {
+.interiorWrapper:hover .hoverContent {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.interiorWrapper:hover .imageTitle,
+.interiorWrapper:hover .imageDetails {
   opacity: 1;
 }
 
 /* Responsive adjustments */
-@media (max-width: 992px) {
-  .visualizationWrapper {
+@media (max-width: 1200px) {
+  .interiorWrapper {
     min-height: 500px;
+  }
+  
+  .imageTitle {
+    font-size: 1.1rem;
+  }
+  
+  .imageDetails {
+    font-size: 0.8rem;
   }
 }
 
 @media (max-width: 768px) {
-  .visualizationWrapper {
+  .interiorWrapper {
     min-height: 400px;
+  }
+  
+  .hoverContent {
+    padding: 15px;
   }
 } 
