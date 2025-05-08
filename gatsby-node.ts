@@ -47,7 +47,6 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
   // Create pages for each visualization
   visualizations?.forEach(visualization => {
     if (visualization.slug && visualization.slug.current) {
-      console.log(visualization.id)
       createPage({
         path: `/visualizations/${visualization.slug.current}`,
         component: visualizationTemplate,

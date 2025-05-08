@@ -29,6 +29,7 @@ interface SliderProps {
   tabletItems?: number;
   transitionDuration?: number;
   onItemClick?: (item: SliderItem) => void; // Optional callback for custom click handling
+  enableFullScreenView?: boolean; // Flag to enable/disable fullscreen popup
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -40,12 +41,16 @@ const Slider: React.FC<SliderProps> = ({
   tabletItems = 2,
   transitionDuration = 500,
   onItemClick,
+  enableFullScreenView = true, // Default to enabled
 }) => {
   // Slider state
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageDefault);
   const maxIndex = Math.max(0, items.length - itemsPerPage);
+  
+  // Fullscreen popup state
+  const [fullscreenImage, setFullscreenImage] = useState<SliderItem | null>(null);
   
   // Calculate number of items per page based on screen size
   const getItemsPerPage = () => {
@@ -120,14 +125,35 @@ const Slider: React.FC<SliderProps> = ({
     setTimeout(() => setIsAnimating(false), transitionDuration);
   }
 
-  // Handle item click - navigate to link if provided, otherwise call the custom handler
+  // Handle item click - trigger fullscreen popup if enabled
   const handleItemClick = (item: SliderItem, event: React.MouseEvent) => {
     if (onItemClick) {
       onItemClick(item);
+    } else if (enableFullScreenView) {
+      setFullscreenImage(item);
     } else if (item.link) {
       navigate(item.link);
     }
   };
+
+  // Close fullscreen popup
+  const closeFullscreen = () => {
+    setFullscreenImage(null);
+  };
+
+  // Handle keyboard events for accessibility
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (fullscreenImage) {
+        if (e.key === 'Escape') {
+          closeFullscreen();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [fullscreenImage]);
 
   // Default hover content if no custom renderer is provided
   const defaultHoverContent = (item: SliderItem) => (
@@ -173,8 +199,8 @@ const Slider: React.FC<SliderProps> = ({
     // Calculate tile width based on items per page
     const tileWidth = 100 / itemsPerPage;
     
-    // Add clickable behavior if item has a link
-    const hasLink = !!item.link || !!onItemClick;
+    // Add clickable behavior if item has a link or fullscreen view is enabled
+    const isClickable = !!item.link || !!onItemClick || enableFullScreenView;
     
     return (
       <div 
@@ -185,9 +211,21 @@ const Slider: React.FC<SliderProps> = ({
           flex: `0 0 ${tileWidth}%`,
           opacity: isVisible ? 1 : 0.3,
           transform: isVisible ? 'scale(1)' : 'scale(0.95)',
+          cursor: isClickable ? 'pointer' : 'default',
         }}
       >
-        <div className={styles.itemWrapper}>
+        <div 
+          className={styles.itemWrapper}
+          onClick={(e) => isClickable && handleItemClick(item, e)}
+          onKeyDown={(e) => {
+            if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault();
+              handleItemClick(item, e as any);
+            }
+          }}
+          role={isClickable ? "button" : undefined}
+          tabIndex={isClickable ? 0 : undefined}
+        >
           <GatsbyImage
             image={getImage(item.image)!}
             alt={item.imageAlt || item.title || ""}
@@ -204,39 +242,68 @@ const Slider: React.FC<SliderProps> = ({
   });
 
   return (
-    <div className={styles.sliderContainer}>
-      <button 
-        className={`${styles.sliderArrow} ${styles.left}`} 
-        onClick={handlePrev} 
-        disabled={currentIndex === 0 || isAnimating}
-        aria-label="Previous slide"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-          <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-        </svg>
-      </button>
-      <div className={styles.sliderTrackContainer}>
-        <div 
-          className={styles.sliderTrack} 
-          style={{ 
-            transform: `translateX(${calculateOffset()}%)`,
-            transition: `transform ${transitionDuration}ms ease`,
-          }}
+    <>
+      <div className={styles.sliderContainer}>
+        <button 
+          className={`${styles.sliderArrow} ${styles.left}`} 
+          onClick={handlePrev} 
+          disabled={currentIndex === 0 || isAnimating}
+          aria-label="Previous slide"
         >
-          {sliderItems}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </button>
+        <div className={styles.sliderTrackContainer}>
+          <div 
+            className={styles.sliderTrack} 
+            style={{ 
+              transform: `translateX(${calculateOffset()}%)`,
+              transition: `transform ${transitionDuration}ms ease`,
+            }}
+          >
+            {sliderItems}
+          </div>
         </div>
+        <button 
+          className={`${styles.sliderArrow} ${styles.right}`} 
+          onClick={handleNext} 
+          disabled={currentIndex === maxIndex || isAnimating}
+          aria-label="Next slide"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </button>
       </div>
-      <button 
-        className={`${styles.sliderArrow} ${styles.right}`} 
-        onClick={handleNext} 
-        disabled={currentIndex === maxIndex || isAnimating}
-        aria-label="Next slide"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-          <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-        </svg>
-      </button>
-    </div>
+
+      {/* Fullscreen image popup */}
+      {fullscreenImage && (
+        <div className={styles.fullscreenOverlay} onClick={closeFullscreen}>
+          <div className={styles.fullscreenContent} onClick={(e) => e.stopPropagation()}>
+            <button 
+              className={styles.closeButton} 
+              onClick={closeFullscreen}
+              aria-label="Close fullscreen view"
+            >
+              ×
+            </button>
+            <GatsbyImage
+              image={getImage(fullscreenImage.image)!}
+              alt={fullscreenImage.imageAlt || fullscreenImage.title || ""}
+              className={styles.fullscreenImage}
+              imgStyle={{ objectFit: "contain" }}
+            />
+            {fullscreenImage.title && (
+              <div className={styles.fullscreenCaption}>
+                <h3>{fullscreenImage.title}</h3>
+                {fullscreenImage.caption && <p>{fullscreenImage.caption}</p>}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

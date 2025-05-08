@@ -5,6 +5,7 @@
   min-height: 80vh;
   width: 100%;
   max-width: 100%;
+  flex-wrap: wrap;
 }
 
 /* Left column - Description (1/4 width) */
@@ -13,25 +14,32 @@
   min-width: 300px;
   display: flex;
   align-items: center;
+
+  @media (max-width: 992px) {
+    padding: 0 1rem;
+  }
 }
 
 /* Right column - Slider (3/4 width) */
 .sliderColumn {
   flex: 3 1 75%;
+  min-width: 300px;
+  /* Increase the height to make images larger */
+  min-height: 90vh;
 }
 
 /* Title styling */
 .title {
-  text-align: center;
+  text-align: left;
   font-weight: 500;
-  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+  font-size: 1.2rem;
   line-height: 1.2;
-  letter-spacing: 0.15rem;
   margin: 0;
 }
 
 /* Responsive styles */
-@media (max-width: 1200px) {
+@media (max-width: 992px) {
   .container {
     flex-direction: column;
   }
@@ -44,5 +52,9 @@
   
   .descriptionColumn {
     min-height: 120px;
+  }
+
+  .sliderColumn {
+    min-height: 70vh;
   }
 } 

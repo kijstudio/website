@@ -1,5 +1,6 @@
 import * as React from "react"
 import { graphql, PageProps } from "gatsby"
+import { getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
@@ -14,13 +15,10 @@ interface VisualizationTemplateData {
     }
     gallery: {
       asset: {
-        gatsbyImageData: any // Adjust if you have a more specific type
+        gatsbyImageData: any
         url: string
       }
-      alt: string
-      caption?: string
     }[]
-    // Add any other fields you need from Sanity
   }
 }
 
@@ -38,13 +36,11 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
 
   // Transform gallery items into SliderItems
   const sliderItems: SliderItem[] = visualization.gallery ? 
-    visualization.gallery
-    .filter(item => item.asset.gatsbyImageData)
-    .map((item, index) => ({
+    visualization.gallery.map((item, index) => ({
       id: index,
       image: item.asset.gatsbyImageData,
-      imageAlt: item.alt || visualization.title,
-      title: item.caption
+      imageAlt: visualization.title, // Use the visualization title as fallback
+      title: "" // No caption available
     })) : [];
 
   return (
@@ -52,8 +48,6 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
       <Seo 
         title={visualization.title} 
         description={visualization.description} 
-        // You might want to add a specific image for social sharing
-        // image={visualization.gallery && visualization.gallery.length > 0 ? visualization.gallery[0].asset.url : undefined}
       />
       <div className={styles.container}>
         {/* Left column - Description */}
@@ -74,6 +68,7 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
                 tablet: 992, 
                 desktop: 1200 
               }}
+              enableFullScreenView={true} // Disable fullscreen view in the main gallery
             />
           )}
         </div>
@@ -93,7 +88,8 @@ export const query = graphql`
       gallery {
         asset {
           gatsbyImageData(
-            width: 1200
+            width: 1800
+            height: 1200
             placeholder: BLURRED
             formats: [AUTO, WEBP]
           )
