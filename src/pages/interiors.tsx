@@ -1,10 +1,10 @@
 import * as React from "react"
 import { graphql, PageProps, HeadFC } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import Slider from "../components/Slider"
-import * as styles from "./interiors.module.css"
+import Slider, { SliderItem } from "../components/Slider"
+import * as styles from "../components/Slider.module.css"
 
 interface InteriorNode {
   title: string
@@ -27,33 +27,31 @@ interface InteriorsPageData {
 }
 
 const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
-  const interiors = Array(4).fill(data.allSanityInterior.nodes).flat();
+  const interiorsData = Array(4).fill(data.allSanityInterior.nodes).flat();
 
-  // Create slide items for the slider
-  const sliderItems = interiors.map((interior, index) => (
-    interior.gallery[0] && getImage(interior.gallery[0].asset.gatsbyImageData) && (
-      <div className={styles.interiorWrapper} key={index}>
-        <GatsbyImage
-          image={getImage(interior.gallery[0].asset.gatsbyImageData)!}
-          alt={interior.gallery[0].alt || interior.title}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover"
-          }}
-        />
-        <div className={styles.hoverContent}>
-          <div className={styles.imageDetails}>
-            {interior.location && <p>{interior.location}</p>}
-            {interior.livingArea && <p>{interior.livingArea} m²</p>}
-          </div>
-        </div>
-      </div>
-    )
-  ));
+  // Map the Sanity data to format expected by the Slider component
+  const sliderItems: SliderItem[] = interiorsData
+    .filter(item => item.gallery && item.gallery[0] && getImage(item.gallery[0].asset.gatsbyImageData))
+    .map((item, index) => ({
+      id: `interior-${index}`,
+      title: item.title,
+      description: item.description,
+      location: item.location,
+      livingArea: item.livingArea,
+      image: item.gallery[0].asset.gatsbyImageData,
+      imageAlt: item.gallery[0].alt || item.title
+    }));
   
-  // Remove any undefined items (in case some interiors don't have gallery images)
-  const filteredSliderItems = sliderItems.filter(Boolean);
+  // Custom hover content renderer
+  const renderHoverContent = (item: SliderItem) => (
+    <div className={styles.hoverContent}>
+      <h3 className={styles.imageTitle}>{item.title}</h3>
+      <div className={styles.imageDetails}>
+        {item.location && <p>{item.location}</p>}
+        {item.livingArea && <p>{item.livingArea} m²</p>}
+      </div>
+    </div>
+  );
 
   return (
     <Layout>
@@ -62,7 +60,8 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
         description="Explore our interior design and architectural visualizations"
       />
       <Slider 
-        items={filteredSliderItems}
+        items={sliderItems}
+        renderHoverContent={renderHoverContent}
         itemsPerPageDefault={4}
         breakpoints={{ mobile: 768, tablet: 992, desktop: 1200 }}
         mobileItems={1}

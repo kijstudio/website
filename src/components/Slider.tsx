@@ -1,9 +1,22 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
+import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import * as styles from "./Slider.module.css"
 
+// Interface for items that can be rendered in the slider
+export interface SliderItem {
+  title?: string;
+  image: IGatsbyImageData;
+  imageAlt?: string;
+  id: string | number;
+  [key: string]: any; // Allow any additional props for custom rendering
+}
+
 interface SliderProps {
-  items: React.ReactNode[];
+  // Replace React.ReactNode[] with SliderItem[]
+  items: SliderItem[];
+  // Add a render prop for custom hover content
+  renderHoverContent?: (item: SliderItem) => React.ReactNode;
   itemsPerPageDefault?: number;
   breakpoints?: {
     mobile: number;
@@ -17,6 +30,7 @@ interface SliderProps {
 
 const Slider: React.FC<SliderProps> = ({
   items,
+  renderHoverContent,
   itemsPerPageDefault = 4,
   breakpoints = { mobile: 768, tablet: 992, desktop: 1200 },
   mobileItems = 1,
@@ -102,6 +116,13 @@ const Slider: React.FC<SliderProps> = ({
     setTimeout(() => setIsAnimating(false), transitionDuration);
   }
 
+  // Default hover content if no custom renderer is provided
+  const defaultHoverContent = (item: SliderItem) => (
+    <div className={styles.hoverContent}>
+      {item.title && <h3 className={styles.imageTitle}>{item.title}</h3>}
+    </div>
+  );
+
   // Process items to add positioning and visibility logic
   const sliderItems = items.map((item, index) => {
     // Determine if this item should be visible in the current view
@@ -121,7 +142,7 @@ const Slider: React.FC<SliderProps> = ({
     
     return (
       <div 
-        key={index} 
+        key={item.id || index} 
         className={tileClassNames.join(' ')}
         style={{
           width: `${tileWidth}%`,
@@ -130,7 +151,18 @@ const Slider: React.FC<SliderProps> = ({
           transform: isVisible ? 'scale(1)' : 'scale(0.95)',
         }}
       >
-        {item}
+        <div className={styles.itemWrapper}>
+          <GatsbyImage
+            image={getImage(item.image)!}
+            alt={item.imageAlt || item.title || ""}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover"
+            }}
+          />
+          {renderHoverContent ? renderHoverContent(item) : defaultHoverContent(item)}
+        </div>
       </div>
     );
   });

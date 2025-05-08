@@ -1,6 +1,12 @@
+/* ==========================
+   SLIDER COMPONENT STYLES
+   ========================== */
+
 /* Container for the slider */
 .sliderContainer {
   position: relative;
+  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   padding: 0;
   overflow: visible;
@@ -17,6 +23,7 @@
 /* Container for the slider track that contains the slides */
 .sliderTrackContainer {
   width: 100%;
+  max-width: var(--max-content-width, 1200px);
   margin: 0 auto;
   overflow: hidden;
   min-height: 600px;
@@ -111,7 +118,101 @@
   padding-right: 0;
 }
 
-/* Responsive styles */
+/* ==========================
+   GALLERY ITEM STYLES
+   ========================== */
+
+/* Common gallery item wrapper */
+.itemWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  max-height: 800px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect container */
+.hoverContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  transition: background-color 0.3s ease;
+  padding: 20px;
+}
+
+/* Title styling */
+.imageTitle {
+  color: white;
+  margin: 0 0 5px 0;
+  font-size: 1.2rem;
+  font-weight: 300;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-family: "futura-pt", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: right;
+}
+
+/* Additional details styling */
+.imageDetails {
+  color: white;
+  margin: 5px 0 0 0;
+  font-size: 0.9rem;
+  font-weight: 300;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-family: "futura-pt", sans-serif;
+  letter-spacing: 0.2rem;
+  text-align: right;
+}
+
+.imageDetails p {
+  margin: 0;
+}
+
+/* Hover states */
+.itemWrapper:hover .hoverContent {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.itemWrapper:hover .imageTitle,
+.itemWrapper:hover .imageDetails {
+  opacity: 1;
+}
+
+/* ==========================
+   RESPONSIVE STYLES
+   ========================== */
+
+/* Large screens */
+@media (max-width: 1200px) {
+  .itemWrapper {
+    min-height: 500px;
+  }
+  
+  .imageTitle {
+    font-size: 1.1rem;
+  }
+  
+  .imageDetails {
+    font-size: 0.8rem;
+  }
+}
+
+/* Medium screens */
 @media (max-width: 992px) {
   .sliderArrow.left {
     margin-left: 0;
@@ -126,6 +227,7 @@
   }
 }
 
+/* Small screens */
 @media (max-width: 768px) {
   .sliderContainer {
     margin: 0 auto;
@@ -140,5 +242,13 @@
     width: 2rem;
     height: 3.5rem;
     margin: 0 0.25rem;
+  }
+  
+  .itemWrapper {
+    min-height: 400px;
+  }
+  
+  .hoverContent {
+    padding: 15px;
   }
 } 
