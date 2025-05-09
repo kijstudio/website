@@ -28,6 +28,44 @@
     padding-right: 2rem;
   }
 
+  /* Video container styles */
+  .videoWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contactVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Mobile video background styles */
+  .mobileVideoBackground {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -2;
+    overflow: hidden;
+  }
+
+  .mobileBackgroundVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* Contact content styles */
   .contactContentWrapper {
     display: flex;
@@ -104,6 +142,10 @@
   
     .studioText {
       font-size: 1rem;
+    }
+
+    .mobileVideoBackground {
+      display: block;
     }
   } 
 }

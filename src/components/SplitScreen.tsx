@@ -8,6 +8,7 @@ interface SplitScreenProps {
   leftRatio?: number;
   rightRatio?: number;
   backgroundImageSrc?: string;
+  backgroundVideoSrc?: string;
 }
 
 const SplitScreen: React.FC<SplitScreenProps> = ({
@@ -17,6 +18,7 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
   leftRatio = 1,
   rightRatio = 1,
   backgroundImageSrc,
+  backgroundVideoSrc,
 }) => {
   // Calculate the grid template columns based on provided ratios
   const gridTemplateColumns = `${leftRatio}fr ${rightRatio}fr`;
@@ -43,6 +45,21 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
       };
     }
   }, [backgroundImageSrc, sectionId]);
+
+  // Create video background element if backgroundVideoSrc is provided
+  const videoBackground = backgroundVideoSrc ? (
+    <div className={styles.videoBackground}>
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className={styles.backgroundVideo}
+      >
+        <source src={backgroundVideoSrc} type="video/mp4" />
+      </video>
+    </div>
+  ) : null;
   
   return (
     <div 
@@ -55,12 +72,13 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
     >
       <section 
         id={sectionId}
-        className={styles.leftSection}
+        className={`${styles.leftSection} ${backgroundVideoSrc ? styles.hasVideoBackground : ''}`}
         style={{
-          "--bg-mobile-url": backgroundImageSrc ? `url(${backgroundImageSrc})` : undefined,
+          "--bg-mobile-url": backgroundImageSrc && !backgroundVideoSrc ? `url(${backgroundImageSrc})` : undefined,
         } as React.CSSProperties}
       >
         {leftContent}
+        {backgroundVideoSrc && videoBackground}
       </section>
 
       <section className={styles.rightSection}>

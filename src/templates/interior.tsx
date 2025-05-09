@@ -1,6 +1,5 @@
 import * as React from "react"
 import { graphql, PageProps } from "gatsby"
-import { getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
