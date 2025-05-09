@@ -1,0 +1,60 @@
+/* Layout container with 1:3 ratio */
+.container {
+    display: flex;
+    flex-direction: row;
+    min-height: 80vh;
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+  
+  /* Left column - Description (1/4 width) */
+  .descriptionColumn {
+    flex: 1 1 25%;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+  
+    @media (max-width: 992px) {
+      padding: 0 1rem;
+    }
+  }
+  
+  /* Right column - Slider (3/4 width) */
+  .sliderColumn {
+    flex: 3 1 75%;
+    min-width: 300px;
+    /* Increase the height to make images larger */
+    min-height: 90vh;
+  }
+  
+  /* Title styling */
+  .title {
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin: 0;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 992px) {
+    .container {
+      flex-direction: column;
+    }
+    
+    .descriptionColumn,
+    .sliderColumn {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+    
+    .descriptionColumn {
+      min-height: 120px;
+    }
+  
+    .sliderColumn {
+      min-height: 70vh;
+    }
+  } 

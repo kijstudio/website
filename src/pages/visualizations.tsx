@@ -73,7 +73,7 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
             }}
             aria-label={`View details for ${item.title}`}
           >
-            View Project
+            See more
           </div>
         )}
       </div>
@@ -83,8 +83,8 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
   return (
     <Layout>
       <Seo
-        title="Visualizations"
-        description="Explore our architectural visualizations and 3D renderings"
+        title="Interiors"
+        description="Explore our architectural interiors"
       />
       <Slider 
         items={sliderItems}

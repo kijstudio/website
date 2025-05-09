@@ -1,5 +1,5 @@
 import * as React from "react"
-import { graphql, PageProps, HeadFC } from "gatsby"
+import { graphql, PageProps, HeadFC, Link, navigate } from "gatsby"
 import { getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -30,11 +30,16 @@ interface InteriorsPageData {
 }
 
 const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
-  const interiorsData = data.allSanityInterior.nodes;
+  const interiorsData = data.allSanityInterior.nodes
 
   // Map the Sanity data to format expected by the Slider component
   const sliderItems: SliderItem[] = interiorsData
-    .filter(item => item.gallery && item.gallery[0] && getImage(item.gallery[0].asset.gatsbyImageData))
+    .filter(
+      item =>
+        item.gallery &&
+        item.gallery[0] &&
+        getImage(item.gallery[0].asset.gatsbyImageData)
+    )
     .map((item, index) => ({
       id: `interior-${index}`,
       title: item.title,
@@ -42,19 +47,46 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
       location: item.location,
       livingArea: item.livingArea,
       image: item.gallery[0].asset.gatsbyImageData,
-      imageAlt: item.gallery[0].alt || item.title
-    }));
-  
+      imageAlt: item.gallery[0].alt || item.title,
+      link: item.slug ? `/interiors/${item.slug.current}` : undefined,
+    }))
+
   // Custom hover content renderer
-  const renderHoverContent = (item: SliderItem) => (
-    <div className={styles.hoverContent}>
-      <h3 className={styles.imageTitle}>{item.title}</h3>
-      <div className={styles.imageDetails}>
-        {item.location && <p>{item.location}</p>}
-        {item.livingArea && <p>{item.livingArea} m²</p>}
+  const renderHoverContent = (item: SliderItem) => {
+    const handleLinkClick = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      if (item.link) {
+        navigate(item.link)
+      }
+    }
+
+    return (
+      <div className={styles.hoverContent}>
+        <h3 className={styles.imageTitle}>{item.title}</h3>
+        <div className={styles.imageDetails}>
+          {item.location && <p>{item.location}</p>}
+          {item.livingArea && <p>{item.livingArea} m²</p>}
+        </div>
+        {item.link && (
+          <div
+            className={styles.linkIndicator}
+            onClick={handleLinkClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault()
+                handleLinkClick(e as any)
+              }
+            }}
+            aria-label={`View details for ${item.title}`}
+          >
+            See more
+          </div>
+        )}
       </div>
-    </div>
-  );
+    )
+  }
 
   return (
     <Layout>
@@ -62,7 +94,7 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
         title="Interiors"
         description="Explore our interior design and architectural visualizations"
       />
-      <Slider 
+      <Slider
         items={sliderItems}
         renderHoverContent={renderHoverContent}
         itemsPerPageDefault={4}
@@ -79,11 +111,14 @@ export const Head: HeadFC = () => <Seo title="Interiors" />
 
 export const query = graphql`
   query InteriorsQuery {
-    allSanityInterior(sort: {orderRank: ASC}) {
+    allSanityInterior(sort: { orderRank: ASC }) {
       nodes {
         title
         description
         location
+        slug {
+          current
+        }
         livingArea
         gallery {
           asset {
@@ -100,4 +135,4 @@ export const query = graphql`
   }
 `
 
-export default InteriorsPage 
+export default InteriorsPage

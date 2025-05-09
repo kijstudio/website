@@ -9,12 +9,24 @@ interface VisualisationNode {
   // Add other fields if needed for context, though slug is primary for page creation
 }
 
+interface InteriorNode {
+  slug: {
+    current: string
+  }
+  id: string
+}
+
 interface AllSanityVisualisation {
   nodes: VisualisationNode[]
 }
 
+interface AllSanityInterior {
+  nodes: InteriorNode[]
+}
+
 interface GraphQLResult {
   allSanityVisualisation: AllSanityVisualisation
+  allSanityInterior: AllSanityInterior  
   // You can add other query results here if you have more page types
 }
 
@@ -23,9 +35,9 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
 
   // Path to your new template component
   const visualizationTemplate = path.resolve(`./src/templates/visualization.tsx`)
-
+  const interiorTemplate = path.resolve(`./src/templates/interior.tsx`)
   // Query for visualization slugs
-  const result = await graphql<GraphQLResult>(`
+  const visualizationResult = await graphql<GraphQLResult>(`
     query {
       allSanityVisualisation {
         nodes {
@@ -38,11 +50,29 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
     }
   `)
 
-  if (result.errors) {
-    throw result.errors
+  const interiorsResult = await graphql<GraphQLResult>(`
+    query {
+      allSanityInterior {
+        nodes {
+          id
+          slug { 
+            current
+          }
+        }
+      }
+    }
+  `)
+  
+  if (visualizationResult.errors) {
+    throw visualizationResult.errors
   }
 
-  const visualizations = result.data?.allSanityVisualisation.nodes
+  if (interiorsResult.errors) { 
+    throw interiorsResult.errors
+  }
+
+  const visualizations = visualizationResult.data?.allSanityVisualisation.nodes
+  const interiors = interiorsResult.data?.allSanityInterior.nodes
 
   // Create pages for each visualization
   visualizations?.forEach(visualization => {
@@ -56,7 +86,21 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
           id: visualization.id,
         },
       })
-    }
+    } 
+  })
+
+  interiors?.forEach(interior => {
+    if (interior.slug && interior.slug.current) {
+      createPage({
+        path: `/interiors/${interior.slug.current}`,
+        component: interiorTemplate,
+        context: {
+          // Pass slug or id to the template query
+          slug: interior.slug.current,
+          id: interior.id,
+        },
+      })
+    } 
   })
 
   // Add your other page creation logic here if needed

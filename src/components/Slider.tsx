@@ -11,6 +11,7 @@ export interface SliderItem {
   imageAlt?: string;
   id: string | number;
   link?: string; // Optional link URL for item click navigation
+  slug?: string; // Optional slug for navigation to detail page
   [key: string]: any; // Allow any additional props for custom rendering
 }
 
