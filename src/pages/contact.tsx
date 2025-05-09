@@ -6,6 +6,9 @@ import SplitScreen from "../components/SplitScreen"
 import * as styles from "./contact.module.css"
 import bgImage from "../images/contact.jpg"
 import Header from "../components/header"
+import architekciLogo from "../images/architekci.png"
+import webcraftLogo from "../images/webcraft.png"
+import kFrameLogo from "../images/k-frame-logo.svg"
 
 const ContactPage: React.FC<PageProps> = () => {
   // Define left content with the text from the image
@@ -23,21 +26,28 @@ const ContactPage: React.FC<PageProps> = () => {
         </div>
 
         <div className={styles.contactInfo}>
-          <p>CONTACT: INFO@KIJSTUDIO.PL</p>
+          <p>CONTACT: <a className={styles.contactLink} href="mailto:info@kijstudio.pl">INFO@KIJSTUDIO.PL</a></p>
         </div>
 
         <div className={styles.partners}>
           <h3 className={styles.partnersTitle}>OUR PARTNERS</h3>
           <div className={styles.partnerLogos}>
             <img
-              src="/product-team-logo.png"
-              alt="Product Team"
+              src={architekciLogo}
+              alt="Architekci Team"
               className={styles.partnerLogo}
             />
+            <a href="https://webcraftstudio.pl/" target="_blank" rel="noopener noreferrer">
+              <img
+                src={webcraftLogo}
+                alt="Webcraft"
+                className={`${styles.partnerLogo} ${styles.invert}`}
+              />
+            </a>
             <img
-              src="/webcraft-logo.png"
-              alt="Webcraft"
-              className={styles.partnerLogo}
+              src={kFrameLogo}
+              alt="K-Frame"
+              className={`${styles.partnerLogo} ${styles.invert}`}
             />
           </div>
         </div>
