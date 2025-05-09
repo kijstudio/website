@@ -7,6 +7,10 @@ import Seo from "../components/seo"
 import SplitScreen from "../components/SplitScreen"
 import bgImage from "../images/main.png"
 
+// For the video, we need to use require to handle the case when the file doesn't exist yet
+const videoSrc = typeof window !== 'undefined' ? 
+  require('../movies/P2.mp4').default : null;
+
 const HomePage: React.FC = () => {
   // Define the left content section
   const leftContent = (
@@ -35,8 +39,22 @@ const HomePage: React.FC = () => {
     </>
   );
 
-  // Define the right content section
-  const rightContent = (
+  // Define the right content section with video or fallback image
+  const rightContent = videoSrc ? (
+    <div className={styles.videoWrapper}>
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className={styles.homeVideo}
+        poster={bgImage}
+      >
+        <source src={videoSrc} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  ) : (
     <StaticImage
       src={"../images/main.png"}
       alt="Featured project"
@@ -50,6 +68,22 @@ const HomePage: React.FC = () => {
     />
   );
 
+  // Create the mobile video background element
+  const mobileVideoBackground = videoSrc ? (
+    <div className={styles.mobileVideoBackground}>
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className={styles.mobileBackgroundVideo}
+        poster={bgImage}
+      >
+        <source src={videoSrc} type="video/mp4" />
+      </video>
+    </div>
+  ) : null;
+
   return (
     <>
       <Seo 
@@ -58,6 +92,7 @@ const HomePage: React.FC = () => {
       >
         <meta name="keywords" content="interior design, visualization, architecture" />
       </Seo>
+      {mobileVideoBackground}
       <SplitScreen 
         leftContent={leftContent}
         rightContent={rightContent}
