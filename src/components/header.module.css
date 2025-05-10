@@ -230,10 +230,6 @@
     display: flex;
   }
   
-  .logo {
-    filter: brightness(0) invert(1);
-  }
-  
   .navText::after, 
   .navLinkActive .navText::after {
     background-color: white;

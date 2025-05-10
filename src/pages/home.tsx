@@ -68,7 +68,7 @@ const HomePage: React.FC = () => {
         width={200}
         alt="KIJ Studio"
         placeholder="blurred"
-        className={styles.logo}
+        className={"logo"}
         layout="fixed"
         formats={["auto", "webp"]}
         quality={95}

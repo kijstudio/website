@@ -220,11 +220,6 @@ header .logo {
     position: relative;
     z-index: 1;
   }
-  .logo {
-    filter: brightness(0) invert(1) !important;
-    position: relative;
-    z-index: 1;
-  }
   .navLink {
     color: white;
     position: relative;
