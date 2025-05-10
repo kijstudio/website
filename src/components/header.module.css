@@ -2,6 +2,7 @@
 :root {
   --header-max-width: var(--max-content-width);
   --header-bg-color: transparent;
+  --header-padding: 1rem;
 }
 
 /* Basic styles with low specificity */
@@ -11,11 +12,6 @@
   padding-bottom: 1rem;
   max-width: var(--header-max-width);
   width: 100%;
-
-  @media (max-width: 1200px) {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
 }
 
 /* Header inner */

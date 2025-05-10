@@ -23,9 +23,6 @@ const ContactPage: React.FC<PageProps> = () => {
             CREATIVITY WITH PRECISION, WE BRING YOUR DESIGNS TO LIFE, ENSURING
             EVERY DETAIL IS CAREFULLY CRAFTED
           </p>
-        </div>
-
-        <div className={styles.contactInfo}>
           <p>CONTACT: <a className={styles.contactLink} href="mailto:info@kijstudio.pl">INFO@KIJSTUDIO.PL</a></p>
         </div>
 
@@ -76,8 +73,7 @@ const ContactPage: React.FC<PageProps> = () => {
         isSticky={true} 
         transparentBg={true} 
         fullWidth={true} 
-        navColor="white" 
-        className={styles.headerWrapper}
+        navColor="white"
         innerClassName={styles.headerInner}
       />
       <Seo title="Contact" description="Get in touch with KIJ Studio" />
