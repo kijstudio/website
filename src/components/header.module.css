@@ -119,15 +119,6 @@
   background-color: white;
 }
 
-/* Logo */
-.logo {
-  width: 120px;
-  min-width: 120px;
-  max-width: 120px;
-  flex: 0 0 120px;
-  margin-bottom: 0;
-}
-
 /* Desktop navigation */
 .desktopNav {
   display: flex;

@@ -2,7 +2,6 @@ import * as React from "react"
 import { Link } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import * as styles from "./home.module.css"
-import Logo from "../images/logo.png"
 import Seo from "../components/seo"
 import SplitScreen from "../components/SplitScreen"
 import bgImage from "../images/main.png"
@@ -64,7 +63,15 @@ const HomePage: React.FC = () => {
   // Define the left content section
   const leftContent = (
     <>
-      <img src={Logo} alt="KIJ Studio" className={styles.logo} />
+      <StaticImage
+        src="../images/logo.png"
+        width={200}
+        alt="KIJ Studio"
+        placeholder="blurred"
+        layout="fixed"
+        formats={["auto", "webp"]}
+        quality={95}
+      />
       
       <div className={styles.contentWrapper}>
         <div className={styles.info}>

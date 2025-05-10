@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 import { Link } from "gatsby"
-import Logo from "../images/logo.png"
+import { StaticImage } from "gatsby-plugin-image"
 import * as styles from "./header.module.css"
 import { breakpoints } from "../styles/breakpoints"
 
@@ -90,7 +90,15 @@ const Header: React.FC<HeaderProps> = ({
         <Link
           to="/"
         >
-          <img src={Logo} alt={siteTitle} className={styles.logo} />
+          <StaticImage
+            src="../images/logo.png"
+            alt={siteTitle}
+            width={120}
+            placeholder="blurred"
+            layout="fixed"        
+            formats={["auto", "webp"]}
+            quality={95}
+          />
         </Link>
         
         {/* Only render desktop navigation when not mobile */}
