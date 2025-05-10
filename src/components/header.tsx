@@ -95,6 +95,7 @@ const Header: React.FC<HeaderProps> = ({
             alt={siteTitle}
             width={120}
             placeholder="blurred"
+            className={styles.logo}
             layout="fixed"        
             formats={["auto", "webp"]}
             quality={95}
