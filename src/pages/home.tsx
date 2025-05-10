@@ -168,7 +168,6 @@ const HomePage: React.FC = () => {
           fullWidth={true}
           leftRatio={4}
           rightRatio={6}
-          backgroundImageSrc={bgImage}
         />
       </div>
       {isVideoLoading && (

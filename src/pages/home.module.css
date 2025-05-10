@@ -119,14 +119,19 @@ header .logo {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: -2;
+  z-index: -1;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .mobileBackgroundVideo {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .fullImage {
@@ -212,12 +217,18 @@ header .logo {
   .info p {
     max-width: 100%;
     color: white;
+    position: relative;
+    z-index: 1;
   }
   .logo {
     filter: brightness(0) invert(1) !important;
+    position: relative;
+    z-index: 1;
   }
   .navLink {
     color: white;
+    position: relative;
+    z-index: 1;
   }
   .navLink::after {
     background-color: white;
@@ -227,4 +238,29 @@ header .logo {
   .mobileVideoBackground {
     display: block;
   }
+  
+  /* Add a semi-transparent overlay */
+  .pageContent {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .pageContent::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+  }
+}
+
+.mobileBackgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
