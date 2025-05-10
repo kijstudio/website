@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Link, HeadFC } from "gatsby"
+import { Link } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import * as styles from "./home.module.css"
 import Logo from "../images/logo.png"
@@ -148,7 +148,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Seo 
-        title="Home" 
+        title="KIJ Studio" 
         description="Welcome to KIJ Studio - Architectural Visualization and Interior Design"
       >
         <meta name="keywords" content="interior design, visualization, architecture" />
@@ -172,14 +172,5 @@ const HomePage: React.FC = () => {
     </>
   )
 }
-
-export const Head: HeadFC = () => (
-  <Seo 
-    title="Home" 
-    description="Welcome to KIJ Studio - Architectural Visualization and Interior Design"
-  >
-    <meta name="keywords" content="interior design, visualization, architecture" />
-  </Seo>
-)
 
 export default HomePage 
