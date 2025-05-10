@@ -74,7 +74,7 @@ const ContactPage: React.FC<PageProps> = () => {
         transparentBg={true} 
         fullWidth={true} 
         navColor="white"
-        innerClassName={styles.headerInner}
+        className={styles.header}
       />
       <Seo title="Contact" description="Get in touch with KIJ Studio" />
       <SplitScreen

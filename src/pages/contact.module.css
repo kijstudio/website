@@ -9,7 +9,7 @@
     }
   }
 
-  .headerInner {
+  .header{
     padding-left: var(--full-screen-left-section-padding);
     padding-right: 2rem;
   }
