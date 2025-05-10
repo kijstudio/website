@@ -218,6 +218,9 @@
 }
 
 @media (max-width: 768px) {
+  .headerWrapper {
+    padding-bottom: 2rem;
+  }
   .desktopNav {
     display: none;
   }
