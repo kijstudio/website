@@ -56,25 +56,23 @@
   .contactContentWrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     height: 100%;
     width: 100%;
+    overflow-y: auto;
   
     .contactContent {
-      flex: 1;
-      height: 100%;
       width: 100%;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      min-height: 100%;
     }
   }
   
   .studioInfo {
-    margin-bottom: 2rem;
     max-width: 600px;
+    margin: auto 0;
+    width: 100%;
   }
   
   .studioText {
@@ -88,7 +86,9 @@
   }
 
   .partners {
-    margin-top: 2rem;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 2rem;
   }
   
   .partnersTitle {
