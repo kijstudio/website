@@ -1,6 +1,6 @@
 body {
   font-family: "futura-pt", sans-serif;
-  font-display: swap;
+  font-display: optional;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
