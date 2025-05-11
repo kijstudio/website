@@ -56,7 +56,7 @@ header .logo {
 .info {
   text-align: justify;
   text-justify: inter-word;
-  text-align-last: justify;
+  text-align-last: left;
   max-width: 400px;
   display: flex;
   flex-direction: column;
