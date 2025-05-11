@@ -5,10 +5,7 @@ import * as styles from "./home.module.css"
 import Seo from "../components/seo"
 import SplitScreen from "../components/SplitScreen"
 import bgImage from "../images/main.png"
-
-// For the video, we need to use require to handle the case when the file doesn't exist yet
-const videoSrc = typeof window !== 'undefined' ? 
-  require('../movies/P2.mp4').default : null;
+import videoSrc from "../movies/P2.mp4"
 
 const HomePage: React.FC = () => {
   const [isVideoLoading, setIsVideoLoading] = React.useState(true);

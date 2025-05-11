@@ -10,8 +10,10 @@ export type Breakpoint = keyof typeof breakpoints;
 const useBreakpoints = () => {
   // Initialize with default values for SSR
   const [windowSize, setWindowSize] = useState({
-    width: typeof window !== 'undefined' ? window.innerWidth : 0,
-    height: typeof window !== 'undefined' ? window.innerHeight : 0,
+    //width: typeof window !== 'undefined' ? window.innerWidth : 0,
+    // height: typeof window !== 'undefined' ? window.innerHeight : 0,
+    width: 0,
+    height: 0,
   });
 
   // Update dimensions on resize
