@@ -1,22 +1,6 @@
-import * as React from "react"
-import type { GatsbySSR } from "gatsby"
+import "./src/styles/global.css"
+import type { GatsbyBrowser } from "gatsby"
 
-export const onRenderBody: GatsbySSR["onRenderBody"] = ({
-  setHeadComponents,
-  setHtmlAttributes,
-  setBodyAttributes,
-}) => {
-  setHtmlAttributes({ lang: "en" })
-  setBodyAttributes({ className: "my-body-class" })
-  setHeadComponents([
-    <link
-      key="typekit-font"
-      rel="stylesheet"
-      href="https://use.typekit.net/gzh3byk.css"
-    />,
-  ])
-}
-
-export const wrapRootElement: GatsbySSR["wrapRootElement"] = ({ element }) => {
+export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
   return element
 } 
