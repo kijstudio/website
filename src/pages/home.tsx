@@ -155,9 +155,8 @@ const HomePage: React.FC = () => {
       <Seo 
         title="KIJ Studio" 
         description="Welcome to KIJ Studio - Architectural Visualization and Interior Design"
-      >
-        <meta name="keywords" content="interior design, visualization, architecture" />
-      </Seo>
+        keywords={["KIJ Studio", "interior design", "visualization", "architecture", "home", "3D renderings"]}
+      />
       <div className={`${styles.pageContent} ${isVideoLoading ? styles.hidden : ''}`}>
         {mobileVideoBackground}
         <SplitScreen 

@@ -27,7 +27,7 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
 
   if (!visualization) {
     return (
-      <Layout title="Visualization Not Found">
+      <Layout title="Visualization Not Found" keywords={["visualization not found", "KIJ Studio", "error"]}>
         <p>Sorry, we couldn't find the visualization you were looking for.</p>
       </Layout>
     )
@@ -46,6 +46,7 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
     <Layout
       title={visualization.title}
       description={visualization.description}
+      keywords={["architectural visualization", "3D rendering", visualization.title, "KIJ Studio", "visualization project"]}
     >
       <div className={styles.container}>
         {/* Left column - Description */}

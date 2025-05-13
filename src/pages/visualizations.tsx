@@ -61,6 +61,7 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
     <Layout
       title="Visualizations"
       description="Explore our architectural visualizations"
+      keywords={["architectural visualization", "3D rendering", "architectural design", "KIJ Studio", "visualization projects"]}
     >
       <Slider 
         items={sliderItems}

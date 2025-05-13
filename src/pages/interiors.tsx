@@ -75,6 +75,7 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
     <Layout
       title="Interiors"
       description="Explore our interior design"
+      keywords={["interior design", "interior visualization", "home design", "KIJ Studio", "living spaces", "interior projects"]}
     >
       <Slider
         items={sliderItems}

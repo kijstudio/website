@@ -26,7 +26,7 @@ const InteriorTemplate: React.FC<PageProps<InteriorTemplateData>> = ({ data }) =
 
   if (!interior) {
     return (
-      <Layout title="Interior Not Found">
+      <Layout title="Interior Not Found" keywords={["interior not found", "KIJ Studio", "error"]}>
         <p>Sorry, we couldn't find the interior you were looking for.</p>
       </Layout>
     )
@@ -45,6 +45,7 @@ const InteriorTemplate: React.FC<PageProps<InteriorTemplateData>> = ({ data }) =
     <Layout
       title={interior.title}
       description={interior.description}
+      keywords={["interior design", "interior visualization", interior.title, "KIJ Studio", "interior project"]}
     >
       <div className={styles.container}>
         {/* Left column - Description */}

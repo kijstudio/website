@@ -8,9 +8,10 @@ interface LayoutProps {
   children: React.ReactNode
   title?: string
   description?: string
+  keywords?: string[]
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, title, description }) => {
+const Layout: React.FC<LayoutProps> = ({ children, title, description, keywords }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -24,6 +25,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description }) => {
 
   const siteTitle = data.site.siteMetadata?.title || `KIJ Studio`
   const siteDescription = data.site.siteMetadata?.description || `Bringing your dream spaces to life with creative design and breathtaking visuals.`
+  const defaultKeywords = ["architecture", "visualization", "interior design", "KIJ Studio"]
 
   return (
     <div style={{ 
@@ -33,7 +35,8 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description }) => {
     }}>
       <Seo 
         title={title || siteTitle} 
-        description={description || siteDescription} 
+        description={description || siteDescription}
+        keywords={keywords || defaultKeywords}
       />
       <Header siteTitle={siteTitle} />
       <div className={styles.contentInner}>

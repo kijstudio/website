@@ -76,7 +76,11 @@ const ContactPage: React.FC<PageProps> = () => {
         navColor="white"
         className={styles.header}
       />
-      <Seo title="Contact" description="Get in touch with KIJ Studio" />
+      <Seo 
+        title="Contact" 
+        description="Get in touch with KIJ Studio" 
+        keywords={["contact", "KIJ Studio", "architecture firm", "visualization studio", "get in touch", "partners"]}
+      />
       <SplitScreen
         leftContent={leftContent}
         rightContent={rightContent}

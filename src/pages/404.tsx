@@ -10,6 +10,6 @@ const NotFoundPage: React.FC<PageProps> = () => (
   </Layout>
 )
 
-export const Head: HeadFC = () => <Seo title="404: Not Found" description="Page not found" />
+export const Head: HeadFC = () => <Seo title="404: Not Found" description="Page not found" keywords={["404", "not found", "error", "KIJ Studio"]} />
 
 export default NotFoundPage 
