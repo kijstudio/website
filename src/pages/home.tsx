@@ -5,7 +5,7 @@ import * as styles from "./home.module.css"
 import Seo from "../components/seo"
 import SplitScreen from "../components/SplitScreen"
 import bgImage from "../images/main.png"
-import videoSrc from "../movies/P2.mp4"
+import videoSrc from "../movies/P2.webm"
 
 const HomePage: React.FC = () => {
   const [isVideoLoading, setIsVideoLoading] = React.useState(true);
@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
         onCanPlay={handleVideoCanPlay}
         onError={handleVideoError}
       >
-        <source src={videoSrc} type="video/mp4" />
+        <source src={videoSrc} type="video/webm" />
         Your browser does not support the video tag.
       </video>
     </div>
@@ -145,7 +145,7 @@ const HomePage: React.FC = () => {
         onCanPlay={handleVideoCanPlay}
         onError={handleVideoError}
       >
-        <source src={videoSrc} type="video/mp4" />
+        <source src={videoSrc} type="video/webm" />
       </video>
     </div>
   ) : null;
