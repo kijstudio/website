@@ -5,6 +5,7 @@ const config: GatsbyConfig = {
     title: `KIJ Studio`,
     description: `Bringing your dream spaces to life with creative design and breathtaking visuals.`,
     author: `KIJ Studio`,
+    keywords: `KIJ Studio, interior design, architectural visualization, interior design, architectural design, interior design studio, architectural visualization studio, interior design studio, architectural visualization studio`,
     siteUrl: `https://kijstudio.com/`,
   },
   plugins: [
