@@ -67,23 +67,6 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
           {item.location && <p>{item.location}</p>}
           {item.livingArea && <p>{item.livingArea} m²</p>}
         </div>
-        {item.link && (
-          <div
-            className={styles.linkIndicator}
-            onClick={handleLinkClick}
-            role="button"
-            tabIndex={0}
-            onKeyDown={e => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault()
-                handleLinkClick(e as any)
-              }
-            }}
-            aria-label={`View details for ${item.title}`}
-          >
-            See more
-          </div>
-        )}
       </div>
     )
   }
@@ -103,7 +86,6 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
         tabletItems={2}
         transitionDuration={500}
         enableFullScreenView={false}
-        disableNavigation={true}
       />
     </Layout>
   )
