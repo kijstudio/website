@@ -1,6 +1,7 @@
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { Helmet } from "react-helmet"
+import favicon from "../images/favicon.png"
 
 interface SeoProps {
   description?: string
@@ -32,6 +33,9 @@ const Seo: React.FC<SeoProps> = ({ description, title, keywords = [], children }
     <Helmet
       title={title || defaultTitle}
       titleTemplate={description ? `%s | ${metaDescription}` : undefined}
+      link={[
+        { rel: "icon", type: "image/png", href: favicon }
+      ]}
     >
       <meta name="description" content={metaDescription} />
       <meta name="keywords" content={metaKeywords} />
