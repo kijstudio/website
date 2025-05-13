@@ -31,6 +31,7 @@ interface SliderProps {
   transitionDuration?: number;
   onItemClick?: (item: SliderItem) => void; // Optional callback for custom click handling
   enableFullScreenView?: boolean; // Flag to enable/disable fullscreen popup
+  disableNavigation?: boolean; // Flag to disable navigation
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -43,6 +44,7 @@ const Slider: React.FC<SliderProps> = ({
   transitionDuration = 500,
   onItemClick,
   enableFullScreenView = true, // Default to enabled
+  disableNavigation = false, // Default to enabled
 }) => {
   // Slider state
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -132,7 +134,7 @@ const Slider: React.FC<SliderProps> = ({
       onItemClick(item);
     } else if (enableFullScreenView) {
       setFullscreenImage(item);
-    } else if (item.link) {
+    } else if (item.link && !disableNavigation) {
       navigate(item.link);
     }
   };

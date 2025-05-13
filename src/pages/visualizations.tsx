@@ -6,6 +6,7 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
 import * as styles from "../components/Slider.module.css"
+import breakpoints from "../styles/breakpoints"
 
 interface VisualizationNode {
   title: string
@@ -49,33 +50,9 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
   
   // Custom hover content renderer
   const renderHoverContent = (item: SliderItem) => {
-    const handleLinkClick = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      if (item.link) {
-        navigate(item.link);
-      }
-    };
-
     return (
       <div className={styles.hoverContent}>
         <h3 className={styles.imageTitle}>{item.title}</h3>
-        {item.link && (
-          <div 
-            className={styles.linkIndicator}
-            onClick={handleLinkClick}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleLinkClick(e as any);
-              }
-            }}
-            aria-label={`View details for ${item.title}`}
-          >
-            See more
-          </div>
-        )}
       </div>
     );
   };
@@ -83,17 +60,18 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
   return (
     <Layout>
       <Seo
-        title="Interiors"
-        description="Explore our architectural interiors"
+        title="Visualizations"
+        description="Explore our architectural visualizations"
       />
       <Slider 
         items={sliderItems}
         renderHoverContent={renderHoverContent}
         itemsPerPageDefault={4}
-        breakpoints={{ mobile: 768, tablet: 992, desktop: 1200 }}
+        breakpoints={{ mobile: breakpoints.md, tablet: breakpoints.lg, desktop:   breakpoints.xl }}
         mobileItems={1}
         tabletItems={2}
         transitionDuration={500}
+        enableFullScreenView={false}
       />
     </Layout>
   )

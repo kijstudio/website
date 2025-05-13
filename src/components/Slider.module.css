@@ -277,6 +277,7 @@
 
 /* Hover states */
 .itemWrapper:hover .hoverContent {
+  cursor: pointer;
   background: rgba(0, 0, 0, 0.6);
 }
 

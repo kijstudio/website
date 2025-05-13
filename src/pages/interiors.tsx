@@ -92,7 +92,7 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
     <Layout>
       <Seo
         title="Interiors"
-        description="Explore our interior design and architectural visualizations"
+        description="Explore our interior design"
       />
       <Slider
         items={sliderItems}
@@ -102,6 +102,8 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
         mobileItems={1}
         tabletItems={2}
         transitionDuration={500}
+        enableFullScreenView={false}
+        disableNavigation={true}
       />
     </Layout>
   )
