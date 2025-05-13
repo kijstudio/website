@@ -2,21 +2,28 @@ import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import * as styles from "./layout.module.css"
 import Header from "./header"
+import Seo from "./seo"
 
 interface LayoutProps {
   children: React.ReactNode
+  title?: string
+  description?: string
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children, title, description }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
         siteMetadata {
           title
+          description
         }
       }
     }
   `)
+
+  const siteTitle = data.site.siteMetadata?.title || `KIJ Studio`
+  const siteDescription = data.site.siteMetadata?.description || `Bringing your dream spaces to life with creative design and breathtaking visuals.`
 
   return (
     <div style={{ 
@@ -24,7 +31,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       flexDirection: 'column',
       minHeight: '100vh'
     }}>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
+      <Seo 
+        title={title || siteTitle} 
+        description={description || siteDescription} 
+      />
+      <Header siteTitle={siteTitle} />
       <div className={styles.contentInner}>
         <main style={{ flex: 1 }}>{children}</main>
         <footer

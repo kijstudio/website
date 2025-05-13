@@ -58,11 +58,10 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
   };
 
   return (
-    <Layout>
-      <Seo
-        title="Visualizations"
-        description="Explore our architectural visualizations"
-      />
+    <Layout
+      title="Visualizations"
+      description="Explore our architectural visualizations"
+    >
       <Slider 
         items={sliderItems}
         renderHoverContent={renderHoverContent}

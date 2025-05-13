@@ -27,8 +27,7 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
 
   if (!visualization) {
     return (
-      <Layout>
-        <Seo title="Visualization Not Found" />
+      <Layout title="Visualization Not Found">
         <p>Sorry, we couldn't find the visualization you were looking for.</p>
       </Layout>
     )
@@ -44,11 +43,10 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
     })) : [];
 
   return (
-    <Layout>
-      <Seo 
-        title={visualization.title} 
-        description={visualization.description} 
-      />
+    <Layout
+      title={visualization.title}
+      description={visualization.description}
+    >
       <div className={styles.container}>
         {/* Left column - Description */}
         <div className={styles.descriptionColumn}>

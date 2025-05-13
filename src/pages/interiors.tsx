@@ -1,5 +1,5 @@
 import * as React from "react"
-import { graphql, PageProps, HeadFC, Link, navigate } from "gatsby"
+import { graphql, PageProps, Link, navigate } from "gatsby"
 import { getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -72,11 +72,10 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
   }
 
   return (
-    <Layout>
-      <Seo
-        title="Interiors"
-        description="Explore our interior design"
-      />
+    <Layout
+      title="Interiors"
+      description="Explore our interior design"
+    >
       <Slider
         items={sliderItems}
         renderHoverContent={renderHoverContent}
@@ -90,8 +89,6 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
     </Layout>
   )
 }
-
-export const Head: HeadFC = () => <Seo title="Interiors" />
 
 export const query = graphql`
   query InteriorsQuery {

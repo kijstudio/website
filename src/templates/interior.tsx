@@ -26,8 +26,7 @@ const InteriorTemplate: React.FC<PageProps<InteriorTemplateData>> = ({ data }) =
 
   if (!interior) {
     return (
-      <Layout>
-        <Seo title="Interior Not Found" />
+      <Layout title="Interior Not Found">
         <p>Sorry, we couldn't find the interior you were looking for.</p>
       </Layout>
     )
@@ -43,11 +42,10 @@ const InteriorTemplate: React.FC<PageProps<InteriorTemplateData>> = ({ data }) =
     })) : [];
 
   return (
-    <Layout>
-      <Seo 
-        title={interior.title} 
-        description={interior.description} 
-      />
+    <Layout
+      title={interior.title}
+      description={interior.description}
+    >
       <div className={styles.container}>
         {/* Left column - Description */}
         <div className={styles.descriptionColumn}>

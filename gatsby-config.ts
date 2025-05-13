@@ -40,17 +40,17 @@ const config: GatsbyConfig = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `KIJ Studio`,
-        short_name: `KIJ Studio`,
-        start_url: `/`,
-        background_color: `#ffffff`,
-        display: `minimal-ui`,
-        icon: `src/images/favicon.png`,
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-manifest`,
+    //   options: {
+    //     name: `KIJ Studio`,
+    //     short_name: `KIJ Studio`,
+    //     start_url: `/`,
+    //     background_color: `#ffffff`,
+    //     display: `minimal-ui`,
+    //     icon: `src/images/favicon.png`,
+    //   },
+    // },
   ],
 }
 
