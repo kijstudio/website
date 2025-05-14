@@ -1,8 +1,7 @@
+import { graphql, navigate, PageProps } from "gatsby"
+import { getImage, GatsbyImage } from "gatsby-plugin-image"
 import * as React from "react"
-import { graphql, PageProps, Link, navigate } from "gatsby"
-import { getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
-import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
 import * as styles from "../components/Slider.module.css"
 
@@ -49,6 +48,8 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
       image: item.gallery[0].asset.gatsbyImageData,
       imageAlt: item.gallery[0].alt || item.title,
       link: item.slug ? `/interiors/${item.slug.current}` : undefined,
+      singleImageGallery: item.gallery.length === 1,
+      galleryLength: item.gallery.length
     }))
 
   // Custom hover content renderer
@@ -70,6 +71,19 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
       </div>
     )
   }
+  
+  // Predicate function for enabling fullscreen view
+  const fullScreenPredicate = (item: SliderItem) => {
+    return item.singleImageGallery === true;
+  };
+  
+  // Handle click event - prevent navigation for single gallery items
+  const handleItemClick = (item: SliderItem) => {
+    if (item.singleImageGallery) {
+      return;
+    }
+    return true;
+  };
 
   return (
     <Layout
@@ -86,6 +100,8 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
         tabletItems={2}
         transitionDuration={500}
         enableFullScreenView={false}
+        fullScreenPredicate={fullScreenPredicate}
+        onItemClick={handleItemClick}
       />
     </Layout>
   )

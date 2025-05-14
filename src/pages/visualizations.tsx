@@ -1,9 +1,7 @@
-import * as React from "react"
 import { graphql, PageProps } from "gatsby"
-import { getImage } from "gatsby-plugin-image"
-import { navigate } from "gatsby"
+import { getImage, GatsbyImage } from "gatsby-plugin-image"
+import * as React from "react"
 import Layout from "../components/layout"
-import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
 import * as styles from "../components/Slider.module.css"
 import breakpoints from "../styles/breakpoints"
@@ -45,7 +43,11 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
       description: item.description,
       image: item.gallery[0].asset.gatsbyImageData,
       imageAlt: item.gallery[0].alt || item.title,
-      link: item.slug ? `/visualizations/${item.slug.current}` : undefined
+      link: item.slug ? `/visualizations/${item.slug.current}` : undefined,
+      // Add flag to identify items with only one gallery image
+      singleImageGallery: item.gallery.length === 1,
+      // Add the original gallery length for reference
+      galleryLength: item.gallery.length
     }));
   
   // Custom hover content renderer
@@ -55,6 +57,22 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
         <h3 className={styles.imageTitle}>{item.title}</h3>
       </div>
     );
+  };
+
+  // Predicate function for enabling fullscreen view
+  const fullScreenPredicate = (item: SliderItem) => {
+    // Enable fullscreen view for items with only one gallery image
+    return item.singleImageGallery === true;
+  };
+
+  // Handle click event - prevent navigation for single gallery items
+  const handleItemClick = (item: SliderItem) => {
+    if (item.singleImageGallery) {
+      // For single gallery items, let the fullscreen predicate handle it
+      return;
+    }
+    // For multi-gallery items, use default navigation
+    return true;
   };
 
   return (
@@ -67,11 +85,13 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
         items={sliderItems}
         renderHoverContent={renderHoverContent}
         itemsPerPageDefault={4}
-        breakpoints={{ mobile: breakpoints.md, tablet: breakpoints.lg, desktop:   breakpoints.xl }}
+        breakpoints={{ mobile: breakpoints.md, tablet: breakpoints.lg, desktop: breakpoints.xl }}
         mobileItems={1}
         tabletItems={2}
         transitionDuration={500}
-        enableFullScreenView={false}
+        enableFullScreenView={false} // Disable global fullscreen
+        fullScreenPredicate={fullScreenPredicate} // Use per-item fullscreen
+        onItemClick={handleItemClick}
       />
     </Layout>
   )

@@ -29,8 +29,9 @@ interface SliderProps {
   mobileItems?: number;
   tabletItems?: number;
   transitionDuration?: number;
-  onItemClick?: (item: SliderItem) => void; // Optional callback for custom click handling
-  enableFullScreenView?: boolean; // Flag to enable/disable fullscreen popup
+  onItemClick?: (item: SliderItem) => void | boolean; // Optional callback for custom click handling
+  enableFullScreenView?: boolean; // Flag to enable/disable fullscreen popup globally
+  fullScreenPredicate?: (item: SliderItem) => boolean; // Predicate function to enable fullscreen for specific items
   disableNavigation?: boolean; // Flag to disable navigation
 }
 
@@ -44,6 +45,7 @@ const Slider: React.FC<SliderProps> = ({
   transitionDuration = 500,
   onItemClick,
   enableFullScreenView = true, // Default to enabled
+  fullScreenPredicate,
   disableNavigation = false, // Default to enabled
 }) => {
   // Slider state
@@ -131,8 +133,17 @@ const Slider: React.FC<SliderProps> = ({
   // Handle item click - trigger fullscreen popup if enabled
   const handleItemClick = (item: SliderItem, event: React.MouseEvent) => {
     if (onItemClick) {
-      onItemClick(item);
-    } else if (enableFullScreenView) {
+      // If onItemClick returns false explicitly, stop further processing
+      const result = onItemClick(item);
+      if (result === false) return;
+    }
+    
+    // Check if fullscreen should be enabled for this specific item
+    const shouldEnableFullscreen = fullScreenPredicate 
+      ? fullScreenPredicate(item) 
+      : enableFullScreenView;
+    
+    if (shouldEnableFullscreen) {
       setFullscreenImage(item);
     } else if (item.link && !disableNavigation) {
       navigate(item.link);

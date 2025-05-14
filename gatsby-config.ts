@@ -9,6 +9,7 @@ const config: GatsbyConfig = {
     siteUrl: `https://kijstudio.com/`,
   },
   plugins: [
+    'gatsby-plugin-sitemap',
     `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-source-sanity`,
