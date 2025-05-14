@@ -41,14 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description, keywords 
       <Header siteTitle={siteTitle} />
       <div className={styles.contentInner}>
         <main style={{ flex: 1 }}>{children}</main>
-        <footer
-          style={{
-            textAlign: `center`,
-            fontSize: `0.8rem`,
-            color: `#888`,
-            padding: `1.5rem 0`,
-          }}
-        >
+        <footer className={styles.footer}>
           © {new Date().getFullYear()}, Kij Studio
         </footer>
       </div>

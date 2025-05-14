@@ -3,3 +3,16 @@
   width: 100%;
   max-width: var(--max-content-width);
 }
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #888;
+  padding: 1.5rem 0;
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    padding: 0.5rem 0;
+  }
+}
