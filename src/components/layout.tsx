@@ -28,11 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description, keywords 
   const defaultKeywords = ["architecture", "visualization", "interior design", "KIJ Studio"]
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column',
-      minHeight: '100vh'
-    }}>
+    <div>
       <Seo 
         title={title || siteTitle} 
         description={description || siteDescription}
@@ -40,7 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title, description, keywords 
       />
       <Header siteTitle={siteTitle} />
       <div className={styles.contentInner}>
-        <main style={{ flex: 1 }}>{children}</main>
+        <main>{children}</main>
         <footer className={styles.footer}>
           © {new Date().getFullYear()}, Kij Studio
         </footer>

@@ -2,6 +2,9 @@
   margin: 0 auto;
   width: 100%;
   max-width: var(--max-content-width);
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
 }
 
 .footer {
@@ -9,11 +12,13 @@
   font-size: 0.8rem;
   color: #888;
   padding: 1.5rem 0;
+  height: 60px;
 }
 
 @media screen and (max-width: 768px) {
   .contentInner {
     padding-top: 60px;
+    min-height: calc(100vh - 60px);
   }
   
   .footer {
