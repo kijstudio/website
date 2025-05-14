@@ -8,90 +8,105 @@ import bgImage from "../images/main.png"
 import videoSrc from "../movies/P2.webm"
 
 const HomePage: React.FC = () => {
-  const [isVideoLoading, setIsVideoLoading] = React.useState(true);
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = React.useRef<HTMLVideoElement>(null);
-  
+  const [isVideoLoading, setIsVideoLoading] = React.useState(true)
+  const videoRef = React.useRef<HTMLVideoElement>(null)
+  const mobileVideoRef = React.useRef<HTMLVideoElement>(null)
+
   React.useEffect(() => {
     // If there's no video source, we shouldn't show loading state
     if (!videoSrc) {
-      setIsVideoLoading(false);
-      return;
+      setIsVideoLoading(false)
+      return
     }
-    
-    console.log("Video source exists:", videoSrc);
-    
+
+    console.log("Video source exists:", videoSrc)
+
     // If the video is already loaded in the DOM
     if (videoRef.current && videoRef.current.readyState >= 3) {
-      console.log("Video already loaded (readyState):", videoRef.current.readyState);
-      setIsVideoLoading(false);
+      console.log(
+        "Video already loaded (readyState):",
+        videoRef.current.readyState
+      )
+      setIsVideoLoading(false)
     }
-    
+
     // Fallback: Set a timeout to stop showing loading screen after 5 seconds
     // regardless of whether the video loaded properly
     const timeoutId = setTimeout(() => {
-      console.log("Fallback timeout triggered - forcing load complete");
-      setIsVideoLoading(false);
-    }, 10000);
-    
-    return () => clearTimeout(timeoutId);
-  }, []);
-  
+      console.log("Fallback timeout triggered - forcing load complete")
+      setIsVideoLoading(false)
+    }, 10000)
+
+    return () => clearTimeout(timeoutId)
+  }, [])
+
   const handleVideoLoaded = () => {
-    console.log("Video loaded event triggered");
-    setIsVideoLoading(false);
-  };
-  
+    console.log("Video loaded event triggered")
+    setIsVideoLoading(false)
+  }
+
   const handleVideoLoadedMetadata = () => {
-    console.log("Video metadata loaded");
-  };
-  
+    console.log("Video metadata loaded")
+  }
+
   const handleVideoCanPlay = () => {
-    console.log("Video can play now");
-    setIsVideoLoading(false);
-  };
-  
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.error("Video error:", e);
+    console.log("Video can play now")
+    setIsVideoLoading(false)
+  }
+
+  const handleVideoError = (
+    e: React.SyntheticEvent<HTMLVideoElement, Event>
+  ) => {
+    console.error("Video error:", e)
     // If video errors, we should stop showing loading screen
-    setIsVideoLoading(false);
-  };
-  
+    setIsVideoLoading(false)
+  }
+
   // Define the left content section
   const leftContent = (
-    <>
+    <div className={styles.contentWrapper}>
       <StaticImage
         src="../images/logo.png"
         width={200}
         alt="KIJ Studio"
         placeholder="blurred"
-        className={"logo"}
+        className={`logo ${styles.logo}`}
         layout="fixed"
         formats={["auto", "webp"]}
         quality={95}
       />
-      
-      <div className={styles.contentWrapper}>
-        <div className={styles.info}>
-          <p>
-            Bringing your dream spaces to life with creative design and breathtaking visuals.
-          </p>
-        </div>
-
-        <nav className={styles.nav}>
-          <Link to="/visualizations" className={styles.navLink} activeClassName={styles.navLinkActive}>
-            Visualizations
-          </Link>
-          <Link to="/interiors" className={styles.navLink} activeClassName={styles.navLinkActive}>
-            Interiors
-          </Link>
-          <Link to="/contact" className={styles.navLink} activeClassName={styles.navLinkActive}>
-            Contact
-          </Link>
-        </nav>
+      <div className={styles.info}>
+        <p>
+          Bringing your dream spaces to life with creative design and
+          breathtaking visuals.
+        </p>
       </div>
-    </>
-  );
+
+      <nav className={styles.nav}>
+        <Link
+          to="/visualizations"
+          className={styles.navLink}
+          activeClassName={styles.navLinkActive}
+        >
+          Visualizations
+        </Link>
+        <Link
+          to="/interiors"
+          className={styles.navLink}
+          activeClassName={styles.navLinkActive}
+        >
+          Interiors
+        </Link>
+        <Link
+          to="/contact"
+          className={styles.navLink}
+          activeClassName={styles.navLinkActive}
+        >
+          Contact
+        </Link>
+      </nav>
+    </div>
+  )
 
   // Define the right content section with video or fallback image
   const rightContent = videoSrc ? (
@@ -126,7 +141,7 @@ const HomePage: React.FC = () => {
       formats={["auto", "webp"]}
       quality={95}
     />
-  );
+  )
 
   // Create the mobile video background element
   const mobileVideoBackground = videoSrc ? (
@@ -148,18 +163,29 @@ const HomePage: React.FC = () => {
         <source src={videoSrc} type="video/webm" />
       </video>
     </div>
-  ) : null;
+  ) : null
 
   return (
     <>
-      <Seo 
-        title="KIJ Studio" 
+      <Seo
+        title="KIJ Studio"
         description="Welcome to KIJ Studio - Architectural Visualization and Interior Design"
-        keywords={["KIJ Studio", "interior design", "visualization", "architecture", "home", "3D renderings"]}
+        keywords={[
+          "KIJ Studio",
+          "interior design",
+          "visualization",
+          "architecture",
+          "home",
+          "3D renderings",
+        ]}
       />
-      <div className={`${styles.pageContent} ${isVideoLoading ? styles.hidden : ''}`}>
+      <div
+        className={`${styles.pageContent} ${
+          isVideoLoading ? styles.hidden : ""
+        }`}
+      >
         {mobileVideoBackground}
-        <SplitScreen 
+        <SplitScreen
           leftContent={leftContent}
           rightContent={rightContent}
           fullWidth={true}
@@ -176,4 +202,4 @@ const HomePage: React.FC = () => {
   )
 }
 
-export default HomePage 
+export default HomePage

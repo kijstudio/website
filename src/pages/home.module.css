@@ -8,39 +8,8 @@
   margin: 0;
 }
 
-.leftSection {
-  padding: 4rem 4rem 6rem 4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: white;
-  z-index: 1;
-  height: 100vh;
-  box-sizing: border-box;
-}
-
-
 .logo {
-  width: 200px !important;
-  min-width: 200px !important;
-  max-width: 200px !important;
-  height: auto !important;
-  margin: 0 !important;
-  display: block;
-  flex: 0 0 200px;
-  object-fit: contain;
-}
-
-header .logo {
-  width: 120px !important;
-  min-width: 120px !important;
-  max-width: 120px !important;
-  flex: 0 0 120px;
-}
-
-.leftSection .logo {
-  margin-bottom: 4rem !important;
+  margin-bottom: 4rem;
 }
 
 .content-wrapper {
@@ -85,7 +54,6 @@ header .logo {
   flex-direction: column;
   gap: 0.5rem;
   align-items: center;
-  margin-bottom: 4rem;
 }
 
 .rightSection {
