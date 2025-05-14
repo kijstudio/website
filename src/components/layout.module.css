@@ -12,6 +12,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  .contentInner {
+    padding-top: 60px;
+  }
+  
   .footer {
     padding: 0.5rem 0;
   }

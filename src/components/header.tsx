@@ -60,16 +60,13 @@ const Header: React.FC<HeaderProps> = ({
 
   // Build class names with simple additions
   const headerClasses = [styles.headerWrapper];
-  if (isMenuOpen && isMobile) {
-    headerClasses.push(styles.fixed);
-  }
   if (className) {
     headerClasses.push(className);
   }
-  if (isSticky) {
+  if (isSticky && !isMobile) {
     headerClasses.push(styles.sticky);
   }
-  if (transparentBg) {
+  if (transparentBg && !isMobile) {
     headerClasses.push(styles.transparent);
   }
   if (fullWidth) {
