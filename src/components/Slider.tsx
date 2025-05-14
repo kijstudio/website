@@ -33,6 +33,9 @@ interface SliderProps {
   enableFullScreenView?: boolean; // Flag to enable/disable fullscreen popup globally
   fullScreenPredicate?: (item: SliderItem) => boolean; // Predicate function to enable fullscreen for specific items
   disableNavigation?: boolean; // Flag to disable navigation
+  loop?: boolean; // Flag to enable/disable looping for mobile view
+  autoplay?: boolean; // Flag to enable/disable automatic slide changes
+  autoplayInterval?: number; // Time in ms between automatic slide changes
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -47,6 +50,9 @@ const Slider: React.FC<SliderProps> = ({
   enableFullScreenView = true, // Default to enabled
   fullScreenPredicate,
   disableNavigation = false, // Default to enabled
+  loop = false, // Default to disabled
+  autoplay = false, // Default to disabled
+  autoplayInterval = 5000, // Default to 5 seconds
 }) => {
   // Slider state
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -56,6 +62,18 @@ const Slider: React.FC<SliderProps> = ({
   
   // Fullscreen popup state
   const [fullscreenImage, setFullscreenImage] = useState<SliderItem | null>(null);
+  
+  // State to track if we're in mobile view
+  const [isMobileView, setIsMobileView] = useState(false);
+  
+  // State to track if user is hovering over the slider
+  const [isPaused, setIsPaused] = useState(false);
+  
+  // Reference to the slider container for touch events
+  const sliderRef = React.useRef<HTMLDivElement>(null);
+  
+  // Track autoplay direction (1 = forward, -1 = backward)
+  const [autoplayDirection, setAutoplayDirection] = useState(1);
   
   // Calculate number of items per page based on screen size
   const getItemsPerPage = () => {
@@ -101,6 +119,21 @@ const Slider: React.FC<SliderProps> = ({
     }
   }, [currentIndex, itemsPerPage, items.length, breakpoints.mobile, breakpoints.tablet, mobileItems, tabletItems, itemsPerPageDefault]);
 
+  // Update mobile view state on window resize
+  useEffect(() => {
+    const checkMobileView = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobileView(window.innerWidth <= breakpoints.mobile);
+      }
+    };
+    
+    if (typeof window !== 'undefined') {
+      checkMobileView();
+      window.addEventListener('resize', checkMobileView);
+      return () => window.removeEventListener('resize', checkMobileView);
+    }
+  }, [breakpoints.mobile]);
+
   // Calculate offset for slider position
   const calculateOffset = () => {
     // Since we're using percentage widths for items, we can use a simpler calculation
@@ -109,7 +142,22 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const handlePrev = () => {
-    if (isAnimating || currentIndex === 0) return;
+    if (isAnimating) return;
+    
+    // Check if at the beginning and loop is enabled for mobile view
+    if (currentIndex === 0 && loop && isMobileView) {
+      setIsAnimating(true);
+      
+      // Loop to the end
+      setCurrentIndex(maxIndex);
+      
+      // Then after animation is complete, allow next transition
+      setTimeout(() => setIsAnimating(false), transitionDuration);
+      return;
+    }
+    
+    // Regular behavior if not looping or not at the beginning
+    if (currentIndex === 0) return;
     setIsAnimating(true);
     
     // First move the state, which will update the visible elements
@@ -120,7 +168,22 @@ const Slider: React.FC<SliderProps> = ({
   }
   
   const handleNext = () => {
-    if (isAnimating || currentIndex === maxIndex) return;
+    if (isAnimating) return;
+    
+    // Check if at the end and loop is enabled for mobile view
+    if (currentIndex === maxIndex && loop && isMobileView) {
+      setIsAnimating(true);
+      
+      // Loop to the beginning
+      setCurrentIndex(0);
+      
+      // Then after animation is complete, allow next transition
+      setTimeout(() => setIsAnimating(false), transitionDuration);
+      return;
+    }
+    
+    // Regular behavior if not looping or not at the end
+    if (currentIndex === maxIndex) return;
     setIsAnimating(true);
     
     // First move the state, which will update the visible elements
@@ -169,6 +232,91 @@ const Slider: React.FC<SliderProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [fullscreenImage]);
 
+  // Handle automatic slide changes when autoplay is enabled
+  useEffect(() => {
+    if (!autoplay || isPaused || isAnimating) return;
+    
+    const interval = setInterval(() => {
+      if (loop) {
+        // With loop enabled, always move forward and loop around
+        if (currentIndex === maxIndex) {
+          setIsAnimating(true);
+          setCurrentIndex(0);
+          setTimeout(() => setIsAnimating(false), transitionDuration);
+        } else {
+          setIsAnimating(true);
+          setCurrentIndex(prev => Math.min(prev + 1, maxIndex));
+          setTimeout(() => setIsAnimating(false), transitionDuration);
+        }
+      } else {
+        // Without loop, reverse direction at ends
+        if (autoplayDirection === 1 && currentIndex === maxIndex) {
+          // At the end, reverse direction to backward
+          setAutoplayDirection(-1);
+          setIsAnimating(true);
+          setCurrentIndex(prev => Math.max(prev - 1, 0));
+          setTimeout(() => setIsAnimating(false), transitionDuration);
+        } else if (autoplayDirection === -1 && currentIndex === 0) {
+          // At the beginning, reverse direction to forward
+          setAutoplayDirection(1);
+          setIsAnimating(true);
+          setCurrentIndex(prev => Math.min(prev + 1, maxIndex));
+          setTimeout(() => setIsAnimating(false), transitionDuration);
+        } else {
+          // Normal movement based on current direction
+          setIsAnimating(true);
+          if (autoplayDirection === 1) {
+            setCurrentIndex(prev => Math.min(prev + 1, maxIndex));
+          } else {
+            setCurrentIndex(prev => Math.max(prev - 1, 0));
+          }
+          setTimeout(() => setIsAnimating(false), transitionDuration);
+        }
+      }
+    }, autoplayInterval);
+    
+    return () => clearInterval(interval);
+  }, [autoplay, isPaused, currentIndex, maxIndex, loop, autoplayInterval, isAnimating, transitionDuration, autoplayDirection]);
+
+  // Setup touch event handlers for mobile
+  useEffect(() => {
+    const sliderElement = sliderRef.current;
+    if (!sliderElement || !autoplay) return;
+
+    let touchTimeout: NodeJS.Timeout | null = null;
+    
+    // Pause autoplay when user touches the slider
+    const handleTouchStart = () => {
+      setIsPaused(true);
+      // Clear any existing timeout
+      if (touchTimeout) {
+        clearTimeout(touchTimeout);
+        touchTimeout = null;
+      }
+    };
+    
+    // Resume autoplay after a delay when user stops touching
+    const handleTouchEnd = () => {
+      // Resume autoplay after 3 seconds of no interaction
+      touchTimeout = setTimeout(() => {
+        setIsPaused(false);
+      }, 3000);
+    };
+    
+    // Add touch event listeners
+    sliderElement.addEventListener('touchstart', handleTouchStart, { passive: true });
+    sliderElement.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    // Cleanup
+    return () => {
+      if (touchTimeout) {
+        clearTimeout(touchTimeout);
+      }
+      sliderElement.removeEventListener('touchstart', handleTouchStart);
+      sliderElement.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [autoplay]);
+
   // Default hover content if no custom renderer is provided
   const defaultHoverContent = (item: SliderItem) => (
     <div className={styles.hoverContent}>
@@ -216,6 +364,10 @@ const Slider: React.FC<SliderProps> = ({
     // Add clickable behavior if item has a link or fullscreen view is enabled
     const isClickable = !!item.link || !!onItemClick || enableFullScreenView;
     
+    // Custom class for mobile hover always-on effect
+    const wrapperClassNames = [styles.itemWrapper];
+    if (isMobileView) wrapperClassNames.push(styles.mobileHoverActive);
+    
     return (
       <div 
         key={item.id || index} 
@@ -229,7 +381,7 @@ const Slider: React.FC<SliderProps> = ({
         }}
       >
         <div 
-          className={styles.itemWrapper}
+          className={wrapperClassNames.join(' ')}
           onClick={(e) => isClickable && handleItemClick(item, e)}
           onKeyDown={(e) => {
             if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
@@ -257,11 +409,16 @@ const Slider: React.FC<SliderProps> = ({
 
   return (
     <>
-      <div className={styles.sliderContainer}>
+      <div 
+        ref={sliderRef}
+        className={styles.sliderContainer}
+        onMouseEnter={() => !isMobileView && setIsPaused(true)}
+        onMouseLeave={() => !isMobileView && setIsPaused(false)}
+      >
         <button 
           className={`${styles.sliderArrow} ${styles.left}`} 
           onClick={handlePrev} 
-          disabled={currentIndex === 0 || isAnimating}
+          disabled={(currentIndex === 0 && (!loop || !isMobileView)) || isAnimating}
           aria-label="Previous slide"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -282,7 +439,7 @@ const Slider: React.FC<SliderProps> = ({
         <button 
           className={`${styles.sliderArrow} ${styles.right}`} 
           onClick={handleNext} 
-          disabled={currentIndex === maxIndex || isAnimating}
+          disabled={(currentIndex === maxIndex && (!loop || !isMobileView)) || isAnimating}
           aria-label="Next slide"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">

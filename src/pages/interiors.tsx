@@ -99,6 +99,8 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
         mobileItems={1}
         tabletItems={2}
         transitionDuration={500}
+        autoplay={true}
+        autoplayInterval={5000}
         enableFullScreenView={false}
         fullScreenPredicate={fullScreenPredicate}
         onItemClick={handleItemClick}
