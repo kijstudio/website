@@ -75,6 +75,14 @@ const Slider: React.FC<SliderProps> = ({
   // Track autoplay direction (1 = forward, -1 = backward)
   const [autoplayDirection, setAutoplayDirection] = useState(1);
   
+  // Track touch/swipe state
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isSwiping, setIsSwiping] = useState(false);
+  
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+  
   // Calculate number of items per page based on screen size
   const getItemsPerPage = () => {
     if (typeof window !== 'undefined') {
@@ -285,37 +293,81 @@ const Slider: React.FC<SliderProps> = ({
 
     let touchTimeout: NodeJS.Timeout | null = null;
     
-    // Pause autoplay when user touches the slider
-    const handleTouchStart = () => {
-      setIsPaused(true);
-      // Clear any existing timeout
-      if (touchTimeout) {
-        clearTimeout(touchTimeout);
-        touchTimeout = null;
-      }
-    };
-    
     // Resume autoplay after a delay when user stops touching
-    const handleTouchEnd = () => {
+    const handleAutoplayResume = () => {
       // Resume autoplay after 3 seconds of no interaction
       touchTimeout = setTimeout(() => {
         setIsPaused(false);
       }, 3000);
     };
     
-    // Add touch event listeners
-    sliderElement.addEventListener('touchstart', handleTouchStart, { passive: true });
-    sliderElement.addEventListener('touchend', handleTouchEnd, { passive: true });
-    
-    // Cleanup
+    // Clean up event handlers
     return () => {
       if (touchTimeout) {
         clearTimeout(touchTimeout);
       }
-      sliderElement.removeEventListener('touchstart', handleTouchStart);
-      sliderElement.removeEventListener('touchend', handleTouchEnd);
     };
   }, [autoplay]);
+
+  // Handle swipe gestures
+  const handleTouchStart = (e: React.TouchEvent) => {
+    // Handle swipe detection
+    setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(null);
+    setIsSwiping(false);
+    
+    // Pause autoplay during interaction if enabled
+    if (autoplay) {
+      setIsPaused(true);
+    }
+  };
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+    setIsSwiping(true);
+  };
+  
+  const handleTouchEnd = () => {
+    // Handle swipe navigation
+    if (touchStart && touchEnd) {
+      const distance = touchStart - touchEnd;
+      const isLeftSwipe = distance > minSwipeDistance;
+      const isRightSwipe = distance < -minSwipeDistance;
+      
+      if (isLeftSwipe && !isAnimating) {
+        handleNext();
+      } else if (isRightSwipe && !isAnimating) {
+        handlePrev();
+      }
+    }
+    
+    // Reset swipe state
+    setTimeout(() => {
+      setIsSwiping(false);
+    }, 300);
+    
+    // Reset touch coordinates
+    setTouchStart(null);
+    setTouchEnd(null);
+    
+    // Resume autoplay after a delay if enabled
+    if (autoplay) {
+      setTimeout(() => {
+        setIsPaused(false);
+      }, 3000);
+    }
+  };
+
+  // Prevent click when swiping
+  const handleItemClickWithSwipePrevention = (item: SliderItem, event: React.MouseEvent) => {
+    if (isSwiping) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    
+    handleItemClick(item, event);
+  };
 
   // Default hover content if no custom renderer is provided
   const defaultHoverContent = (item: SliderItem) => (
@@ -326,7 +378,9 @@ const Slider: React.FC<SliderProps> = ({
           className={styles.linkIndicator}
           onClick={(e) => {
             e.stopPropagation(); // Prevent event bubbling to parent
-            handleItemClick(item, e);
+            if (!isSwiping) {
+              handleItemClick(item, e);
+            }
           }}
           role="button"
           tabIndex={0}
@@ -382,7 +436,7 @@ const Slider: React.FC<SliderProps> = ({
       >
         <div 
           className={wrapperClassNames.join(' ')}
-          onClick={(e) => isClickable && handleItemClick(item, e)}
+          onClick={(e) => isClickable && handleItemClickWithSwipePrevention(item, e)}
           onKeyDown={(e) => {
             if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
               e.preventDefault();
@@ -414,6 +468,9 @@ const Slider: React.FC<SliderProps> = ({
         className={styles.sliderContainer}
         onMouseEnter={() => !isMobileView && setIsPaused(true)}
         onMouseLeave={() => !isMobileView && setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <button 
           className={`${styles.sliderArrow} ${styles.left}`} 
