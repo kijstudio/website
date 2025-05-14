@@ -9,16 +9,15 @@
 
 .footer {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: #888;
-  padding: 1.5rem 0;
-  height: 60px;
+  padding: 1rem 0;
 }
 
 @media screen and (max-width: 768px) {
   .contentInner {
     padding-top: 60px;
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - 70px);
   }
   
   .footer {

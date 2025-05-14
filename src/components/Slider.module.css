@@ -22,10 +22,10 @@
 
 @media screen and (max-width: 768px) {
   .sliderContainer {
-    min-height: calc(100vh - 111.2px);
+    min-height: calc(100vh - 130px);
   }
   .sliderTrackContainer {
-    min-height: calc(100vh - 111.2px);
+    min-height: calc(100vh - 130px);
   }
 }
 
