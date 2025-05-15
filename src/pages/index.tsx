@@ -21,9 +21,32 @@ const HomePage: React.FC = () => {
     console.log("handlePlaying")
   }
 
+  const handleLoadedMetadata = () => {
+    setIsVideoLoading(false)
+    console.log("handleLoadedMetadata")
+  }
+
+  const handleLoadedData = () => {
+    setIsVideoLoading(false)
+    console.log("handleLoadedData")
+  }
+
+  const handleLoadStart = () => {
+    setIsVideoLoading(false)
+    console.log("handleLoadStart")
+  }
+  
+  
+  
+
   useEffect(() => {
-    videoRef.current?.play()
-  }, [videoRef.current])
+    console.log("useEffect")
+    if (videoRef.current) {
+      console.log("videoRef.current", videoRef.current)
+      videoRef.current.play()
+      //alert("useEffect")
+    }
+  }, [videoRef])
 
   // Define the left content section
   const leftContent = (
@@ -79,6 +102,10 @@ const HomePage: React.FC = () => {
         loop
         className={styles.homeVideo}
         preload="none"
+        onLoadedMetadata={handleLoadedMetadata}
+        onLoadedData={handleLoadedData}
+        onLoadStart={handleLoadStart}
+        onLoad={handleLoad}
         onCanPlay={handleCanPlay}
         onPlaying={handlePlaying}
       >
