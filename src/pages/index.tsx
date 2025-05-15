@@ -35,7 +35,13 @@ const HomePage: React.FC = () => {
     setIsVideoLoading(false)
     console.log("handleLoadStart")
   }
+
+  const handleLoad = () => {
+    setIsVideoLoading(false)
+    console.log("handleLoad")
+  }
   
+
   
   
 
