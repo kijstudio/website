@@ -420,7 +420,6 @@ const Slider: React.FC<SliderProps> = ({
     
     // Custom class for mobile hover always-on effect
     const wrapperClassNames = [styles.itemWrapper];
-    if (isMobileView) wrapperClassNames.push(styles.mobileHoverActive);
     
     return (
       <div 

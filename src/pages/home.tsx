@@ -12,54 +12,31 @@ const HomePage: React.FC = () => {
   const videoRef = React.useRef<HTMLVideoElement>(null)
   const mobileVideoRef = React.useRef<HTMLVideoElement>(null)
 
+  const handleMobileVideoCanPlay = () => {
+    if (mobileVideoRef.current && isVideoLoading) {
+      setIsVideoLoading(false)
+    }
+  }
+
   React.useEffect(() => {
-    // If there's no video source, we shouldn't show loading state
-    if (!videoSrc) {
-      setIsVideoLoading(false)
-      return
+    if (mobileVideoRef.current && !isVideoLoading) {
+      mobileVideoRef.current.pause();
+      mobileVideoRef.current.currentTime = 0;
+      mobileVideoRef.current.play(); // workaround for autoplay not working on mobile
     }
-
-    console.log("Video source exists:", videoSrc)
-
-    // If the video is already loaded in the DOM
-    if (videoRef.current && videoRef.current.readyState >= 3) {
-      console.log(
-        "Video already loaded (readyState):",
-        videoRef.current.readyState
-      )
-      setIsVideoLoading(false)
+    if (videoRef.current && !isVideoLoading) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      videoRef.current.play(); // workaround for autoplay not working on mobile
     }
+  }, [isVideoLoading]);
 
-    // Fallback: Set a timeout to stop showing loading screen after 5 seconds
-    // regardless of whether the video loaded properly
-    const timeoutId = setTimeout(() => {
-      console.log("Fallback timeout triggered - forcing load complete")
-      setIsVideoLoading(false)
-    }, 10000)
 
-    return () => clearTimeout(timeoutId)
-  }, [])
-
-  const handleVideoLoaded = () => {
-    console.log("Video loaded event triggered")
-    setIsVideoLoading(false)
-  }
-
-  const handleVideoLoadedMetadata = () => {
-    console.log("Video metadata loaded")
-  }
-
-  const handleVideoCanPlay = () => {
-    console.log("Video can play now")
-    setIsVideoLoading(false)
-  }
 
   const handleVideoError = (
     e: React.SyntheticEvent<HTMLVideoElement, Event>
   ) => {
     console.error("Video error:", e)
-    // If video errors, we should stop showing loading screen
-    setIsVideoLoading(false)
   }
 
   // Define the left content section
@@ -119,10 +96,6 @@ const HomePage: React.FC = () => {
         playsInline
         className={styles.homeVideo}
         poster={bgImage}
-        onLoadedData={handleVideoLoaded}
-        onLoad={handleVideoLoaded}
-        onLoadedMetadata={handleVideoLoadedMetadata}
-        onCanPlay={handleVideoCanPlay}
         onError={handleVideoError}
       >
         <source src={videoSrc} type="video/webm" />
@@ -154,10 +127,7 @@ const HomePage: React.FC = () => {
         playsInline
         className={styles.mobileBackgroundVideo}
         poster={bgImage}
-        onLoadedData={handleVideoLoaded}
-        onLoad={handleVideoLoaded}
-        onLoadedMetadata={handleVideoLoadedMetadata}
-        onCanPlay={handleVideoCanPlay}
+        onCanPlay={handleMobileVideoCanPlay}
         onError={handleVideoError}
       >
         <source src={videoSrc} type="video/webm" />
