@@ -72,7 +72,6 @@ const HomePage: React.FC = () => {
         ref={videoRef}
         muted
         loop
-        playsInline
         className={styles.homeVideo}
         preload="none"
         onCanPlay={handleCanPlay}
