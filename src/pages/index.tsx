@@ -5,15 +5,20 @@ import * as styles from "./index.module.css"
 import Seo from "../components/seo"
 import SplitScreen from "../components/SplitScreen"
 import videoSrc from "../movies/P2.webm"
+import { useEffect } from "react"
 
 const HomePage: React.FC = () => {
   const [isVideoLoading, setIsVideoLoading] = React.useState(true)
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
   const handleCanPlay = () => {
-    videoRef.current?.play()
     setIsVideoLoading(false)
+    console.log("handleCanPlay")
   }
+
+  useEffect(() => {
+    videoRef.current?.play()
+  }, [videoRef.current])
 
   // Define the left content section
   const leftContent = (
@@ -69,6 +74,8 @@ const HomePage: React.FC = () => {
         loop
         playsInline
         className={styles.homeVideo}
+        preload="none"
+        onLoad={handleLoad}
         onCanPlay={handleCanPlay}
       >
         <source src={videoSrc} type="video/webm" />
