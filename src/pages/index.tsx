@@ -75,7 +75,6 @@ const HomePage: React.FC = () => {
         playsInline
         className={styles.homeVideo}
         preload="none"
-        onLoad={handleLoad}
         onCanPlay={handleCanPlay}
       >
         <source src={videoSrc} type="video/webm" />
