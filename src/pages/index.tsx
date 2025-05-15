@@ -20,6 +20,13 @@ const HomePage: React.FC = () => {
     }
   }
 
+  const handleVideoCanPlay = () => {
+    console.log("handleVideoCanPlay")
+    if (videoRef.current && isVideoLoading) {
+      setIsVideoLoading(false)
+    }
+  }
+
   React.useEffect(() => {
     if (mobileVideoRef.current && isVideoLoading) {
       mobileVideoRef.current.play(); // workaround for autoplay not working on mobile
@@ -104,6 +111,8 @@ const HomePage: React.FC = () => {
         playsInline
         className={styles.homeVideo}
         onError={handleVideoError}
+        onCanPlay={handleVideoCanPlay}
+        onLoad={handleVideoCanPlay}
       >
         <source src={videoSrc} type="video/webm" />
         Your browser does not support the video tag.
