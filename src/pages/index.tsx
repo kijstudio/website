@@ -16,6 +16,11 @@ const HomePage: React.FC = () => {
     console.log("handleCanPlay")
   }
 
+  const handlePlaying = () => {
+    setIsVideoLoading(false)
+    console.log("handlePlaying")
+  }
+
   useEffect(() => {
     videoRef.current?.play()
   }, [videoRef.current])
@@ -75,6 +80,7 @@ const HomePage: React.FC = () => {
         className={styles.homeVideo}
         preload="none"
         onCanPlay={handleCanPlay}
+        onPlaying={handlePlaying}
       >
         <source src={videoSrc} type="video/webm" />
         Your browser does not support the video tag.
