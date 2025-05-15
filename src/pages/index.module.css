@@ -79,6 +79,18 @@
   left: 0;
 }
 
+@media screen and (max-width: 768px) {
+  .videoWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 100;
+  }
+}
+
 /* Mobile video background styles */
 .mobileVideoBackground {
   display: none;

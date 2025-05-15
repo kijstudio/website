@@ -9,49 +9,10 @@ import videoSrc from "../movies/P2.webm"
 const HomePage: React.FC = () => {
   const [isVideoLoading, setIsVideoLoading] = React.useState(true)
   const videoRef = React.useRef<HTMLVideoElement>(null)
-  const mobileVideoRef = React.useRef<HTMLVideoElement>(null)
 
-  console.log("isVideoLoading", isVideoLoading)
-
-  const handleMobileVideoCanPlay = () => {
-    console.log("handleMobileVideoCanPlay")
-    if (mobileVideoRef.current && isVideoLoading) {
-      setIsVideoLoading(false)
-    }
-  }
-
-  const handleVideoCanPlay = () => {
-    console.log("handleVideoCanPlay")
-    if (videoRef.current && isVideoLoading) {
-      setIsVideoLoading(false)
-    }
-  }
-
-  React.useEffect(() => {
-    if (mobileVideoRef.current && isVideoLoading) {
-      mobileVideoRef.current.play(); // workaround for autoplay not working on mobile
-    }
-
-    if (videoRef.current && isVideoLoading) {
-      videoRef.current.play(); // workaround for autoplay not working on mobile
-    }
-
-    if (mobileVideoRef.current && !isVideoLoading) {
-      mobileVideoRef.current.pause();
-      mobileVideoRef.current.currentTime = 0;
-      mobileVideoRef.current.play(); // workaround for autoplay not working on mobile
-    }
-    if (videoRef.current && !isVideoLoading) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-      videoRef.current.play(); // workaround for autoplay not working on mobile
-    }
-  }, [isVideoLoading]);
-
-  const handleVideoError = (
-    e: React.SyntheticEvent<HTMLVideoElement, Event>
-  ) => {
-    console.error("Video error:", e)
+  const handleCanPlay = () => {
+    videoRef.current?.play()
+    setIsVideoLoading(false)
   }
 
   // Define the left content section
@@ -65,7 +26,7 @@ const HomePage: React.FC = () => {
         className={`logo ${styles.logo}`}
         layout="fixed"
         formats={["auto", "webp"]}
-        quality={95}
+        quality={95}    
       />
       <div className={styles.info}>
         <p>
@@ -101,55 +62,20 @@ const HomePage: React.FC = () => {
   )
 
   // Define the right content section with video or fallback image
-  const rightContent = videoSrc ? (
-    <div className={styles.videoWrapper}>
+  const rightContent = <div className={styles.videoWrapper}>
       <video
         ref={videoRef}
-        autoPlay
         muted
         loop
         playsInline
         className={styles.homeVideo}
-        onError={handleVideoError}
-        onCanPlay={handleVideoCanPlay}
-        onLoad={handleVideoCanPlay}
+        onCanPlay={handleCanPlay}
       >
         <source src={videoSrc} type="video/webm" />
         Your browser does not support the video tag.
       </video>
     </div>
-  ) : (
-    <StaticImage
-      src={"../images/main.png"}
-      alt="Featured project"
-      className={styles.fullImage}
-      placeholder="blurred"
-      layout="fullWidth"
-      style={{ height: "100%", width: "100%" }}
-      objectFit="cover"
-      formats={["auto", "webp"]}
-      quality={95}
-    />
-  )
-
-  // Create the mobile video background element
-  const mobileVideoBackground = videoSrc ? (
-    <div className={styles.mobileVideoBackground}>
-      <video
-        ref={mobileVideoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        className={styles.mobileBackgroundVideo}
-        onCanPlay={handleMobileVideoCanPlay}
-        onLoad={handleMobileVideoCanPlay}
-        onError={handleVideoError}
-      >
-        <source src={videoSrc} type="video/webm" />
-      </video>
-    </div>
-  ) : null
+  
 
   return (
     <>
@@ -170,7 +96,6 @@ const HomePage: React.FC = () => {
           isVideoLoading ? styles.hidden : ""
         }`}
       >
-        {mobileVideoBackground}
         <SplitScreen
           leftContent={leftContent}
           rightContent={rightContent}
