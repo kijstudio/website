@@ -25,6 +25,10 @@ const HomePage: React.FC = () => {
       mobileVideoRef.current.play(); // workaround for autoplay not working on mobile
     }
 
+    if (videoRef.current && isVideoLoading) {
+      videoRef.current.play(); // workaround for autoplay not working on mobile
+    }
+
     if (mobileVideoRef.current && !isVideoLoading) {
       mobileVideoRef.current.pause();
       mobileVideoRef.current.currentTime = 0;
