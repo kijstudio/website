@@ -41,12 +41,15 @@ const HomePage: React.FC = () => {
     console.log("handleLoad")
   }
   
-
-  
-  
+  useEffect(() => {
+    // wait 10 seconds before playing the video as fallback
+    const timeout = setTimeout(() => {
+      setIsVideoLoading(false)
+    }, 5000)
+    return () => clearTimeout(timeout)
+  }, [])
 
   useEffect(() => {
-    console.log("useEffect")
     if (videoRef.current) {
       console.log("videoRef.current", videoRef.current)
       videoRef.current.play()
