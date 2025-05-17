@@ -87,10 +87,11 @@ export const query = graphql`
       gallery {
         asset {
           gatsbyImageData(
-            width: 1800
-            height: 1200
+            width: 1600
             placeholder: BLURRED
             formats: [AUTO, WEBP]
+            fit: MIN
+            aspectRatio: null
           )
           url
         }
