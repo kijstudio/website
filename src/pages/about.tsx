@@ -3,14 +3,14 @@ import { PageProps } from "gatsby"
 import Seo from "../components/seo"
 import { StaticImage } from "gatsby-plugin-image"
 import SplitScreen from "../components/SplitScreen"
-import * as styles from "./contact.module.css"
+import * as styles from "./about.module.css"
 import bgImage from "../images/contact.jpg"
 import Header from "../components/header"
 import architekciLogo from "../images/architekci.png"
 import webcraftLogo from "../images/webcraft.png"
 import kFrameLogo from "../images/k-frame-logo.svg"
 
-const ContactPage: React.FC<PageProps> = () => {
+const AboutPage: React.FC<PageProps> = () => {
   // Define left content with the text from the image
   const leftContent = (
     <div className={styles.contactContentWrapper}>
@@ -24,29 +24,6 @@ const ContactPage: React.FC<PageProps> = () => {
             EVERY DETAIL IS CAREFULLY CRAFTED
           </p>
           <p>CONTACT: <a className={styles.contactLink} href="mailto:info@kijstudio.pl">INFO@KIJSTUDIO.PL</a></p>
-        </div>
-
-        <div className={styles.partners}>
-          <h3 className={styles.partnersTitle}>OUR PARTNERS</h3>
-          <div className={styles.partnerLogos}>
-            <img
-              src={architekciLogo}
-              alt="Architekci Team"
-              className={styles.partnerLogo}
-            />
-            <a href="https://webcraftstudio.pl/" target="_blank" rel="noopener noreferrer">
-              <img
-                src={webcraftLogo}
-                alt="Webcraft"
-                className={`${styles.partnerLogo} ${styles.invert}`}
-              />
-            </a>
-            <img
-              src={kFrameLogo}
-              alt="K-Frame"
-              className={`${styles.partnerLogo} ${styles.invert}`}
-            />
-          </div>
         </div>
       </div>
     </div>
@@ -77,9 +54,9 @@ const ContactPage: React.FC<PageProps> = () => {
         className={styles.header}
       />
       <Seo 
-        title="Contact" 
+        title="About Us" 
         description="Get in touch with KIJ Studio" 
-        keywords={["contact", "KIJ Studio", "architecture firm", "visualization studio", "get in touch", "partners"]}
+        keywords={["contact", "about us", "KIJ Studio", "architecture firm", "visualization studio", "get in touch"]}
       />
       <SplitScreen
         leftContent={leftContent}
@@ -93,4 +70,4 @@ const ContactPage: React.FC<PageProps> = () => {
   )
 }
 
-export default ContactPage
+export default AboutPage

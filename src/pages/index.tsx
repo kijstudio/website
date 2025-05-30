@@ -86,11 +86,11 @@ const HomePage: React.FC = () => {
           Visualizations
         </Link>
         <Link
-          to="/interiors"
+          to="/interior-design"
           className={styles.navLink}
           activeClassName={styles.navLinkActive}
         >
-          Interiors
+          Interior Design
         </Link>
         <Link
           to="/contact"

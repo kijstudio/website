@@ -87,7 +87,7 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
 
   return (
     <Layout
-      title="Interiors"
+      title="Interior Design"
       description="Explore our interior design"
       keywords={["interior design", "interior visualization", "home design", "KIJ Studio", "living spaces", "interior projects"]}
     >
