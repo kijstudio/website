@@ -1,5 +1,5 @@
 import * as React from "react"
-import { graphql, PageProps } from "gatsby"
+import { graphql, PageProps, Link } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
@@ -50,6 +50,11 @@ const InteriorTemplate: React.FC<PageProps<InteriorTemplateData>> = ({ data }) =
       <div className={styles.container}>
         {/* Left column - Description */}
         <div className={styles.descriptionColumn}>
+          <Link to="/interior-design" className={styles.backButton}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 11H7.414l4.293-4.293c0.391-0.391 0.391-1.023 0-1.414s-1.023-0.391-1.414 0l-6 6c-0.391 0.391-0.391 1.023 0 1.414l6 6c0.391 0.391 1.023 0.391 1.414 0s0.391-1.023 0-1.414L7.414 13H20c0.552 0 1 0.447 1 1s-0.448 1-1 1z"/>
+            </svg>
+          </Link>
           <h1 className={styles.title}>{interior.title}</h1>
         </div>
         
