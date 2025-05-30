@@ -13,9 +13,10 @@
   flex: 1 1 25%;
   min-width: 300px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 0;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem;
   position: relative;
 
   @media (max-width: 992px) {
@@ -46,21 +47,22 @@
   font-size: 1.2rem;
   line-height: 1.2;
   margin: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 /* Back Button Styling */
 .backButton {
-  position: absolute;
-  bottom: 2rem;
-  left: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   color: #666;
   text-decoration: none;
   padding: 0.5rem;
   border-radius: 50%;
   transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
 }
 
 .backButton:hover {
@@ -96,23 +98,36 @@
     justify-content: center;
     padding-top: 1rem;
     gap: 1rem;
+    position: static;
   }
 
   .sliderColumn {
     min-height: 70vh;
   }
 
-  /* Mobile back button styling */
+  /* Mobile/Tablet: Arrow aligned with text on the left */
   .backButton {
     position: static;
     margin-bottom: 0;
     color: white;
     background-color: transparent;
     flex-shrink: 0;
+    border-radius: 0;
+    padding: 0;
+    align-self: center;
   }
 
   .backButton:hover {
     color: rgba(255, 255, 255, 0.8);
     background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(-2px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .descriptionColumn {
+    min-height: auto;
+    padding: 1rem;
+    position: static;
   }
 } 

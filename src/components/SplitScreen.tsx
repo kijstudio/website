@@ -22,7 +22,7 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
 }) => {
   // Calculate the grid template columns based on provided ratios
   const gridTemplateColumns = `${leftRatio}fr ${rightRatio}fr`;
-  
+  const videoRef = React.useRef<HTMLVideoElement>(null);
   // Create a unique ID for the section
   const sectionId = React.useMemo(() => `section-${Math.random().toString(36).substr(2, 9)}`, []);
   
@@ -46,15 +46,21 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
     }
   }, [backgroundImageSrc, sectionId]);
 
+  React.useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  }, [backgroundVideoSrc]);
+
   // Create video background element if backgroundVideoSrc is provided
   const videoBackground = backgroundVideoSrc ? (
     <div className={styles.videoBackground}>
       <video
-        autoPlay
         muted
         loop
         playsInline
         className={styles.backgroundVideo}
+        ref={videoRef}
       >
         <source src={backgroundVideoSrc} type="video/mp4" />
       </video>

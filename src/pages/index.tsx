@@ -6,6 +6,7 @@ import Seo from "../components/seo"
 import SplitScreen from "../components/SplitScreen"
 import videoSrc from "../movies/P2.webm"
 import { useEffect } from "react"
+import logo from "../images/logo.png"
 
 const HomePage: React.FC = () => {
   const [isVideoLoading, setIsVideoLoading] = React.useState(true)
@@ -52,7 +53,12 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     if (videoRef.current) {
       console.log("videoRef.current", videoRef.current)
+      videoRef.current.muted = true
+      videoRef.current.loop = true
+      videoRef.current.playsInline = true
+      videoRef.current.preload = "none"
       videoRef.current.play()
+      //videoRef.current.play()
       //alert("useEffect")
     }
   }, [videoRef])
@@ -61,13 +67,13 @@ const HomePage: React.FC = () => {
   const leftContent = (
     <div className={styles.contentWrapper}>
       <StaticImage
-        src="../images/logo.png"
+        src={"../images/logo.png"}
         width={200}
         alt="KIJ Studio"
         placeholder="blurred"
         className={`logo ${styles.logo}`}
-        layout="fixed"
         formats={["auto", "webp"]}
+        layout="fixed"
         quality={95}    
       />
       <div className={styles.info}>
@@ -107,10 +113,10 @@ const HomePage: React.FC = () => {
   const rightContent = <div className={styles.videoWrapper}>
       <video
         ref={videoRef}
-        muted
-        loop
+        muted={true}
+        loop={true}
+        playsInline={true}
         className={styles.homeVideo}
-        preload="none"
         onLoadedMetadata={handleLoadedMetadata}
         onLoadedData={handleLoadedData}
         onLoadStart={handleLoadStart}
