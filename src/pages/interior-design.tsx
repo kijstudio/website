@@ -47,7 +47,7 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
       livingArea: item.livingArea,
       image: item.gallery[0].asset.gatsbyImageData,
       imageAlt: item.gallery[0].alt || item.title,
-      link: item.slug ? `/interiors/${item.slug.current}` : undefined,
+      link: item.slug ? `/interior-design/${item.slug.current}` : undefined,
       singleImageGallery: item.gallery.length === 1,
       galleryLength: item.gallery.length
     }))
