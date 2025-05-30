@@ -69,6 +69,7 @@ const Slider: React.FC<SliderProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [hasDragged, setHasDragged] = useState(false);
   
   // State to track if we're in mobile view
   const [isMobileView, setIsMobileView] = useState(false);
@@ -514,6 +515,12 @@ const Slider: React.FC<SliderProps> = ({
   const handleImageClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     
+    // Don't zoom if user has just finished dragging
+    if (hasDragged) {
+      setHasDragged(false);
+      return;
+    }
+    
     if (zoomLevel === 1) {
       // Zoom in to cursor position
       const rect = e.currentTarget.getBoundingClientRect();
@@ -532,7 +539,9 @@ const Slider: React.FC<SliderProps> = ({
   // Handle drag start
   const handleMouseDown = (e: React.MouseEvent) => {
     if (zoomLevel > 1) {
+      e.preventDefault();
       setIsDragging(true);
+      setHasDragged(false); // Reset drag flag
       setDragStart({ x: e.clientX - dragOffset.x, y: e.clientY - dragOffset.y });
     }
   };
@@ -540,6 +549,8 @@ const Slider: React.FC<SliderProps> = ({
   // Handle drag move
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isDragging && zoomLevel > 1) {
+      e.preventDefault();
+      setHasDragged(true); // Mark that dragging has occurred
       const newOffset = {
         x: e.clientX - dragStart.x,
         y: e.clientY - dragStart.y
@@ -552,6 +563,33 @@ const Slider: React.FC<SliderProps> = ({
   const handleMouseUp = () => {
     setIsDragging(false);
   };
+
+  // Add global mouse event handlers for better drag experience
+  React.useEffect(() => {
+    if (isDragging) {
+      const handleGlobalMouseMove = (e: MouseEvent) => {
+        e.preventDefault();
+        setHasDragged(true); // Mark that dragging has occurred
+        const newOffset = {
+          x: e.clientX - dragStart.x,
+          y: e.clientY - dragStart.y
+        };
+        setDragOffset(newOffset);
+      };
+
+      const handleGlobalMouseUp = () => {
+        setIsDragging(false);
+      };
+
+      document.addEventListener('mousemove', handleGlobalMouseMove);
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+
+      return () => {
+        document.removeEventListener('mousemove', handleGlobalMouseMove);
+        document.removeEventListener('mouseup', handleGlobalMouseUp);
+      };
+    }
+  }, [isDragging, dragStart.x, dragStart.y]);
 
   return (
     <>
@@ -604,9 +642,6 @@ const Slider: React.FC<SliderProps> = ({
             className={styles.fullscreenContent} 
             onClick={(e) => e.stopPropagation()}
             onWheel={handleWheel}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
           >
             <button 
               className={styles.closeButton} 
