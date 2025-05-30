@@ -92,7 +92,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
   interiors?.forEach(interior => {
     if (interior.slug && interior.slug.current) {
       createPage({
-        path: `/interiors/${interior.slug.current}`,
+        path: `/interior-design/${interior.slug.current}`,
         component: interiorTemplate,
         context: {
           // Pass slug or id to the template query
