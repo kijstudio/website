@@ -50,7 +50,7 @@ const HomePage: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (!isVideoLoading && videoRef.current !== null) {
       console.log("videoRef.current", videoRef.current)
       videoRef.current.muted = true
       videoRef.current.loop = true
@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
       //videoRef.current.play()
       //alert("useEffect")
     }
-  }, [videoRef])
+  }, [videoRef, isVideoLoading])
 
   // Define the left content section
   const leftContent = (
