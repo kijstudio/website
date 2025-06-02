@@ -3,7 +3,7 @@ import { graphql, PageProps, Link } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
-import * as styles from "./interior.module.css"
+import * as styles from "./common.module.css"
 
 interface InteriorTemplateData {
   sanityInterior: {
@@ -25,6 +25,35 @@ const InteriorTemplate: React.FC<PageProps<InteriorTemplateData>> = ({
   data,
 }) => {
   const interior = data.sanityInterior
+
+  // Preload original quality images in the background
+  React.useEffect(() => {
+    if (!interior?.gallery) return
+
+    // Delay preloading to not interfere with initial page load
+    const preloadTimer = setTimeout(() => {
+      interior.gallery.forEach((item, index) => {
+        if (item.asset.url) {
+          const img = new Image()
+          img.src = item.asset.url
+          // Optional: Log when preloading completes (remove in production)
+          img.onload = () => {
+            console.log(
+              `Preloaded image ${index + 1}/${interior.gallery.length}`
+            )
+          }
+          img.onerror = () => {
+            console.warn(
+              `Failed to preload image ${index + 1}:`,
+              item.asset.url
+            )
+          }
+        }
+      })
+    }, 2000) // Wait 2 seconds after component mount
+
+    return () => clearTimeout(preloadTimer)
+  }, [interior?.gallery])
 
   if (!interior) {
     return (

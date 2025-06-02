@@ -15,6 +15,7 @@ interface VisualizationNode {
   gallery: {
     asset: {
       gatsbyImageData: any
+      url: string
     }
     alt: string
     caption?: string
@@ -32,7 +33,7 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
 }) => {
   // Create a flat array of visualizations
   const visualizationsData = data.allSanityVisualisation.nodes
-  
+
   // Map the Sanity data to format expected by the Slider component
   const sliderItems: SliderItem[] = visualizationsData
     .filter(item => item.gallery && item.gallery[0] && item.gallery[0].asset)
@@ -47,45 +48,91 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
       // Add flag to identify items with only one gallery image
       singleImageGallery: item.gallery.length === 1,
       // Add the original gallery length for reference
-      galleryLength: item.gallery.length
-    }));
-  
+      galleryLength: item.gallery.length,
+      fullImageUrl: item.gallery[0].asset.url, // Add full image URL for original quality in popup
+    }))
+
+  // Preload original quality images for single-image gallery items that can be opened in popup
+  React.useEffect(() => {
+    if (!sliderItems?.length) return
+
+    // Delay preloading to not interfere with initial page load
+    const preloadTimer = setTimeout(() => {
+      const singleImageItems = sliderItems.filter(
+        item => item.singleImageGallery
+      )
+
+      singleImageItems.forEach((item, index) => {
+        if (item.fullImageUrl) {
+          const img = new Image()
+          img.src = item.fullImageUrl
+          // Optional: Log when preloading completes (remove in production)
+          img.onload = () => {
+            console.log(
+              `Preloaded single-image visualization ${index + 1}/${
+                singleImageItems.length
+              }: ${item.title}`
+            )
+          }
+          img.onerror = () => {
+            console.warn(
+              `Failed to preload single-image visualization: ${item.title}`,
+              item.fullImageUrl
+            )
+          }
+        }
+      })
+    }, 2000) // Wait 2 seconds after component mount
+
+    return () => clearTimeout(preloadTimer)
+  }, [sliderItems])
+
   // Custom hover content renderer
   const renderHoverContent = (item: SliderItem) => {
     return (
       <div className={styles.hoverContent}>
         <h3 className={styles.imageTitle}>{item.title}</h3>
       </div>
-    );
-  };
+    )
+  }
 
   // Predicate function for enabling fullscreen view
   const fullScreenPredicate = (item: SliderItem) => {
     // Enable fullscreen view for items with only one gallery image
-    return item.singleImageGallery === true;
-  };
+    return item.singleImageGallery === true
+  }
 
   // Handle click event - prevent navigation for single gallery items
   const handleItemClick = (item: SliderItem) => {
     if (item.singleImageGallery) {
       // For single gallery items, let the fullscreen predicate handle it
-      return;
+      return
     }
     // For multi-gallery items, use default navigation
-    return true;
-  };
+    return true
+  }
 
   return (
     <Layout
       title="Visualizations"
       description="Explore our architectural visualizations"
-      keywords={["architectural visualization", "3D rendering", "architectural design", "KIJ Studio", "visualization projects"]}
+      keywords={[
+        "architectural visualization",
+        "3D rendering",
+        "architectural design",
+        "KIJ Studio",
+        "visualization projects",
+      ]}
     >
-      <Slider 
+      <Slider
         items={sliderItems}
         renderHoverContent={renderHoverContent}
         itemsPerPageDefault={4}
-        breakpoints={{ mobile: breakpoints.md, tablet: breakpoints.lg, desktop: breakpoints.xl }}
+        breakpoints={{
+          mobile: breakpoints.md,
+          tablet: breakpoints.lg,
+          desktop: breakpoints.xl,
+        }}
         mobileItems={1}
         tabletItems={2}
         transitionDuration={500}
@@ -101,7 +148,7 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
 
 export const query = graphql`
   query VisualizationsQuery {
-    allSanityVisualisation(sort: {orderRank: ASC}) {
+    allSanityVisualisation(sort: { orderRank: ASC }) {
       nodes {
         title
         description
@@ -115,6 +162,7 @@ export const query = graphql`
               placeholder: BLURRED
               formats: [AUTO, WEBP]
             )
+            url
           }
         }
         _rawGallery

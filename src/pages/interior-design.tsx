@@ -16,6 +16,7 @@ interface InteriorNode {
   gallery: {
     asset: {
       gatsbyImageData: any
+      url: string
     }
     alt: string
     caption?: string
@@ -50,7 +51,43 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
       link: item.slug ? `/interior-design/${item.slug.current}` : undefined,
       singleImageGallery: item.gallery.length === 1,
       galleryLength: item.gallery.length,
+      fullImageUrl: item.gallery[0].asset.url,
     }))
+
+  // Preload original quality images for single-image gallery items that can be opened in popup
+  React.useEffect(() => {
+    if (!sliderItems?.length) return
+
+    // Delay preloading to not interfere with initial page load
+    const preloadTimer = setTimeout(() => {
+      const singleImageItems = sliderItems.filter(
+        item => item.singleImageGallery
+      )
+
+      singleImageItems.forEach((item, index) => {
+        if (item.fullImageUrl) {
+          const img = new Image()
+          img.src = item.fullImageUrl
+          // Optional: Log when preloading completes (remove in production)
+          img.onload = () => {
+            console.log(
+              `Preloaded single-image interior ${index + 1}/${
+                singleImageItems.length
+              }: ${item.title}`
+            )
+          }
+          img.onerror = () => {
+            console.warn(
+              `Failed to preload single-image interior: ${item.title}`,
+              item.fullImageUrl
+            )
+          }
+        }
+      })
+    }, 2000) // Wait 2 seconds after component mount
+
+    return () => clearTimeout(preloadTimer)
+  }, [sliderItems])
 
   // Custom hover content renderer
   const renderHoverContent = (item: SliderItem) => {
@@ -127,6 +164,7 @@ export const query = graphql`
               placeholder: BLURRED
               formats: [AUTO, WEBP]
             )
+            url
           }
         }
         _rawGallery

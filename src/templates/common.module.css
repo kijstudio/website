@@ -1,0 +1,164 @@
+/* Layout container with 1:3 ratio */
+.container {
+    display: flex;
+    flex-direction: row;
+    min-height: 600px;
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    align-items: stretch; /* Ensure children stretch to same height */
+  }
+  
+  /* Left column - Description (1/4 width) */
+  .descriptionColumn {
+    flex: 1 1 25%;
+    min-width: 300px;
+    display: flex;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    @media (max-width: 992px) {
+      padding: 1rem;
+    }
+  }
+  
+  /* Right column - Slider (3/4 width) */
+  .sliderColumn {
+    height: auto;
+    flex: 3 1 75%;
+    min-width: 300px;
+    min-height: 100px;
+  }
+  
+  @media (max-width: 992px) {
+    .descriptionColumn {
+      min-height: 90vh;
+    }
+  }
+
+  /* Description wrapper for content positioning */
+  .descriptionWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Title styling */
+  .title {
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  /* Description styling */
+  .description {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    word-break: break-word;
+  }
+  
+  /* Back Button Styling */
+  .backButton {
+    position: absolute;
+    bottom: 0rem;
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    text-decoration: none;
+    padding: 0.5rem;
+    transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+    &:hover {
+        color: #000;
+        background-color: rgba(0, 0, 0, 0.05);
+        transform: translateX(-2px);
+    }
+  }
+
+  @media (max-width: 992px) {
+    .container {
+        min-height: 90vh;
+    }
+  }
+  
+  .backButton svg {
+    transition: transform 0.2s ease;
+  }
+  
+  .backButton:hover svg {
+    transform: translateX(-1px);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 1200px) {
+    .container {
+      flex-direction: column;
+    }
+    
+    .descriptionColumn,
+    .sliderColumn {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+    
+    .descriptionColumn {
+      min-height: 120px;
+      padding: 1rem;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      padding-top: 1rem;
+      gap: 1rem;
+
+      justify-content: space-between;
+      position: static;
+    }
+  
+    .sliderColumn {
+      min-height: 70vh;
+    }
+
+    /* Mobile/Tablet: Arrow aligned with text on the left */
+    .backButton {
+      position: static;
+      margin-bottom: 0;
+      color: black;
+      background-color: transparent;
+      flex-shrink: 0;
+      border-radius: 0;
+      align-self: center;
+    }
+
+    .backButton:hover {
+      color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.1);
+      transform: translateX(-2px);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .descriptionColumn {
+      min-height: auto;
+      padding: 1rem;
+      position: static;
+    }
+    .backButton {
+      color: white;
+      background-color: transparent;
+    }
+    .backButton:hover {
+      color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  } 

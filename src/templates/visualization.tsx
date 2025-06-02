@@ -4,7 +4,7 @@ import { getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Slider, { SliderItem } from "../components/Slider"
-import * as styles from "./visualization.module.css"
+import * as styles from "./common.module.css"
 
 interface VisualizationTemplateData {
   sanityVisualisation: {
@@ -26,6 +26,35 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
   data,
 }) => {
   const visualization = data.sanityVisualisation
+
+  // Preload original quality images in the background
+  React.useEffect(() => {
+    if (!visualization?.gallery) return
+
+    // Delay preloading to not interfere with initial page load
+    const preloadTimer = setTimeout(() => {
+      visualization.gallery.forEach((item, index) => {
+        if (item.asset.url) {
+          const img = new Image()
+          img.src = item.asset.url
+          // Optional: Log when preloading completes (remove in production)
+          img.onload = () => {
+            console.log(
+              `Preloaded image ${index + 1}/${visualization.gallery.length}`
+            )
+          }
+          img.onerror = () => {
+            console.warn(
+              `Failed to preload image ${index + 1}:`,
+              item.asset.url
+            )
+          }
+        }
+      })
+    }, 2000) // Wait 2 seconds after component mount
+
+    return () => clearTimeout(preloadTimer)
+  }, [visualization?.gallery])
 
   if (!visualization) {
     return (
@@ -69,8 +98,10 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
               <path d="M20 11H7.414l4.293-4.293c0.391-0.391 0.391-1.023 0-1.414s-1.023-0.391-1.414 0l-6 6c-0.391 0.391-0.391 1.023 0 1.414l6 6c0.391 0.391 1.023 0.391 1.414 0s0.391-1.023 0-1.414L7.414 13H20c0.552 0 1 0.447 1 1s-0.448 1-1 1z" />
             </svg>
           </Link>
-          <h1 className={styles.title}>{visualization.title}</h1>
-          <p className={styles.description}>{visualization.description}</p>
+          <div className={styles.descriptionWrapper}>
+            <h1 className={styles.title}>{visualization.title}</h1>
+            <p className={styles.description}>{visualization.description}</p>
+          </div>
         </div>
 
         {/* Right column - Slider */}
