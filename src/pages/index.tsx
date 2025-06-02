@@ -13,11 +13,6 @@ const HomePage: React.FC = () => {
   const [videoError, setVideoError] = React.useState(false)
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
-  // Detect if we're on iOS
-  const isIOS =
-    typeof window !== "undefined" &&
-    /iPad|iPhone|iPod/.test(navigator.userAgent)
-
   const handleVideoReady = async () => {
     if (!videoRef.current) return
 
@@ -73,7 +68,7 @@ const HomePage: React.FC = () => {
         clearTimeout(timeout)
       }
     }
-  }, [isVideoLoading, isIOS])
+  }, [isVideoLoading])
 
   // Define the left content section
   const leftContent = (
