@@ -492,26 +492,6 @@
   user-select: none;
 }
 
-/* Zoom Instructions */
-.zoomInstructions {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 8px 16px;
-  font-size: 0.8rem;
-  opacity: 0.8;
-  pointer-events: none;
-  z-index: 1002;
-}
-
-.zoomInstructions p {
-  margin: 0;
-  white-space: nowrap;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -532,11 +512,7 @@
     width: 36px;
     height: 36px;
   }
-  
-  .zoomInstructions {
-    display: none; /* Hide zoom instructions on mobile */
-  }
-  
+
   .closeButton {
     top: -30px;
     font-size: 28px;

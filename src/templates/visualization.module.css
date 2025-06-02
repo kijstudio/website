@@ -131,3 +131,10 @@
     position: static;
   }
 } 
+
+.description {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  word-break: break-word;
+}

@@ -49,18 +49,11 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
       imageAlt: item.gallery[0].alt || item.title,
       link: item.slug ? `/interior-design/${item.slug.current}` : undefined,
       singleImageGallery: item.gallery.length === 1,
-      galleryLength: item.gallery.length
+      galleryLength: item.gallery.length,
     }))
 
   // Custom hover content renderer
   const renderHoverContent = (item: SliderItem) => {
-    const handleLinkClick = (e: React.MouseEvent) => {
-      e.stopPropagation()
-      if (item.link) {
-        navigate(item.link)
-      }
-    }
-
     return (
       <div className={styles.hoverContent}>
         <h3 className={styles.imageTitle}>{item.title}</h3>
@@ -71,25 +64,32 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
       </div>
     )
   }
-  
+
   // Predicate function for enabling fullscreen view
   const fullScreenPredicate = (item: SliderItem) => {
-    return item.singleImageGallery === true;
-  };
-  
+    return item.singleImageGallery === true
+  }
+
   // Handle click event - prevent navigation for single gallery items
   const handleItemClick = (item: SliderItem) => {
     if (item.singleImageGallery) {
-      return;
+      return
     }
-    return true;
-  };
+    return true
+  }
 
   return (
     <Layout
       title="Interior Design"
       description="Explore our interior design"
-      keywords={["interior design", "interior visualization", "home design", "KIJ Studio", "living spaces", "interior projects"]}
+      keywords={[
+        "interior design",
+        "interior visualization",
+        "home design",
+        "KIJ Studio",
+        "living spaces",
+        "interior projects",
+      ]}
     >
       <Slider
         items={sliderItems}
