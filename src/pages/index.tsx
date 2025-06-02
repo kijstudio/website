@@ -22,16 +22,9 @@ const HomePage: React.FC = () => {
     if (!videoRef.current) return
 
     try {
-      // For iOS, we need a simpler approach
-      if (isIOS) {
-        // Just play directly - iOS handles looping automatically
-        await videoRef.current.play()
-        setIsVideoLoading(false)
-      } else {
-        // For other platforms, use the original logic if needed
-        await videoRef.current.play()
-        setIsVideoLoading(false)
-      }
+      // Simple approach for all platforms
+      await videoRef.current.play()
+      setIsVideoLoading(false)
     } catch (error) {
       console.error("Video play failed:", error)
       setVideoError(true)
@@ -65,11 +58,6 @@ const HomePage: React.FC = () => {
       video.loop = true
       video.playsInline = true
 
-      // For iOS, also set autoplay attribute
-      if (isIOS) {
-        video.autoplay = true
-      }
-
       // Load the video
       video.load()
 
@@ -81,7 +69,9 @@ const HomePage: React.FC = () => {
         }
       }, 5000) // 5 second timeout
 
-      return () => clearTimeout(timeout)
+      return () => {
+        clearTimeout(timeout)
+      }
     }
   }, [isVideoLoading, isIOS])
 
@@ -144,7 +134,6 @@ const HomePage: React.FC = () => {
         muted={true}
         loop={true}
         playsInline={true}
-        autoPlay={isIOS} // Enable autoplay for iOS
         preload="auto" // Preload the video
         className={styles.homeVideo}
         onLoadedData={handleLoadedData}
