@@ -106,7 +106,7 @@ const HomePage: React.FC = () => {
           className={styles.navLink}
           activeClassName={styles.navLinkActive}
         >
-          About
+          About us
         </Link>
         <Link
           to="https://www.instagram.com/kijstudio"
