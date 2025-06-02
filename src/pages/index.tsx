@@ -102,11 +102,11 @@ const HomePage: React.FC = () => {
           Interior Design
         </Link>
         <Link
-          to="/contact"
+          to="/about"
           className={styles.navLink}
           activeClassName={styles.navLinkActive}
         >
-          Contact
+          About
         </Link>
         <Link
           to="https://www.instagram.com/kijstudio"
