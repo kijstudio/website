@@ -161,6 +161,39 @@ const HomePage: React.FC = () => {
           "3D renderings",
         ]}
       />
+
+      {/* JSON-LD Structured Data for Organization */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "KIJ Studio",
+          description:
+            "Bringing your dream spaces to life with creative design and breathtaking visuals. Specializing in architectural visualization and interior design.",
+          url:
+            typeof window !== "undefined"
+              ? window.location.origin
+              : "https://kijstudio.com",
+          logo:
+            typeof window !== "undefined"
+              ? window.location.origin + logo
+              : logo,
+          sameAs: ["https://www.instagram.com/kijstudio"],
+          contactPoint: {
+            "@type": "ContactPoint",
+            contactType: "customer service",
+          },
+          areaServed: "Global",
+          knowsAbout: [
+            "Interior Design",
+            "Architectural Visualization",
+            "3D Rendering",
+            "Space Design",
+            "Home Design",
+          ],
+        })}
+      </script>
+
       <div
         className={`${styles.pageContent} ${
           isVideoLoading ? styles.hidden : ""
