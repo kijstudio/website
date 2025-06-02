@@ -674,19 +674,25 @@ const Slider: React.FC<SliderProps> = ({
       {/* Fullscreen image popup */}
       {fullscreenImage && (
         <div className={styles.fullscreenOverlay} onClick={closeFullscreen}>
+          {/* Close button positioned in top-right corner */}
+          <button
+            className={styles.closeButton}
+            onClick={closeFullscreen}
+            aria-label="Close fullscreen view"
+            style={{
+              position: "fixed",
+              top: "20px",
+              right: "20px",
+              zIndex: 1001,
+            }}
+          >
+            ×
+          </button>
           <div
             className={styles.fullscreenContent}
             onClick={e => e.stopPropagation()}
             onWheel={handleWheel}
           >
-            <button
-              className={styles.closeButton}
-              onClick={closeFullscreen}
-              aria-label="Close fullscreen view"
-            >
-              ×
-            </button>
-
             {/* Zoom Controls */}
             <div className={styles.zoomControls}>
               <button
