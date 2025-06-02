@@ -10,7 +10,12 @@ interface SeoProps {
   children?: React.ReactNode
 }
 
-const Seo: React.FC<SeoProps> = ({ description, title, keywords = [], children }) => {
+const Seo: React.FC<SeoProps> = ({
+  description,
+  title,
+  keywords = [],
+  children,
+}) => {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -27,17 +32,19 @@ const Seo: React.FC<SeoProps> = ({ description, title, keywords = [], children }
 
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
-  const metaKeywords = keywords.length > 0 ? keywords.join(", ") : "architecture, visualization, interior design, KIJ Studio"
+  const metaKeywords =
+    keywords.length > 0
+      ? keywords.join(", ")
+      : "architecture, visualization, interior design, KIJ Studio"
 
   return (
     <Helmet
       title={title || defaultTitle}
       titleTemplate={description ? `%s | ${metaDescription}` : undefined}
-      link={[
-        { rel: "icon", type: "image/png", href: favicon }
-      ]}
+      link={[{ rel: "icon", type: "image/png", href: favicon }]}
     >
-      <meta name="description" content={metaDescription} />
+      <meta name="title" content={title} />
+      <meta name="description" content={description} />
       <meta name="keywords" content={metaKeywords} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={metaDescription} />
@@ -51,4 +58,4 @@ const Seo: React.FC<SeoProps> = ({ description, title, keywords = [], children }
   )
 }
 
-export default Seo 
+export default Seo

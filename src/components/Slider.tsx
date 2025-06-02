@@ -490,6 +490,7 @@ const Slider: React.FC<SliderProps> = ({
           <GatsbyImage
             image={getImage(item.image)!}
             alt={item.imageAlt || item.title || ""}
+            title={item.title || ""}
             style={{
               width: "100%",
               height: "100%",
@@ -771,6 +772,7 @@ const Slider: React.FC<SliderProps> = ({
                 <img
                   src={fullscreenImage.fullImageUrl}
                   alt={fullscreenImage.imageAlt || fullscreenImage.title || ""}
+                  title={fullscreenImage.title || ""}
                   className={styles.fullscreenImage}
                   style={{
                     objectFit: "contain",
@@ -783,6 +785,7 @@ const Slider: React.FC<SliderProps> = ({
                 <GatsbyImage
                   image={getImage(fullscreenImage.image)!}
                   alt={fullscreenImage.imageAlt || fullscreenImage.title || ""}
+                  title={fullscreenImage.title || ""}
                   className={styles.fullscreenImage}
                   imgStyle={{
                     objectFit: "contain",
