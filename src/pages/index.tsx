@@ -10,33 +10,80 @@ import * as styles from "./index.module.css"
 
 const HomePage: React.FC = () => {
   const [isVideoLoading, setIsVideoLoading] = React.useState(true)
+  const [videoError, setVideoError] = React.useState(false)
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
-  const handleCanPlay = () => {
+  // Detect if we're on iOS
+  const isIOS =
+    typeof window !== "undefined" &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent)
+
+  const handleVideoReady = async () => {
+    if (!videoRef.current) return
+
+    try {
+      // For iOS, we need a simpler approach
+      if (isIOS) {
+        // Just play directly - iOS handles looping automatically
+        await videoRef.current.play()
+        setIsVideoLoading(false)
+      } else {
+        // For other platforms, use the original logic if needed
+        await videoRef.current.play()
+        setIsVideoLoading(false)
+      }
+    } catch (error) {
+      console.error("Video play failed:", error)
+      setVideoError(true)
+      setIsVideoLoading(false)
+    }
+  }
+
+  const handleVideoPlay = () => {
     setIsVideoLoading(false)
-    console.log("handleCanPlay")
+  }
+
+  const handleVideoError = (
+    e: React.SyntheticEvent<HTMLVideoElement, Event>
+  ) => {
+    console.error("Video error:", e)
+    setVideoError(true)
+    setIsVideoLoading(false)
+  }
+
+  const handleLoadedData = () => {
+    // Video data is loaded, try to play
+    handleVideoReady()
   }
 
   useEffect(() => {
-    // wait 5 seconds before playing the video as fallback
-    const timeout = setTimeout(() => {
-      setIsVideoLoading(false)
-    }, 5000)
-    return () => clearTimeout(timeout)
-  }, [])
+    if (videoRef.current) {
+      const video = videoRef.current
 
-  useEffect(() => {
-    if (!isVideoLoading && videoRef.current !== null) {
-      console.log("videoRef.current", videoRef.current)
-      videoRef.current.muted = true
-      videoRef.current.loop = true
-      videoRef.current.playsInline = true
-      videoRef.current.preload = "none"
-      videoRef.current.play()
-      //videoRef.current.play()
-      //alert("useEffect")
+      // Set video properties
+      video.muted = true
+      video.loop = true
+      video.playsInline = true
+
+      // For iOS, also set autoplay attribute
+      if (isIOS) {
+        video.autoplay = true
+      }
+
+      // Load the video
+      video.load()
+
+      // Add a fallback timeout
+      const timeout = setTimeout(() => {
+        if (isVideoLoading) {
+          console.warn("Video loading timeout, showing content anyway")
+          setIsVideoLoading(false)
+        }
+      }, 5000) // 5 second timeout
+
+      return () => clearTimeout(timeout)
     }
-  }, [videoRef, isVideoLoading])
+  }, [isVideoLoading, isIOS])
 
   // Define the left content section
   const leftContent = (
@@ -97,12 +144,22 @@ const HomePage: React.FC = () => {
         muted={true}
         loop={true}
         playsInline={true}
+        autoPlay={isIOS} // Enable autoplay for iOS
+        preload="auto" // Preload the video
         className={styles.homeVideo}
-        onCanPlay={handleCanPlay}
+        onLoadedData={handleLoadedData}
+        onPlay={handleVideoPlay}
+        onError={handleVideoError}
       >
         <source src={videoSrc} type="video/webm" />
         Your browser does not support the video tag.
       </video>
+      {videoError && (
+        <div className={styles.videoFallback}>
+          {/* You could add a fallback image here */}
+          <p>Video unavailable</p>
+        </div>
+      )}
     </div>
   )
 
