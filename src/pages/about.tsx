@@ -23,7 +23,12 @@ const AboutPage: React.FC<PageProps> = () => {
             CREATIVITY WITH PRECISION, WE BRING YOUR DESIGNS TO LIFE, ENSURING
             EVERY DETAIL IS CAREFULLY CRAFTED
           </p>
-          <p>CONTACT: <a className={styles.contactLink} href="mailto:info@kijstudio.pl">INFO@KIJSTUDIO.PL</a></p>
+          <p>
+            CONTACT:{" "}
+            <a className={styles.contactLink} href="mailto:info@kijstudio.com">
+              INFO@KIJSTUDIO.COM
+            </a>
+          </p>
         </div>
       </div>
     </div>
@@ -45,18 +50,25 @@ const AboutPage: React.FC<PageProps> = () => {
 
   return (
     <div className={styles.contactPage}>
-      <Header 
-        siteTitle="KIJ Studio" 
-        isSticky={true} 
-        transparentBg={true} 
-        fullWidth={true} 
+      <Header
+        siteTitle="KIJ Studio"
+        isSticky={true}
+        transparentBg={true}
+        fullWidth={true}
         navColor="white"
         className={styles.header}
       />
-      <Seo 
-        title="About Us" 
-        description="Get in touch with KIJ Studio" 
-        keywords={["contact", "about us", "KIJ Studio", "architecture firm", "visualization studio", "get in touch"]}
+      <Seo
+        title="About Us"
+        description="Get in touch with KIJ Studio"
+        keywords={[
+          "contact",
+          "about us",
+          "KIJ Studio",
+          "architecture firm",
+          "visualization studio",
+          "get in touch",
+        ]}
       />
       <SplitScreen
         leftContent={leftContent}
