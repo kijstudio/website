@@ -1,14 +1,11 @@
-import * as React from "react"
 import { PageProps } from "gatsby"
-import Seo from "../components/seo"
 import { StaticImage } from "gatsby-plugin-image"
-import SplitScreen from "../components/SplitScreen"
-import * as styles from "./about.module.css"
-import bgImage from "../images/contact.jpg"
+import * as React from "react"
 import Header from "../components/header"
-import architekciLogo from "../images/architekci.png"
-import webcraftLogo from "../images/webcraft.png"
-import kFrameLogo from "../images/k-frame-logo.svg"
+import Seo from "../components/seo"
+import SplitScreen from "../components/SplitScreen"
+import bgImage from "../images/contact.jpg"
+import * as styles from "./about.module.css"
 
 const AboutPage: React.FC<PageProps> = () => {
   // Define left content with the text from the image
