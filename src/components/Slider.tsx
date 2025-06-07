@@ -13,6 +13,7 @@ export interface SliderItem {
   link?: string // Optional link URL for item click navigation
   slug?: string // Optional slug for navigation to detail page
   fullImageUrl?: string // Optional full image URL for navigation to detail page
+  description?: string // Optional description text to display in hover content
   [key: string]: any // Allow any additional props for custom rendering
 }
 
@@ -411,6 +412,9 @@ const Slider: React.FC<SliderProps> = ({
   const defaultHoverContent = (item: SliderItem) => (
     <div className={styles.hoverContent}>
       {item.title && <h3 className={styles.imageTitle}>{item.title}</h3>}
+      {item.description && (
+        <p className={styles.imageDetails}>{item.description}</p>
+      )}
       {item.link && (
         <div
           className={styles.linkIndicator}
@@ -460,6 +464,7 @@ const Slider: React.FC<SliderProps> = ({
 
     // Custom class for mobile hover always-on effect
     const wrapperClassNames = [styles.itemWrapper]
+    if (isClickable) wrapperClassNames.push(styles.clickable)
 
     return (
       <div
@@ -797,7 +802,9 @@ const Slider: React.FC<SliderProps> = ({
             {fullscreenImage.title && (
               <div className={styles.fullscreenCaption}>
                 <h3>{fullscreenImage.title}</h3>
-                {fullscreenImage.caption && <p>{fullscreenImage.caption}</p>}
+                {fullscreenImage.description && (
+                  <p>{fullscreenImage.description}</p>
+                )}
               </div>
             )}
           </div>

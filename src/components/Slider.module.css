@@ -29,8 +29,8 @@
   }
   .itemWrapper.clickable:hover {
     transform: none;
-    cursor: default;
-    opacity: 0;
+    cursor: pointer;
+    opacity: 1;
   }
 }
 
@@ -243,10 +243,9 @@
   text-align: right;
 }
 
-/* Additional details styling */
+/* Description styling */
 .imageDetails {
   color: white;
-  margin: 5px 0 0 0;
   font-size: 0.9rem;
   font-weight: 300;
   opacity: 0;
@@ -254,6 +253,7 @@
   font-family: "futura-pt", sans-serif;
   letter-spacing: 0.2rem;
   text-align: right;
+  margin: 0 0 10px 0;
 }
 
 .imageDetails p {
@@ -294,7 +294,8 @@
 }
 
 .itemWrapper:hover .imageTitle,
-.itemWrapper:hover .imageDetails {
+.itemWrapper:hover .imageDetails,
+.itemWrapper:hover .linkIndicator {
   opacity: 1;
 }
 
@@ -353,8 +354,59 @@
     min-height: 400px;
   }
   
+  /* Disable hover effect and show permanent strip at bottom */
   .hoverContent {
-    padding: 15px;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: auto;
+    top: auto;
+    bottom: 0;
+    max-height: 30%;
+    pointer-events: none; /* Allow clicks to pass through to parent */
+  }
+  
+  /* Always show title on mobile */
+  .imageTitle {
+    opacity: 1;
+    text-align: right;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  /* Always show description on mobile */
+  .imageDetails {
+    opacity: 1;
+    text-align: right;
+    font-size: 0.8rem;
+    width: 100%;
+    margin: 5px 0 10px 0;
+  }
+  
+  /* Always show link indicator on mobile if available */
+  .linkIndicator {
+    opacity: 1;
+    font-size: 0.7rem;
+    padding: 4px 24px 4px 8px;
+    pointer-events: auto; /* Make link indicator clickable */
+  }
+  
+  /* Prevent hover state changes on mobile */
+  .itemWrapper:hover .hoverContent {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Prevent hover animations on mobile */
+  .itemWrapper:hover .imageTitle,
+  .itemWrapper:hover .imageDetails,
+  .itemWrapper:hover .linkIndicator {
+    opacity: 1;
+  }
+  
+  /* Ensure link indicator is always visible */
+  .itemWrapper .linkIndicator {
+    opacity: 1;
   }
 }
 
