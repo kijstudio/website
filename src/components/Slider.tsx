@@ -466,6 +466,9 @@ const Slider: React.FC<SliderProps> = ({
     const wrapperClassNames = [styles.itemWrapper]
     if (isClickable) wrapperClassNames.push(styles.clickable)
 
+    // Apply visibility without animations for mobile view
+    const mobileVisibilityStyle = isMobileView ? { opacity: 1 } : {}
+
     return (
       <div
         key={item.id || index}
@@ -473,9 +476,10 @@ const Slider: React.FC<SliderProps> = ({
         style={{
           width: `${tileWidth}%`,
           flex: `0 0 ${tileWidth}%`,
-          opacity: isVisible ? 1 : 0.3,
+          opacity: isMobileView ? 1 : isVisible ? 1 : 0.3,
           transform: isVisible ? "scale(1)" : "scale(0.95)",
           cursor: isClickable ? "pointer" : "default",
+          ...mobileVisibilityStyle,
         }}
       >
         <div
@@ -647,7 +651,8 @@ const Slider: React.FC<SliderProps> = ({
             className={styles.sliderTrack}
             style={{
               transform: `translateX(${calculateOffset()}%)`,
-              transition: `transform ${transitionDuration}ms ease`,
+              transition: `transform ${transitionDuration}ms cubic-bezier(0.25, 0.1, 0.25, 1.0)`,
+              willChange: "transform",
             }}
           >
             {sliderItems}

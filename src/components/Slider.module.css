@@ -51,7 +51,7 @@
 .sliderTrack {
   display: flex;
   width: 100%;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1.0);
   will-change: transform;
   background: transparent;
   height: 100%;
@@ -119,7 +119,7 @@
   justify-content: center;
   box-sizing: border-box;
   padding: 0 0.75rem;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1.0), opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1.0);
 }
 
 .sliderTile.firstTile {
@@ -357,7 +357,7 @@
   /* Disable hover effect and show permanent strip at bottom */
   .hoverContent {
     padding: 10px 15px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.6) !important; /* Force background to always be visible */
     justify-content: flex-end;
     align-items: flex-end;
     height: auto;
@@ -365,31 +365,36 @@
     bottom: 0;
     max-height: 30%;
     pointer-events: none; /* Allow clicks to pass through to parent */
+    transition: none !important; /* Disable transitions on mobile */
+    opacity: 1 !important; /* Force strip to always be visible */
   }
   
   /* Always show title on mobile */
   .imageTitle {
-    opacity: 1;
+    opacity: 1 !important; /* Force title to always be visible */
     text-align: right;
     font-size: 1rem;
     width: 100%;
+    transition: none !important; /* Disable transitions on mobile */
   }
   
   /* Always show description on mobile */
   .imageDetails {
-    opacity: 1;
+    opacity: 1 !important; /* Force description to always be visible */
     text-align: right;
     font-size: 0.8rem;
     width: 100%;
     margin: 5px 0 10px 0;
+    transition: none !important; /* Disable transitions on mobile */
   }
   
   /* Always show link indicator on mobile if available */
   .linkIndicator {
-    opacity: 1;
+    opacity: 1 !important; /* Force link indicator to always be visible */
     font-size: 0.7rem;
     padding: 4px 24px 4px 8px;
     pointer-events: auto; /* Make link indicator clickable */
+    transition: none !important; /* Disable transitions on mobile */
   }
   
   /* Prevent hover state changes on mobile */
@@ -407,6 +412,35 @@
   /* Ensure link indicator is always visible */
   .itemWrapper .linkIndicator {
     opacity: 1;
+  }
+  
+  /* Override slider tile transitions to prevent flickering */
+  .sliderTile {
+    transition: transform 0.5s ease !important; /* Only animate transform, not opacity */
+  }
+  
+  /* Make sure all elements are visible during transitions */
+  .sliderTile,
+  .sliderTile .itemWrapper,
+  .sliderTile .hoverContent,
+  .sliderTile .imageTitle,
+  .sliderTile .imageDetails,
+  .sliderTile .linkIndicator {
+    will-change: auto !important; /* Don't optimize these elements */
+    transition: none !important;  /* Disable transitions for these elements */
+    opacity: 1 !important;        /* Force visibility */
+  }
+  
+  /* Override any transform transitions that might cause flicker */
+  .sliderTrack {
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1.0) !important;
+  }
+  
+  /* Prevent any animations for hover elements on mobile */
+  .sliderTile .hoverContent {
+    visibility: visible !important;
+    display: block !important;
   }
 }
 
