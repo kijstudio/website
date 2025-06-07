@@ -139,7 +139,7 @@ const HomePage: React.FC = () => {
         Your browser does not support the video tag.
       </video>
       {videoError && (
-        <div className={styles.videoFallback}>
+        <div>
           {/* You could add a fallback image here */}
           <p>Video unavailable</p>
         </div>

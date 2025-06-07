@@ -95,12 +95,17 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
         <div className={styles.descriptionColumn}>
           <Link to="/visualizations" className={styles.backButton}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 11H7.414l4.293-4.293c0.391-0.391 0.391-1.023 0-1.414s-1.023-0.391-1.414 0l-6 6c-0.391 0.391-0.391 1.023 0 1.414l6 6c0.391 0.391 1.023 0.391 1.414 0s0.391-1.023 0-1.414L7.414 13H20c0.552 0 1 0.447 1 1s-0.448 1-1 1z" />
+              <path d="M19 12H8.414l3.293-3.293a1 1 0 1 0-1.414-1.414l-5 5a1 1 0 0 0 0 1.414l5 5a1 1 0 0 0 1.414-1.414L8.414 14H19a1 1 0 0 0 0-2z" />
             </svg>
           </Link>
           <div className={styles.descriptionWrapper}>
             <h1 className={styles.title}>{visualization.title}</h1>
-            <p className={styles.description}>{visualization.description}</p>
+            {visualization.description &&
+              visualization.description.trim() !== "" && (
+                <p className={styles.description}>
+                  {visualization.description}
+                </p>
+              )}
           </div>
         </div>
 
