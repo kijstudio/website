@@ -91,13 +91,18 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
 
   // Custom hover content renderer
   const renderHoverContent = (item: SliderItem) => {
+    const shouldRender = item.title || item.location || item.livingArea
     return (
       <div className={styles.hoverContent}>
-        <h3 className={styles.imageTitle}>{item.title}</h3>
-        <div className={styles.imageDetails}>
-          {item.location && <p>{item.location}</p>}
-          {item.livingArea && <p>{item.livingArea} m²</p>}
-        </div>
+        {shouldRender && (
+          <div className={styles.hoverContentInner}>
+            <h3 className={styles.imageTitle}>{item.title}</h3>
+            <div className={styles.imageDetails}>
+              {item.location && <p>{item.location}</p>}
+              {item.livingArea && <p>{item.livingArea} m²</p>}
+            </div>
+          </div>
+        )}
       </div>
     )
   }

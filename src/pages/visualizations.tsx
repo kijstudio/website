@@ -89,9 +89,14 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
 
   // Custom hover content renderer
   const renderHoverContent = (item: SliderItem) => {
+    const shouldRender = item.title || item.description
     return (
       <div className={styles.hoverContent}>
-        <h3 className={styles.imageTitle}>{item.title}</h3>
+        {shouldRender && (
+          <div className={styles.hoverContentInner}>
+            <h3 className={styles.imageTitle}>{item.title}</h3>
+          </div>
+        )}
       </div>
     )
   }

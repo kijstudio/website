@@ -409,36 +409,45 @@ const Slider: React.FC<SliderProps> = ({
   }
 
   // Default hover content if no custom renderer is provided
-  const defaultHoverContent = (item: SliderItem) => (
-    <div className={styles.hoverContent}>
-      {item.title && <h3 className={styles.imageTitle}>{item.title}</h3>}
-      {item.description && (
-        <p className={styles.imageDetails}>{item.description}</p>
-      )}
-      {item.link && (
-        <div
-          className={styles.linkIndicator}
-          onClick={e => {
-            e.stopPropagation() // Prevent event bubbling to parent
-            if (!isSwiping) {
-              handleItemClick(item, e)
-            }
-          }}
-          role="button"
-          tabIndex={0}
-          onKeyDown={e => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault()
-              handleItemClick(item, e as any)
-            }
-          }}
-          aria-label={`View details for ${item.title || "item"}`}
-        >
-          View Details
-        </div>
-      )}
-    </div>
-  )
+  const defaultHoverContent = (item: SliderItem) => {
+    const shouldRender = item.title || item.description
+    return (
+      <div className={styles.hoverContent}>
+        {shouldRender && (
+          <div className={styles.hoverContentInner}>
+            {item.title && item.title.trim() !== "" && (
+              <h3 className={styles.imageTitle}>{item.title}</h3>
+            )}
+            {item.description && item.description.trim() !== "" && (
+              <p className={styles.imageDetails}>{item.description}</p>
+            )}
+            {item.link && (
+              <div
+                className={styles.linkIndicator}
+                onClick={e => {
+                  e.stopPropagation() // Prevent event bubbling to parent
+                  if (!isSwiping) {
+                    handleItemClick(item, e)
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    handleItemClick(item, e as any)
+                  }
+                }}
+                aria-label={`View details for ${item.title || "item"}`}
+              >
+                View Details
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
 
   // Process items to add positioning and visibility logic
   const sliderItems = items.map((item, index) => {

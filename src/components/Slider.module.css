@@ -175,7 +175,6 @@
   align-items: flex-end;
   justify-content: flex-end;
   transition: background-color 0.3s ease;
-  padding: 20px;
 }
 
 /* Link indicator for clickable items - enhanced for better clickability */
@@ -232,7 +231,7 @@
 /* Title styling */
 .imageTitle {
   color: white;
-  margin: 0 0 5px 0;
+  margin: 0;
   font-size: 1.2rem;
   font-weight: 300;
   opacity: 0;
@@ -253,7 +252,6 @@
   font-family: "futura-pt", sans-serif;
   letter-spacing: 0.2rem;
   text-align: right;
-  margin: 0 0 10px 0;
 }
 
 .imageDetails p {
@@ -285,6 +283,10 @@
 
 .itemWrapper:hover .openButton {
   opacity: 1;
+}
+
+.hoverContentInner {
+  padding: 1rem;
 }
 
 /* Hover states */
@@ -356,7 +358,6 @@
   
   /* Disable hover effect and show permanent strip at bottom */
   .hoverContent {
-    padding: 10px 15px;
     background: rgba(0, 0, 0, 0.6) !important; /* Force background to always be visible */
     justify-content: flex-end;
     align-items: flex-end;
