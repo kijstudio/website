@@ -31,6 +31,13 @@ interface VisualizationsPageData {
 const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
   data,
 }) => {
+  const [isClient, setIsClient] = React.useState(false)
+
+  // Set client-side flag for browser-only operations
+  React.useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   // Create a flat array of visualizations
   const visualizationsData = data.allSanityVisualisation.nodes
 
@@ -54,38 +61,29 @@ const VisualizationsPage: React.FC<PageProps<VisualizationsPageData>> = ({
 
   // Preload original quality images for single-image gallery items that can be opened in popup
   React.useEffect(() => {
-    if (!sliderItems?.length) return
+    if (!isClient || !sliderItems?.length) return
 
     // Delay preloading to not interfere with initial page load
     const preloadTimer = setTimeout(() => {
       const singleImageItems = sliderItems.filter(
-        item => item.singleImageGallery
+        item => item.singleImageGallery,
       )
 
-      singleImageItems.forEach((item, index) => {
+      singleImageItems.forEach(item => {
         if (item.fullImageUrl) {
           const img = new Image()
           img.src = item.fullImageUrl
-          // Optional: Log when preloading completes (remove in production)
-          img.onload = () => {
-            console.log(
-              `Preloaded single-image visualization ${index + 1}/${
-                singleImageItems.length
-              }: ${item.title}`
-            )
-          }
-          img.onerror = () => {
-            console.warn(
-              `Failed to preload single-image visualization: ${item.title}`,
-              item.fullImageUrl
-            )
+          // Only log in development
+          if (process.env.NODE_ENV === "development") {
+            img.onload = () => {}
+            img.onerror = () => {}
           }
         }
       })
     }, 2000) // Wait 2 seconds after component mount
 
     return () => clearTimeout(preloadTimer)
-  }, [sliderItems])
+  }, [sliderItems, isClient])
 
   // Custom hover content renderer
   const renderHoverContent = (item: SliderItem) => {

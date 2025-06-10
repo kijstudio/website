@@ -30,6 +30,13 @@ interface InteriorsPageData {
 }
 
 const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
+  const [isClient, setIsClient] = React.useState(false)
+
+  // Set client-side flag for browser-only operations
+  React.useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const interiorsData = data.allSanityInterior.nodes
 
   // Map the Sanity data to format expected by the Slider component
@@ -38,7 +45,7 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
       item =>
         item.gallery &&
         item.gallery[0] &&
-        getImage(item.gallery[0].asset.gatsbyImageData)
+        getImage(item.gallery[0].asset.gatsbyImageData),
     )
     .map((item, index) => ({
       id: `interior-${index}`,
@@ -56,38 +63,29 @@ const InteriorsPage: React.FC<PageProps<InteriorsPageData>> = ({ data }) => {
 
   // Preload original quality images for single-image gallery items that can be opened in popup
   React.useEffect(() => {
-    if (!sliderItems?.length) return
+    if (!isClient || !sliderItems?.length) return
 
     // Delay preloading to not interfere with initial page load
     const preloadTimer = setTimeout(() => {
       const singleImageItems = sliderItems.filter(
-        item => item.singleImageGallery
+        item => item.singleImageGallery,
       )
 
-      singleImageItems.forEach((item, index) => {
+      singleImageItems.forEach(item => {
         if (item.fullImageUrl) {
           const img = new Image()
           img.src = item.fullImageUrl
-          // Optional: Log when preloading completes (remove in production)
-          img.onload = () => {
-            console.log(
-              `Preloaded single-image interior ${index + 1}/${
-                singleImageItems.length
-              }: ${item.title}`
-            )
-          }
-          img.onerror = () => {
-            console.warn(
-              `Failed to preload single-image interior: ${item.title}`,
-              item.fullImageUrl
-            )
+          // Only log in development
+          if (process.env.NODE_ENV === "development") {
+            img.onload = () => {}
+            img.onerror = () => {}
           }
         }
       })
     }, 2000) // Wait 2 seconds after component mount
 
     return () => clearTimeout(preloadTimer)
-  }, [sliderItems])
+  }, [sliderItems, isClient])
 
   // Custom hover content renderer
   const renderHoverContent = (item: SliderItem) => {

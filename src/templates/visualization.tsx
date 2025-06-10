@@ -26,35 +26,34 @@ const VisualizationTemplate: React.FC<PageProps<VisualizationTemplateData>> = ({
   data,
 }) => {
   const visualization = data.sanityVisualisation
+  const [isClient, setIsClient] = React.useState(false)
 
-  // Preload original quality images in the background
+  // Set client-side flag for browser-only operations
   React.useEffect(() => {
-    if (!visualization?.gallery) return
+    setIsClient(true)
+  }, [])
+
+  // Preload original quality images in the background - only on client side
+  React.useEffect(() => {
+    if (!isClient || !visualization?.gallery) return
 
     // Delay preloading to not interfere with initial page load
     const preloadTimer = setTimeout(() => {
-      visualization.gallery.forEach((item, index) => {
+      visualization.gallery.forEach(item => {
         if (item.asset.url) {
           const img = new Image()
           img.src = item.asset.url
-          // Optional: Log when preloading completes (remove in production)
-          img.onload = () => {
-            console.log(
-              `Preloaded image ${index + 1}/${visualization.gallery.length}`
-            )
-          }
-          img.onerror = () => {
-            console.warn(
-              `Failed to preload image ${index + 1}:`,
-              item.asset.url
-            )
+          // Only log in development
+          if (process.env.NODE_ENV === "development") {
+            img.onload = () => {}
+            img.onerror = () => {}
           }
         }
       })
     }, 2000) // Wait 2 seconds after component mount
 
     return () => clearTimeout(preloadTimer)
-  }, [visualization?.gallery])
+  }, [visualization?.gallery, isClient])
 
   if (!visualization) {
     return (

@@ -1,7 +1,7 @@
 import { Link } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import * as React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Seo from "../components/seo"
 import SplitScreen from "../components/SplitScreen"
 import videoSrc from "../movies/P2.webm"
@@ -12,6 +12,15 @@ const HomePage: React.FC = () => {
   const [isVideoLoading, setIsVideoLoading] = React.useState(true)
   const [videoError, setVideoError] = React.useState(false)
   const videoRef = React.useRef<HTMLVideoElement>(null)
+  const [originUrl, setOriginUrl] = React.useState("https://kijstudio.com")
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+    if (typeof window !== "undefined") {
+      setOriginUrl(window.location.origin)
+    }
+  }, [])
 
   const handleVideoReady = async () => {
     if (!videoRef.current) return
@@ -32,7 +41,7 @@ const HomePage: React.FC = () => {
   }
 
   const handleVideoError = (
-    e: React.SyntheticEvent<HTMLVideoElement, Event>
+    e: React.SyntheticEvent<HTMLVideoElement, Event>,
   ) => {
     console.error("Video error:", e)
     setVideoError(true)
@@ -162,43 +171,35 @@ const HomePage: React.FC = () => {
         ]}
       />
 
-      {/* JSON-LD Structured Data for Organization */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "KIJ Studio",
-          description:
-            "Bringing your dream spaces to life with creative design and breathtaking visuals. Specializing in architectural visualization and interior design.",
-          url:
-            typeof window !== "undefined"
-              ? window.location.origin
-              : "https://kijstudio.com",
-          logo:
-            typeof window !== "undefined"
-              ? window.location.origin + logo
-              : logo,
-          sameAs: ["https://www.instagram.com/kijstudio"],
-          contactPoint: {
-            "@type": "ContactPoint",
-            contactType: "customer service",
-          },
-          areaServed: "Global",
-          knowsAbout: [
-            "Interior Design",
-            "Architectural Visualization",
-            "3D Rendering",
-            "Space Design",
-            "Home Design",
-          ],
-        })}
-      </script>
+      {/* JSON-LD Structured Data for Organization - Only render on client side */}
+      {isClient && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "KIJ Studio",
+            description:
+              "Bringing your dream spaces to life with creative design and breathtaking visuals. Specializing in architectural visualization and interior design.",
+            url: originUrl,
+            logo: originUrl + logo,
+            sameAs: ["https://www.instagram.com/kijstudio"],
+            contactPoint: {
+              "@type": "ContactPoint",
+              contactType: "customer service",
+            },
+            areaServed: "Global",
+            knowsAbout: [
+              "Interior Design",
+              "Architectural Visualization",
+              "3D Rendering",
+              "Space Design",
+              "Home Design",
+            ],
+          })}
+        </script>
+      )}
 
-      <div
-        className={`${styles.pageContent} ${
-          isVideoLoading ? styles.hidden : ""
-        }`}
-      >
+      <div className={styles.pageContent}>
         <SplitScreen
           leftContent={leftContent}
           rightContent={rightContent}
@@ -207,7 +208,7 @@ const HomePage: React.FC = () => {
           rightRatio={6}
         />
       </div>
-      {isVideoLoading && (
+      {isClient && isVideoLoading && (
         <div className={styles.loadingOverlay}>
           <div className={styles.loader}></div>
         </div>

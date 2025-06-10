@@ -64,7 +64,7 @@ const Slider: React.FC<SliderProps> = ({
 
   // Fullscreen popup state
   const [fullscreenImage, setFullscreenImage] = useState<SliderItem | null>(
-    null
+    null,
   )
 
   // Zoom state for fullscreen popup
@@ -95,19 +95,19 @@ const Slider: React.FC<SliderProps> = ({
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50
 
-  // Calculate number of items per page based on screen size
-  const getItemsPerPage = () => {
-    if (typeof window !== "undefined") {
-      // For mobile screens
-      if (window.innerWidth <= breakpoints.mobile) return mobileItems
-      // For tablet screens
-      if (window.innerWidth <= breakpoints.tablet) return tabletItems
-    }
-    return itemsPerPageDefault // Default for desktop
-  }
-
   // Update itemsPerPage on window resize
   useEffect(() => {
+    // Calculate number of items per page based on screen size
+    const getItemsPerPage = () => {
+      if (typeof window !== "undefined") {
+        // For mobile screens
+        if (window.innerWidth <= breakpoints.mobile) return mobileItems
+        // For tablet screens
+        if (window.innerWidth <= breakpoints.tablet) return tabletItems
+      }
+      return itemsPerPageDefault // Default for desktop
+    }
+
     const handleResize = () => {
       const newItemsPerPage = getItemsPerPage()
 
@@ -397,7 +397,7 @@ const Slider: React.FC<SliderProps> = ({
   // Prevent click when swiping
   const handleItemClickWithSwipePrevention = (
     item: SliderItem,
-    event: React.MouseEvent
+    event: React.MouseEvent,
   ) => {
     if (isSwiping) {
       event.preventDefault()
@@ -771,8 +771,8 @@ const Slider: React.FC<SliderProps> = ({
                 cursor: isDragging
                   ? "grabbing"
                   : zoomLevel > 1
-                  ? "grab"
-                  : "zoom-in",
+                    ? "grab"
+                    : "zoom-in",
                 overflow: "hidden",
                 transform: `scale(${zoomLevel}) translate(${
                   dragOffset.x / zoomLevel

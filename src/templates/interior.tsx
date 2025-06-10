@@ -25,35 +25,34 @@ const InteriorTemplate: React.FC<PageProps<InteriorTemplateData>> = ({
   data,
 }) => {
   const interior = data.sanityInterior
+  const [isClient, setIsClient] = React.useState(false)
 
-  // Preload original quality images in the background
+  // Set client-side flag for browser-only operations
   React.useEffect(() => {
-    if (!interior?.gallery) return
+    setIsClient(true)
+  }, [])
+
+  // Preload original quality images in the background - only on client side
+  React.useEffect(() => {
+    if (!isClient || !interior?.gallery) return
 
     // Delay preloading to not interfere with initial page load
     const preloadTimer = setTimeout(() => {
-      interior.gallery.forEach((item, index) => {
+      interior.gallery.forEach(item => {
         if (item.asset.url) {
           const img = new Image()
           img.src = item.asset.url
-          // Optional: Log when preloading completes (remove in production)
-          img.onload = () => {
-            console.log(
-              `Preloaded image ${index + 1}/${interior.gallery.length}`
-            )
-          }
-          img.onerror = () => {
-            console.warn(
-              `Failed to preload image ${index + 1}:`,
-              item.asset.url
-            )
+          // Only log in development
+          if (process.env.NODE_ENV === "development") {
+            img.onload = () => {}
+            img.onerror = () => {}
           }
         }
       })
     }, 2000) // Wait 2 seconds after component mount
 
     return () => clearTimeout(preloadTimer)
-  }, [interior?.gallery])
+  }, [interior?.gallery, isClient])
 
   if (!interior) {
     return (
