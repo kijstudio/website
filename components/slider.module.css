@@ -1,0 +1,614 @@
+/* ==========================
+   SLIDER COMPONENT STYLES
+   ========================== */
+
+/* Container for the slider */
+.sliderContainer {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  overflow: visible;
+  min-height: calc(100vh - 150px); /* Approximate space for header and footer */
+  min-height: 600px; /* Absolute minimum height */
+  max-height: 800px; /* Maximum height */
+  height: calc(min(100vh - 150px, 800px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: transparent;
+}
+
+@media screen and (max-width: 768px) {
+  .sliderContainer {
+    min-height: calc(100vh - 90px);
+  }
+  .sliderTrackContainer {
+    min-height: calc(100vh - 130px);
+  }
+  .itemWrapper.clickable:hover {
+    transform: none;
+    cursor: pointer;
+    opacity: 1;
+  }
+}
+
+/* Container for the slider track that contains the slides */
+.sliderTrackContainer {
+  width: 100%;
+  max-width: var(--max-content-width, 1200px);
+  margin: 0 auto;
+  overflow: hidden;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+}
+
+/* The actual moving track with all slides */
+.sliderTrack {
+  display: flex;
+  width: 100%;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  will-change: transform;
+  background: transparent;
+  height: 100%;
+}
+
+/* Navigation arrows */
+.sliderArrow {
+  background: rgba(0,0,0,0.8);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  width: 2.5rem;
+  font-weight: 500;
+  height: 4rem;
+  border-radius: 0;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-family: Arial, sans-serif;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.sliderArrow:hover {
+  background: rgba(0,0,0,1);
+}
+
+.sliderArrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: rgba(0,0,0,0.5);
+}
+
+.sliderArrow.left {
+  left: 0;
+}
+
+.sliderArrow.right {
+  right: 0;
+}
+
+.sliderArrow svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Individual slide/tile */
+.sliderTile {
+  min-width: 0;
+  min-height: 400px;
+  max-height: 800px;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 0.75rem;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1.0), opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+}
+
+.sliderTile.firstTile {
+  padding-left: 0;
+}
+
+.sliderTile.lastTile {
+  padding-right: 0;
+}
+
+/* ==========================
+   GALLERY ITEM STYLES
+   ========================== */
+
+/* Common gallery item wrapper */
+.itemWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  max-height: 800px;
+  cursor: default;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Remove clickable styling from items */
+.itemWrapper.clickable {
+  cursor: default;
+  transition: none;
+}
+
+.itemWrapper.clickable:hover {
+  transform: none;
+}
+
+.itemWrapper.clickable:focus {
+  outline: none;
+}
+
+/* Hover effect container */
+.hoverContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  transition: background-color 0.3s ease;
+}
+
+/* Link indicator for clickable items - enhanced for better clickability */
+.linkIndicator {
+  color: white;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 300;
+  position: relative;
+  padding: 5px 28px 5px 10px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  display: inline-block;
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  /* Prevent text cursor */
+  pointer-events: auto;
+}
+
+.linkIndicator::after {
+  content: '→';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease;
+}
+
+.linkIndicator:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.linkIndicator:hover::after {
+  transform: translateY(-50%) translateX(3px);
+}
+
+.linkIndicator:focus {
+  outline: 2px solid white;
+  opacity: 1;
+}
+
+.itemWrapper:hover .linkIndicator {
+  opacity: 1;
+}
+
+/* Title styling */
+.imageTitle {
+  color: white;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 300;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-family: "futura-pt", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: right;
+}
+
+/* Description styling */
+.imageDetails {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 300;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-family: "futura-pt", sans-serif;
+  letter-spacing: 0.2rem;
+  text-align: right;
+}
+
+.imageDetails p {
+  margin: 0;
+}
+
+/* Open Project button styling */
+.openButton {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin-top: 15px;
+  text-decoration: none;
+  font-family: "futura-pt", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+  text-align: center;
+  cursor: pointer;
+}
+
+.openButton:hover {
+  background: rgba(0, 0, 0, 1);
+}
+
+.itemWrapper:hover .openButton {
+  opacity: 1;
+}
+
+.hoverContentInner {
+  padding: 1rem;
+}
+
+/* Hover states */
+.itemWrapper:hover .hoverContent {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.itemWrapper:hover .imageTitle,
+.itemWrapper:hover .imageDetails,
+.itemWrapper:hover .linkIndicator {
+  opacity: 1;
+}
+
+/* ==========================
+   RESPONSIVE STYLES
+   ========================== */
+
+/* Large screens */
+@media (max-width: 1200px) {
+  .itemWrapper {
+    min-height: 500px;
+  }
+  
+  .imageTitle {
+    font-size: 1.1rem;
+  }
+  
+  .imageDetails {
+    font-size: 0.8rem;
+  }
+}
+
+/* Medium screens */
+@media (max-width: 992px) {
+  .sliderArrow.left {
+    margin-left: 0;
+  }
+  
+  .sliderArrow.right {
+    margin-right: 0;
+  }
+  
+  .sliderTile {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+  .sliderContainer {
+    margin: 0 auto;
+    padding: 0;
+  }
+  
+  .sliderTile {
+    padding: 0 0.375rem;
+  }
+  
+  .sliderArrow {
+    width: 2rem;
+    height: 3.5rem;
+    margin: 0 0.25rem;
+  }
+  
+  .itemWrapper {
+    min-height: 400px;
+  }
+  
+  /* Disable hover effect and show permanent strip at bottom */
+  .hoverContent {
+    background: rgba(0, 0, 0, 0.6) !important; /* Force background to always be visible */
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: auto;
+    top: auto;
+    bottom: 0;
+    max-height: 30%;
+    pointer-events: none; /* Allow clicks to pass through to parent */
+    transition: none !important; /* Disable transitions on mobile */
+    opacity: 1 !important; /* Force strip to always be visible */
+  }
+  
+  /* Always show title on mobile */
+  .imageTitle {
+    opacity: 1 !important; /* Force title to always be visible */
+    text-align: right;
+    font-size: 1rem;
+    width: 100%;
+    transition: none !important; /* Disable transitions on mobile */
+  }
+  
+  /* Always show description on mobile */
+  .imageDetails {
+    opacity: 1 !important; /* Force description to always be visible */
+    text-align: right;
+    font-size: 0.8rem;
+    width: 100%;
+    margin: 5px 0 10px 0;
+    transition: none !important; /* Disable transitions on mobile */
+  }
+  
+  /* Always show link indicator on mobile if available */
+  .linkIndicator {
+    opacity: 1 !important; /* Force link indicator to always be visible */
+    font-size: 0.7rem;
+    padding: 4px 24px 4px 8px;
+    pointer-events: auto; /* Make link indicator clickable */
+    transition: none !important; /* Disable transitions on mobile */
+  }
+  
+  /* Prevent hover state changes on mobile */
+  .itemWrapper:hover .hoverContent {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Prevent hover animations on mobile */
+  .itemWrapper:hover .imageTitle,
+  .itemWrapper:hover .imageDetails,
+  .itemWrapper:hover .linkIndicator {
+    opacity: 1;
+  }
+  
+  /* Ensure link indicator is always visible */
+  .itemWrapper .linkIndicator {
+    opacity: 1;
+  }
+  
+  /* Override slider tile transitions to prevent flickering */
+  .sliderTile {
+    transition: transform 0.5s ease !important; /* Only animate transform, not opacity */
+  }
+  
+  /* Make sure all elements are visible during transitions */
+  .sliderTile,
+  .sliderTile .itemWrapper,
+  .sliderTile .hoverContent,
+  .sliderTile .imageTitle,
+  .sliderTile .imageDetails,
+  .sliderTile .linkIndicator {
+    will-change: auto !important; /* Don't optimize these elements */
+    transition: none !important;  /* Disable transitions for these elements */
+    opacity: 1 !important;        /* Force visibility */
+  }
+  
+  /* Override any transform transitions that might cause flicker */
+  .sliderTrack {
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1.0) !important;
+  }
+  
+  /* Prevent any animations for hover elements on mobile */
+  .sliderTile .hoverContent {
+    visibility: visible !important;
+    display: block !important;
+  }
+}
+
+/* ==========================
+   FULLSCREEN POPUP STYLES
+   ========================== */
+
+.fullscreenOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.fullscreenContent {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.fullscreenImage {
+  max-width: 100%;
+  max-height: 80vh;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+}
+
+.closeButton {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  opacity: 0.9;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 1);
+}
+
+.fullscreenCaption {
+  color: white;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.fullscreenCaption h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.2rem;
+}
+
+.fullscreenCaption p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Zoom Controls */
+.zoomControls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1002;
+}
+
+.zoomButton {
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  opacity: 0.8;
+}
+
+.zoomButton:hover {
+  background: rgba(0, 0, 0, 0.9);
+  opacity: 1;
+}
+
+.zoomButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.zoomButton:disabled:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Image Container for zoom functionality */
+.imageContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+/* Update fullscreen image styles */
+.fullscreenImage {
+  max-width: 100%;
+  max-height: 80vh;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  pointer-events: auto;
+  user-select: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .fullscreenContent {
+    width: 100%;
+  }
+  
+  .zoomControls {
+    top: 10px;
+    left: 10px;
+    gap: 6px;
+  }
+  
+  .zoomButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .closeButton {
+    top: -30px;
+    font-size: 28px;
+    width: 36px;
+    height: 36px;
+  }
+} 
