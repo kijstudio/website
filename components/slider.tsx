@@ -511,7 +511,7 @@ const Slider: React.FC<SliderProps> = ({
           <img
             src={item.image}
             alt={item.imageAlt || item.title || ""}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
             loading="lazy"
           />
           {renderHoverContent

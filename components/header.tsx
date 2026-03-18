@@ -88,8 +88,9 @@ const Header: React.FC<HeaderProps> = ({
             src="/images/logo.png"
             alt={siteTitle}
             width={120}
-            height={40}
+            height={28}
             className="logo"
+            style={{ width: 120, height: "auto" }}
             priority
           />
         </Link>
