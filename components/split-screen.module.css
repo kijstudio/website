@@ -1,13 +1,3 @@
-:root {
-  --full-screen-left-section-padding: 4rem;
-}
-
-@media screen and (max-width: 992px) {
-  :root {
-    --full-screen-left-section-padding: 2rem;
-  }
-}
-
 .container {
   display: grid;
   min-height: 100vh;
