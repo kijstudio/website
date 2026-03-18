@@ -58,6 +58,7 @@ typings/
 .next/
 out/
 .env.local
+tsconfig.tsbuildinfo
 
 # Mac files
 .DS_Store
