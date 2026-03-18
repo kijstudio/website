@@ -1,10 +1,10 @@
 module.exports = {
   plugins: [
-    require('postcss-preset-env')({
+    require("postcss-preset-env")({
       features: {
-        'nesting-rules': true,
+        "nesting-rules": true,
       },
-      browsers: ['>0.25%', 'not dead']
-    })
-  ]
-} 
+      browsers: [">0.25%", "not dead"],
+    }),
+  ],
+};
