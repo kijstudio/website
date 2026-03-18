@@ -83,7 +83,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className={headerClasses.join(" ")}>
       <div className={innerClasses.join(" ")} style={style}>
-        <Link href="/">
+        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
           <Image
             src="/images/logo.png"
             alt={siteTitle}
