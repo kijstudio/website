@@ -51,14 +51,37 @@ export default async function VisualizationPage({ params }: Props) {
       }))
     : [];
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://kijstudio.com" },
+      { "@type": "ListItem", position: 2, name: "Visualizations", item: "https://kijstudio.com/visualizations" },
+      { "@type": "ListItem", position: 3, name: visualization.title },
+    ],
+  };
+
+  const creativeWorkJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: visualization.title,
+    description: visualization.description,
+    creator: { "@type": "Organization", name: "KIJ Studio" },
+    image: visualization.gallery?.map((item: any) => item.asset.url).filter(Boolean),
+  };
+
   return (
-    <PageLayout>
-      <DetailContent
-        title={visualization.title}
-        description={visualization.description}
-        items={sliderItems}
-        backLink="/visualizations"
-      />
-    </PageLayout>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkJsonLd) }} />
+      <PageLayout>
+        <DetailContent
+          title={visualization.title}
+          description={visualization.description}
+          items={sliderItems}
+          backLink="/visualizations"
+        />
+      </PageLayout>
+    </>
   );
 }

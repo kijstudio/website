@@ -51,14 +51,37 @@ export default async function InteriorPage({ params }: Props) {
       }))
     : [];
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://kijstudio.com" },
+      { "@type": "ListItem", position: 2, name: "Interior Design", item: "https://kijstudio.com/interior-design" },
+      { "@type": "ListItem", position: 3, name: interior.title },
+    ],
+  };
+
+  const creativeWorkJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: interior.title,
+    description: interior.description,
+    creator: { "@type": "Organization", name: "KIJ Studio" },
+    image: interior.gallery?.map((item: any) => item.asset.url).filter(Boolean),
+  };
+
   return (
-    <PageLayout>
-      <DetailContent
-        title={interior.title}
-        description={interior.description}
-        items={sliderItems}
-        backLink="/interior-design"
-      />
-    </PageLayout>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkJsonLd) }} />
+      <PageLayout>
+        <DetailContent
+          title={interior.title}
+          description={interior.description}
+          items={sliderItems}
+          backLink="/interior-design"
+        />
+      </PageLayout>
+    </>
   );
 }
