@@ -90,7 +90,7 @@ const Header: React.FC<HeaderProps> = ({
             width={120}
             height={28}
             className="logo"
-            style={{ width: 120, height: "auto" }}
+            style={{ width: "auto", height: 28 }}
             priority
           />
         </Link>
