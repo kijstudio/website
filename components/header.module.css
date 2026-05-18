@@ -262,14 +262,16 @@
     z-index: 1000;
     background-color: var(--mobile-background-color);
   }
-  
+
   .desktopNav {
     display: none;
   }
-  
+
   .mobileMenuButton {
-    display: block;
+    display: flex;
+    align-items: center;
     position: relative;
+    cursor: pointer;
   }
   
   .mobileMenu {

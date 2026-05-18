@@ -16,7 +16,7 @@
 
 @media screen and (max-width: 768px) {
   .contentInner {
-    padding-top: 60px;
+    padding-top: calc(2rem + 28px);
     min-height: calc(100vh - 70px);
   }
   
