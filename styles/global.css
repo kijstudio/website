@@ -68,6 +68,11 @@ body {
   }
 }
 
+.logo {
+  margin-bottom: 0;
+  display: block;
+}
+
 @media (max-width: 768px) {
   .logo {
     filter: brightness(0) invert(1) !important;
