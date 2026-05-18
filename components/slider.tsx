@@ -70,13 +70,7 @@ const Slider: React.FC<SliderProps> = ({
     null,
   )
 
-  // Zoom state for fullscreen popup
-  const [zoomLevel, setZoomLevel] = useState(1)
-  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 })
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
-  const [hasDragged, setHasDragged] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   // State to track if we're in mobile view
   const [isMobileView, setIsMobileView] = useState(false)
@@ -248,11 +242,7 @@ const Slider: React.FC<SliderProps> = ({
   // Close fullscreen popup
   const closeFullscreen = () => {
     setFullscreenImage(null)
-    // Reset zoom state when closing
-    setZoomLevel(1)
-    setZoomPosition({ x: 0, y: 0 })
-    setIsDragging(false)
-    setDragOffset({ x: 0, y: 0 })
+    setIsExpanded(false)
   }
 
   // Handle keyboard events for accessibility
@@ -522,105 +512,12 @@ const Slider: React.FC<SliderProps> = ({
     )
   })
 
-  // Zoom control functions
-  const handleZoomIn = () => {
-    setZoomLevel(prev => Math.min(prev * 2, 8)) // Max zoom 8x, bigger steps
-  }
-
-  const handleZoomOut = () => {
-    setZoomLevel(prev => {
-      const newZoom = Math.max(prev / 2, 1) // Min zoom 1x, bigger steps
-      if (newZoom === 1) {
-        // Reset position when zooming back to 1x
-        setZoomPosition({ x: 0, y: 0 })
-        setDragOffset({ x: 0, y: 0 })
-      }
-      return newZoom
-    })
-  }
-
-  const handleZoomReset = () => {
-    // Set all values simultaneously for smooth animation
-    setZoomLevel(1)
-    setZoomPosition({ x: 0, y: 0 })
-    setDragOffset({ x: 0, y: 0 })
-  }
-
-  // Handle wheel zoom
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault()
-    const delta = e.deltaY > 0 ? 0.8 : 1.25 // Bigger wheel zoom steps
-    setZoomLevel(prev => {
-      const newZoom = Math.max(1, Math.min(prev * delta, 8)) // Max zoom 8x
-      if (newZoom === 1) {
-        setZoomPosition({ x: 0, y: 0 })
-        setDragOffset({ x: 0, y: 0 })
-      }
-      return newZoom
-    })
-  }
-
-  // Handle image click to zoom
   const handleImageClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-
-    // Don't zoom if user has just finished dragging
-    if (hasDragged) {
-      setHasDragged(false)
-      return
-    }
-
-    if (zoomLevel === 1) {
-      // Zoom in to cursor position
-      const rect = e.currentTarget.getBoundingClientRect()
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 100
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 100
-      setZoomPosition({ x, y })
-      setZoomLevel(3) // Bigger initial zoom on click
-    } else {
-      // Smoothly zoom out and reset position simultaneously
-      setZoomLevel(1)
-      setZoomPosition({ x: 0, y: 0 })
-      setDragOffset({ x: 0, y: 0 })
+    if (!isExpanded) {
+      setIsExpanded(true)
     }
   }
-
-  // Handle drag start
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (zoomLevel > 1) {
-      e.preventDefault()
-      setIsDragging(true)
-      setHasDragged(false) // Reset drag flag
-      setDragStart({ x: e.clientX - dragOffset.x, y: e.clientY - dragOffset.y })
-    }
-  }
-
-  // Add global mouse event handlers for better drag experience
-  React.useEffect(() => {
-    if (isDragging) {
-      const handleGlobalMouseMove = (e: MouseEvent) => {
-        e.preventDefault()
-        setHasDragged(true) // Mark that dragging has occurred
-        const newOffset = {
-          x: e.clientX - dragStart.x,
-          y: e.clientY - dragStart.y,
-        }
-        setDragOffset(newOffset)
-      }
-
-      const handleGlobalMouseUp = () => {
-        setIsDragging(false)
-      }
-
-      document.addEventListener("mousemove", handleGlobalMouseMove)
-      document.addEventListener("mouseup", handleGlobalMouseUp)
-
-      return () => {
-        document.removeEventListener("mousemove", handleGlobalMouseMove)
-        document.removeEventListener("mouseup", handleGlobalMouseUp)
-      }
-    }
-  }, [isDragging, dragStart.x, dragStart.y])
 
   return (
     <>
@@ -692,8 +589,19 @@ const Slider: React.FC<SliderProps> = ({
 
       {/* Fullscreen image popup */}
       {fullscreenImage && (
-        <div className={styles.fullscreenOverlay} onClick={closeFullscreen}>
-          {/* Close button positioned in top-right corner */}
+        <div
+          className={styles.fullscreenOverlay}
+          onClick={closeFullscreen}
+          style={
+            isExpanded
+              ? {
+                  alignItems: "flex-start",
+                  overflow: "auto",
+                  padding: "60px 20px 40px",
+                }
+              : undefined
+          }
+        >
           <button
             className={styles.closeButton}
             onClick={closeFullscreen}
@@ -710,81 +618,16 @@ const Slider: React.FC<SliderProps> = ({
           <div
             className={styles.fullscreenContent}
             onClick={e => e.stopPropagation()}
-            onWheel={handleWheel}
+            style={
+              isExpanded
+                ? { maxWidth: "none", maxHeight: "none" }
+                : undefined
+            }
           >
-            {/* Zoom Controls */}
-            <div className={styles.zoomControls}>
-              <button
-                className={styles.zoomButton}
-                onClick={handleZoomIn}
-                disabled={zoomLevel >= 8}
-                aria-label="Zoom in"
-                title="Zoom in"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                </svg>
-              </button>
-              <button
-                className={styles.zoomButton}
-                onClick={handleZoomOut}
-                disabled={zoomLevel <= 1}
-                aria-label="Zoom out"
-                title="Zoom out"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M19 13H5v-2h14v2z" />
-                </svg>
-              </button>
-              <button
-                className={styles.zoomButton}
-                onClick={handleZoomReset}
-                disabled={zoomLevel === 1}
-                aria-label="Reset zoom"
-                title="Reset zoom"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
-                </svg>
-              </button>
-            </div>
-
             <div
               className={styles.imageContainer}
-              style={{
-                cursor: isDragging
-                  ? "grabbing"
-                  : zoomLevel > 1
-                    ? "grab"
-                    : "zoom-in",
-                overflow: "hidden",
-                transform: `scale(${zoomLevel}) translate(${
-                  dragOffset.x / zoomLevel
-                }px, ${dragOffset.y / zoomLevel}px)`,
-                transformOrigin: `${50 + zoomPosition.x}% ${
-                  50 + zoomPosition.y
-                }%`,
-                transition: isDragging
-                  ? "none"
-                  : "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform-origin 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-              }}
+              style={{ cursor: isExpanded ? "default" : "zoom-in" }}
               onClick={handleImageClick}
-              onMouseDown={handleMouseDown}
             >
               <img
                 src={fullscreenImage.fullImageUrl || fullscreenImage.image}
@@ -793,9 +636,13 @@ const Slider: React.FC<SliderProps> = ({
                 className={styles.fullscreenImage}
                 style={{
                   objectFit: "contain",
-                  width: "100%",
-                  height: "100%",
                   display: "block",
+                  maxHeight: isExpanded ? "none" : "80vh",
+                  maxWidth: isExpanded ? "none" : "100%",
+                  width: "auto",
+                  height: "auto",
+                  transition:
+                    "max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), max-width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                 }}
               />
             </div>
