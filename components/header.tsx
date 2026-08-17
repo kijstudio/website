@@ -58,6 +58,7 @@ const Header: React.FC<HeaderProps> = ({
     { path: "/interior-design", label: "Interior Design" },
     { path: "/visualizations", label: "Visualizations" },
     { path: "/about", label: "About Us" },
+    { path: "/contact", label: "Contact" },
   ];
 
   // Build class names with simple additions

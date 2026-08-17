@@ -25,6 +25,16 @@
   overflow: hidden;
 }
 
+/* Visually swap column order on desktop only; DOM order (and therefore
+   which side stays visible on mobile) is untouched. */
+.mirrored .leftSection {
+  order: 2;
+}
+
+.mirrored .rightSection {
+  order: 1;
+}
+
 /* Video background styles */
 .videoBackground {
   position: absolute;

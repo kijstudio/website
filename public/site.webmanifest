@@ -1,0 +1,17 @@
+{
+  "name": "KIJ Studio",
+  "short_name": "KIJ Studio",
+  "description": "Bringing your dream spaces to life with creative design and breathtaking visuals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F6",
+  "theme_color": "#141311",
+  "icons": [
+    {
+      "src": "/images/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -35,6 +35,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       priority: 0.5,
     },
+    {
+      url: "https://kijstudio.com/contact",
+      lastModified: new Date(),
+      priority: 0.7,
+    },
     ...projectPages,
   ];
 }

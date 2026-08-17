@@ -109,6 +109,21 @@ export async function getInteriorSlugs() {
   `);
 }
 
+export async function getContactSettings() {
+  return client.fetch(`
+    *[_type == "contactSettings"][0] {
+      backgroundImage {
+        asset-> {
+          _id,
+          url,
+          metadata { dimensions }
+        },
+        alt
+      }
+    }
+  `);
+}
+
 export async function getAllSlugs() {
   return client.fetch<
     { _type: string; slug: { current: string }; _updatedAt: string }[]

@@ -94,6 +94,9 @@ const HomeContent: React.FC = () => {
         <Link href="/about" className={styles.navLink}>
           About us
         </Link>
+        <Link href="/contact" className={styles.navLink}>
+          Contact
+        </Link>
         <Link
           href="https://www.instagram.com/kijstudio"
           className={styles.navLink}
