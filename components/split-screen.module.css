@@ -131,4 +131,22 @@
     bottom: 0;
     z-index: -1;
   }
-} 
+
+  /* Opt out of the dark mobile theme above: solid white instead of the
+     dark mobile-background-color tint, ink text instead of white. Two
+     classes beats the plain one-class .leftSection rules above on
+     specificity, so this wins regardless of source order. */
+  .lightMobile .leftSection {
+    background-color: #fff;
+    color: #141311;
+  }
+
+  .lightMobile .leftSection::before {
+    background-color: #fff;
+    opacity: 1;
+  }
+
+  .lightMobile .leftSection::after {
+    display: none;
+  }
+}

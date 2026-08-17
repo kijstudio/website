@@ -404,64 +404,10 @@
   text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-  .eyebrow,
-  .intro,
-  .field label,
-  .consent label {
-    color: rgba(255, 255, 255, 0.75);
-  }
-
-  .h1,
-  .req {
-    color: var(--mobile-text-color, #fff);
-  }
-
-  .field input,
-  .field select,
-  .field textarea {
-    color: var(--mobile-text-color, #fff);
-    border-bottom-color: rgba(255, 255, 255, 0.6);
-  }
-
-  .field input::placeholder,
-  .field textarea::placeholder {
-    color: rgba(255, 255, 255, 0.45);
-  }
-
-  .selectWrap::after {
-    border-right-color: rgba(255, 255, 255, 0.75);
-    border-bottom-color: rgba(255, 255, 255, 0.75);
-  }
-
-  .consent input[type="checkbox"] {
-    border-color: rgba(255, 255, 255, 0.75);
-  }
-
-  .consent input[type="checkbox"]:checked {
-    background: var(--mobile-text-color, #fff);
-  }
-
-  .consent input[type="checkbox"]:checked::after {
-    border-color: var(--mobile-background-color, #464446);
-  }
-
-  .submit {
-    color: var(--mobile-text-color, #fff);
-    border-color: var(--mobile-text-color, #fff);
-  }
-
-  .submit:hover:not(:disabled) {
-    background: var(--mobile-text-color, #fff);
-    color: var(--mobile-background-color, #464446);
-  }
-
-  .done .ref {
-    color: rgba(255, 255, 255, 0.75);
-    border-top-color: rgba(255, 255, 255, 0.3);
-  }
-
-  .refEmail {
-    color: var(--mobile-text-color, #fff);
-  }
-}
+/* Mobile used to sit on the site's usual dark themed background (see
+   SplitScreen's default mobile treatment), which needed all this
+   flipped to white/light text for contrast. Now that the contact page
+   forces a white mobile background instead (SplitScreen's
+   `lightMobile` prop, set on the <SplitScreen> in page.tsx), the
+   default ink/muted colors already used on desktop are correct at
+   every width, so this override block is gone rather than inverted. */

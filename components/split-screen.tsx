@@ -27,6 +27,15 @@ interface SplitScreenProps {
    * page scrolls as a whole with no nested scroll container.
    */
   fitContent?: boolean
+  /**
+   * Default mobile behavior tints the visible section with the site's
+   * dark mobile background (see the max-width:768px block below) — the
+   * usual choice when leftContent's own background is meant to blend
+   * into that theme. Set this when leftContent is a white panel (e.g. a
+   * form) that needs to stay white on mobile too, with dark/ink text
+   * instead of the usual white-on-dark mobile treatment.
+   */
+  lightMobile?: boolean
 }
 
 const SplitScreen: React.FC<SplitScreenProps> = ({
@@ -40,6 +49,7 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
   id,
   mirrored = false,
   fitContent = false,
+  lightMobile = false,
 }) => {
   // Calculate the grid template columns based on provided ratios
   const gridTemplateColumns = `${leftRatio}fr ${rightRatio}fr`
@@ -102,7 +112,7 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
 
   return (
     <div
-      className={`${styles.container} ${mirrored ? styles.mirrored : ""} ${fitContent ? styles.fitContent : ""}`}
+      className={`${styles.container} ${mirrored ? styles.mirrored : ""} ${fitContent ? styles.fitContent : ""} ${lightMobile ? styles.lightMobile : ""}`}
       style={{
         gridTemplateColumns,
         maxWidth: fullWidth ? "100%" : "var(--max-content-width)",

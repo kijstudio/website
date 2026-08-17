@@ -90,6 +90,7 @@ export default async function ContactPage() {
         rightRatio={5}
         mirrored={true}
         fitContent={true}
+        lightMobile={true}
       />
       <footer className={styles.footer}>
         <span>
