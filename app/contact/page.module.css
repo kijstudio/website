@@ -150,6 +150,7 @@
 }
 
 .h1 {
+  color: var(--ink, #141311);
   font-weight: 300;
   font-size: clamp(30px, 3.4vw, 44px);
   line-height: 1.08;
@@ -230,6 +231,19 @@
   min-height: 44px;
   line-height: 1.55;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  /* The placeholder ("Area, location, timeline, scope, reference
+     links...") wraps across several lines at mobile widths, but
+     min-height:44px (~1.5 lines) plus overflow:hidden clips it —
+     and the same clipping hits real typed text too, since the
+     auto-grow effect (contact-form.tsx) only re-measures on value
+     changes, not on mount against the wrapped placeholder. A taller
+     mobile floor covers both without waiting on a keystroke. */
+  .field textarea {
+    min-height: 96px;
+  }
 }
 
 .field input::placeholder,
@@ -364,6 +378,18 @@
   margin-top: 6px;
 }
 
+/* Same global.css mobile-tag-selector issue as .done .ref span above:
+   the button's label and arrow are both bare <span>s (see
+   contact-form.tsx), which the global mobile rule paints white
+   directly, so the button's border stayed ink-colored but its text
+   and arrow silently went invisible against a white background.
+   color:inherit (rather than a hardcoded value) also keeps the hover
+   state above — text turning near-white against the ink background —
+   working correctly for both spans. */
+.submit span {
+  color: inherit;
+}
+
 .submit .arr {
   transition: transform 0.25s;
 }
@@ -393,6 +419,15 @@
   letter-spacing: 0.2em;
   border-top: 1px solid var(--line, #e1ded6);
   padding-top: 20px;
+}
+
+/* The ref code sits in a bare <span> with no class of its own (see
+   contact-form.tsx) — global.css has a mobile-only rule that colors
+   *any* span/h1/p/div white directly, which otherwise beats simple
+   inheritance from .ref's own color, since a directly-matching rule
+   always wins over inheritance regardless of specificity. */
+.done .ref span {
+  color: inherit;
 }
 
 .refEmail {
