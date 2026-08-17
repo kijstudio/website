@@ -64,9 +64,6 @@ export default async function ContactPage() {
         quality={95}
         priority
       />
-      <span className={styles.visualCap}>
-        Kraków · Architectural Visualization
-      </span>
     </div>
   );
 
@@ -89,10 +86,25 @@ export default async function ContactPage() {
         leftContent={formContent}
         rightContent={imageContent}
         fullWidth={true}
-        leftRatio={6}
-        rightRatio={4}
+        leftRatio={5}
+        rightRatio={5}
         mirrored={true}
       />
+      <footer className={styles.footer}>
+        <span>
+          <a href="mailto:info@kijstudio.com">info@kijstudio.com</a>
+        </span>
+        <span className={styles.footerCenter}>Kraków, PL</span>
+        <span className={styles.footerRight}>
+          <a
+            href="https://www.instagram.com/kijstudio"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @kijstudio
+          </a>
+        </span>
+      </footer>
     </div>
   );
 }
