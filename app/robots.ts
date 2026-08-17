@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/contact/thank-you"],
+      disallow: ["/contact/thank-you", "/__forms.html"],
     },
     sitemap: "https://kijstudio.com/sitemap.xml",
   };

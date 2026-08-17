@@ -114,7 +114,13 @@ export default function ContactForm() {
     };
 
     try {
-      const res = await fetch("/contact", {
+      // Posts to the static registration file (public/__forms.html), not
+      // this page. Under @netlify/plugin-nextjs v5, this page's route is
+      // handled by a Next.js function, not passed straight through to
+      // Netlify's forms-processing edge the way a real static asset is —
+      // see the comment in __forms.html for why that file has to exist at
+      // all. This mirrors Netlify's documented migration example.
+      const res = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encodeForm(payload),
