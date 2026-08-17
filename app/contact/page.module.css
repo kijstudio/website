@@ -112,20 +112,20 @@
 }
 
 /* Panel/form column.
-   Deliberately top-aligned, not vertically centered: the section this
-   sits in is a fixed 100vh with overflow-y:auto (see SplitScreen's
-   .leftSection), and the form is routinely taller than the viewport.
-   Centering flex content that overflows a scroll container clips the
-   top half above scrollTop:0, which is unreachable — so instead we
-   top-align and reserve enough padding-top to clear the fixed/sticky
-   header above it. */
+   Top-aligned, not vertically centered — the page now grows to fit the
+   form (SplitScreen's `fitContent`) instead of pinning this section to
+   100vh with its own internal scrollbar, so there's no scroll container
+   here to worry about clipping content above scrollTop:0 anymore. It's
+   still top-aligned rather than centered, though: with no fixed height
+   to center within, "centering" a block that's exactly as tall as its
+   content wouldn't visually center it against the (taller) image side
+   anyway — top alignment paired with the header clearance below reads
+   more intentional. */
 .panel {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 100%;
   width: 100%;
-  overflow-y: auto;
   box-sizing: border-box;
   /* The section itself already has --full-screen-left-section-padding
      (4rem desktop / 2rem mobile) on all sides — this is just a small

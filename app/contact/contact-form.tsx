@@ -15,12 +15,19 @@ function makeRef() {
   return `KS-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${rand}`;
 }
 
-function encodeForm(data: Record<string, string>) {
-  return Object.keys(data)
-    .map(
-      (key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
-    )
-    .join("&");
+// Netlify's docs: for AJAX submissions, the honeypot field must be
+// included in the POST body (empty, for real visitors) or the spam
+// check has nothing to inspect. Building the body from the actual
+// <form>'s FormData — instead of a hand-maintained field list — is
+// what guarantees that: every input Netlify needs (including the
+// honeypot) rides along automatically, with no risk of drifting out of
+// sync with the JSX below.
+function formDataToUrlEncoded(formData: FormData) {
+  const params = new URLSearchParams();
+  formData.forEach((value, key) => {
+    params.append(key, typeof value === "string" ? value : value.name);
+  });
+  return params.toString();
 }
 
 export default function ContactForm() {
@@ -103,16 +110,6 @@ export default function ContactForm() {
 
     setStatus("sending");
 
-    const payload = {
-      "form-name": "contact",
-      ref,
-      name: values.name.trim(),
-      email: values.email.trim(),
-      phone: values.phone.trim(),
-      type: values.type,
-      message: values.message.trim(),
-    };
-
     try {
       // Posts to the static registration file (public/__forms.html), not
       // this page. Under @netlify/plugin-nextjs v5, this page's route is
@@ -123,7 +120,7 @@ export default function ContactForm() {
       const res = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeForm(payload),
+        body: formDataToUrlEncoded(new FormData(e.currentTarget)),
       });
       if (!res.ok) throw new Error("Submission failed");
       setStatus("done");

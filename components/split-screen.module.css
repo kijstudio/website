@@ -35,6 +35,27 @@
   order: 1;
 }
 
+/* Let the row grow to fit content instead of pinning both sections to a
+   fixed 100vh with their own internal overflow:auto. .container's own
+   min-height:100vh (unaffected by this) still acts as a floor for short
+   content. No media query here on purpose: two classes beats the plain
+   one-class .leftSection/.rightSection rules above on specificity
+   regardless of source order, so this overrides both the base rules and
+   the max-width:768px block below without needing to duplicate it. The
+   .rightSection override is inert on mobile, where it's already taken
+   out of flow via position:absolute — height doesn't apply to it there
+   either way. */
+.fitContent .leftSection {
+  height: auto;
+  min-height: 100vh;
+  overflow: visible;
+}
+
+.fitContent .rightSection {
+  height: auto;
+  min-height: 100vh;
+}
+
 /* Video background styles */
 .videoBackground {
   position: absolute;

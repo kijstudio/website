@@ -89,6 +89,7 @@ export default async function ContactPage() {
         leftRatio={5}
         rightRatio={5}
         mirrored={true}
+        fitContent={true}
       />
       <footer className={styles.footer}>
         <span>

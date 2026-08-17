@@ -19,6 +19,14 @@ interface SplitScreenProps {
    * rightContent stays hidden, regardless of `mirrored`.
    */
   mirrored?: boolean
+  /**
+   * Instead of pinning both sections to a fixed 100vh (each scrolling
+   * internally via its own overflow:auto), let the row grow to fit
+   * whichever side's content is tallest — normally the text/form side —
+   * and stretch the other side (normally an image) to match, so the
+   * page scrolls as a whole with no nested scroll container.
+   */
+  fitContent?: boolean
 }
 
 const SplitScreen: React.FC<SplitScreenProps> = ({
@@ -31,6 +39,7 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
   backgroundVideoSrc,
   id,
   mirrored = false,
+  fitContent = false,
 }) => {
   // Calculate the grid template columns based on provided ratios
   const gridTemplateColumns = `${leftRatio}fr ${rightRatio}fr`
@@ -93,7 +102,7 @@ const SplitScreen: React.FC<SplitScreenProps> = ({
 
   return (
     <div
-      className={`${styles.container} ${mirrored ? styles.mirrored : ""}`}
+      className={`${styles.container} ${mirrored ? styles.mirrored : ""} ${fitContent ? styles.fitContent : ""}`}
       style={{
         gridTemplateColumns,
         maxWidth: fullWidth ? "100%" : "var(--max-content-width)",
